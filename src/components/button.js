@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 export default function Button(props){
     return(
         <>
-           <button type="button" className="btn btn-secondary">{props.btnLabel}</button>
+           <button type="button" className="btn btn-secondary d-block">{props.btnLabel}</button>
         </>
 
     ) ;
