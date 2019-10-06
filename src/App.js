@@ -3,7 +3,9 @@ import './style/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LogoGuide from './components/logoGuide.js'
 import BigContainer from './components/bigContainer';
-import Button from './components/button';
+import Button from './components/button.js';
+import GeneralContainer from './components/generalContainer'
+
 
 function App() {
   return (
@@ -11,9 +13,11 @@ function App() {
     <BigContainer>
       <LogoGuide />
     </BigContainer>
-    <Button btnLabel="Soy Cliente" />
-    <Button btnLabel="Soy Defensor Ciudadano" />
-    <Button btnLabel="Porqué Confiar en Nosotros" />
+    <GeneralContainer position="absolute" left="45%" bottom="42%">
+    <Button btnLabel="Porqué confiar en Nosotros"/>
+    <Button btnLabel="Soy Cliente"/>
+    <Button btnLabel="Soy Defensor Ciudadano"/>
+    </GeneralContainer>
     </>
   );
 }

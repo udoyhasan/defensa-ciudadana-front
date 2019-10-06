@@ -1,9 +1,10 @@
 
-
-
-export function changeBoolean(boolean) {/*FUNCION CREADORA DE ACCION 2*/
+export function changeVisibility(criteria1, criteria2, criteria3) {/*FUNCION CREADORA DE ACCION 2*/
     return {
-      type: "ACTIVAR",/*ACCION MISMA EN OBJETO JSON 2*/
-      btnPanel: boolean
+      type: "CHANGE",
+      doneAction1: criteria1,
+      doneAction2: criteria2,
+      doneAction3: criteria3
+      
     }
   }

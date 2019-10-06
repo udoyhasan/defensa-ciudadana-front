@@ -1,15 +1,13 @@
 import { createStore } from 'redux'
+import {reducer} from './reducers'
 
 
-let initialState = {/*ESTADO INICIAL*/
-  btnPanel: false,
-  logoAnimation: ""                                  
+export let initialState = {/*ESTADO INICIAL*/
+  show: "hidden",
+  btnAnimation: "",
+  logoAnimation: ""                         
 } 
 
-export let store = createStore(reducer)/*SE CREA EL ESTADO*/
-
-function reducer(state = initialState, action) {/*REDUCER*/
-  return Object.assign({},state, action)
-}
+export let store = createStore(reducer)/*SE CREA EL ESTADO ANIDADO EL AL REDUCER*/
 
 console.log(store.getState())/*SE MUESTRA ESTADO INICIAL */

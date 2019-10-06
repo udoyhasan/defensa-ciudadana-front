@@ -20,3 +20,24 @@ body, #root {
   min-height: 100%;
 }
 
+
+/*COMPONENTS ANIMATIONS*/
+
+@keyframes btnDash {
+  0% {position: absolute; left: 50%; bottom: 70%;}
+  100% {position: absolute; left: 50%; bottom: 60%}
+}
+@-webkit-keyframes btnDash {
+  0% {position: absolute; left: 50%; bottom: 60%;}
+  100% {position: absolute; left: 50%; bottom: 60%}
+}
+
+@keyframes logoDash {
+  0%{right: 0%;}
+  100%{right: 50%;}
+}
+
+@-webkit-keyframes logoDash {
+  0%{right: 0%;}
+  100%{right: 50%;}
+}

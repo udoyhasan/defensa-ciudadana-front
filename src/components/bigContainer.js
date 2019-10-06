@@ -15,7 +15,7 @@ export default function BigContainer(props){
                             {props.children}
                 </SmallContainer>
                <SmallContainer />
-                </div>  
+                </div> 
             </div> 
         </>
 
