@@ -10,7 +10,9 @@ export class LogoGuide extends React.Component{
 render(){
     return (
         <>
-        <img src={logo} className="mr-5" alt="Defensa Ciudadana" style={{position: "absolute", right: "0%", top: "20vh", animation: store.getState().logoAnimation }} onMouseOver={panelBtnChanger}/>
+        <img src={logo} className="mr-5" alt="Defensa Ciudadana" 
+        style={{position: "absolute", right: "0%", top: "20vh", animation: store.getState().logoAnimation }} 
+        onMouseOver={panelBtnChanger}/>
         </>
     );
 

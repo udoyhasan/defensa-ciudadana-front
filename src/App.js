@@ -14,12 +14,14 @@ function App() {
       <LogoGuide />
     </BigContainer>
     <GeneralContainer position="absolute" left="45%" bottom="42%">
-    <Button btnLabel="Porqué confiar en Nosotros"/>
-    <Button btnLabel="Soy Cliente"/>
-    <Button btnLabel="Soy Defensor Ciudadano"/>
+    <Button id="whyUs" btnLabel="Por qué confiar en Nosotros"/>
+    <Button id="client" btnLabel="Soy Cliente"/>
+    <Button id="advocate" btnLabel="Soy Defensor Ciudadano"/>
     </GeneralContainer>
     </>
   );
 }
+
+
 
 export default App;

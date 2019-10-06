@@ -2,4 +2,4 @@
 import {changeVisibility} from '../redux/actionsFunctionCreators.js'
 import {store} from './store.js'
 
-export const panelBtnChanger = ()=>{store.dispatch(changeVisibility("visible", "btnDash 1s forwards", "logoDash 1s forwards"));};
+export const panelBtnChanger = ()=>{store.dispatch(changeVisibility("floatDown 2s forwards", "logoDash 1s forwards"));};

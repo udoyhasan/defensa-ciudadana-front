@@ -23,15 +23,6 @@ body, #root {
 
 /*COMPONENTS ANIMATIONS*/
 
-@keyframes btnDash {
-  0% {position: absolute; left: 50%; bottom: 70%;}
-  100% {position: absolute; left: 50%; bottom: 60%}
-}
-@-webkit-keyframes btnDash {
-  0% {position: absolute; left: 50%; bottom: 60%;}
-  100% {position: absolute; left: 50%; bottom: 60%}
-}
-
 @keyframes logoDash {
   0%{right: 0%;}
   100%{right: 50%;}
@@ -40,4 +31,14 @@ body, #root {
 @-webkit-keyframes logoDash {
   0%{right: 0%;}
   100%{right: 50%;}
+}
+
+@keyframes floatDown {
+  0% {visibility: visible; bottom: 50%;opacity: 0;}
+  30% {visibility: visible; bottom: 50%;opacity: 0;}
+  100% {visibility: visible; bottom: 40%; opacity: 1;}
+}
+@-webkit-keyframes floatDown {
+  0% {visibility: visible; bottom: 50%;}
+  100% {visibility: visible; bottom: 40%}
 }

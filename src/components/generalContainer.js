@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {store} from '../redux/store.js'
 
-export function GeneralContainer(props){
-    return(
+export class GeneralContainer extends React.Component{
+    render(){
+        return(
         <>
-        <div className="container" style={{visibility: store.getState().show, position: props.position, left: props.left, bottom: props.bottom}}>
-        {props.children}
+        <div className="container" style={{visibility: "hidden", animation: store.getState().show, position: this.props.position, left: this.props.left, bottom: this.props.bottom}}>
+        {this.props.children}
         </div>
         </>
 
-    ) ;
+    ) ;}
  
 } 
 
@@ -27,5 +28,6 @@ GeneralContainer.propTypes = {
     btnLabel: PropTypes.string,
     position:  PropTypes.string,
     left: PropTypes.string,
-    bottom: PropTypes.string
+    bottom: PropTypes.string,
+    visibility: PropTypes.string
   };

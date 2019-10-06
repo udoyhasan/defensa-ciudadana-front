@@ -3,9 +3,10 @@ import {reducer} from './reducers'
 
 
 export let initialState = {/*ESTADO INICIAL*/
-  show: "hidden",
+  show: "",
   btnAnimation: "",
-  logoAnimation: ""                         
+  logoAnimation: "",
+  whyUs: ""                         
 } 
 
 export let store = createStore(reducer)/*SE CREA EL ESTADO ANIDADO EL AL REDUCER*/
