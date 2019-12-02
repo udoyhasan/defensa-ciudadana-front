@@ -6,7 +6,8 @@ export let initialState = {/*ESTADO INICIAL*/
   show: "",
   btnAnimation: "",
   logoAnimation: "",
-  whyUs: ""                         
+  whyUs: "" ,
+  fetchedData: ""                     
 } 
 
 export let store = createStore(reducer)/*SE CREA EL ESTADO ANIDADO EL AL REDUCER*/

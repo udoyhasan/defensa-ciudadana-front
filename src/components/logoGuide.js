@@ -1,8 +1,8 @@
 import React from 'react';
-import logo from '../img/logo.png'
-import {panelBtnChanger} from '../redux/dispatchers.js'
+import logo from '../img/logo.png';
+import {panelBtnChanger} from '../redux/dispatchers.js';
 import { connect } from 'react-redux';
-import {store} from '../redux/store.js'
+import {store} from '../redux/store.js';
 
 
 export class LogoGuide extends React.Component{

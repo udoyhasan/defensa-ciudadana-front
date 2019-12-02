@@ -2,14 +2,15 @@ import React from 'react';
 import './style/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LogoGuide from './components/logoGuide.js'
-import BigContainer from './components/bigContainer';
+import {BigContainer} from './components/bigContainer';
 import Button from './components/button.js';
 import GeneralContainer from './components/generalContainer'
 
 
-function App() {
+
+export function App() {
   return (
-    <>
+    <> 
     <BigContainer>
       <LogoGuide />
     </BigContainer>
@@ -23,5 +24,3 @@ function App() {
 }
 
 
-
-export default App;
