@@ -14,6 +14,7 @@ export class LogoGuide extends React.Component{
 
     panelBtnChanger(){
         panelBtnChanger("floatDown 2s forwards", "logoDash 1s forwards");
+        console.log(store.getState())
     }
 
 render(){

@@ -10,14 +10,16 @@ import Button from './components/button.js';
 
 
 const buttonSet= (<Container colOrRow="flex-column" >        
-<Button id="whyUs" btnLabel="Por qué confiar en Nosotros"/>
-<Button id="client" btnLabel="Soy Cliente"/>
-<Button id="advocate" btnLabel="Soy Defensor Ciudadano"/>
+  <Button id="whyUs" btnLabel="Por qué confiar en Nosotros"/>
+  <Button id="client" btnLabel="Soy Cliente"/>
+  <Button id="advocate" btnLabel="Soy Defensor Ciudadano"/>
 </Container>);
 
-const panel=(<Container colOrRow="flex-column" style={{border: "2px solid red"}}>        
+const panel=(            
+<div className="d-flex justify-content-center mt-5 pt-5 flex-column " style={{position: "absolute"}}>
+        
 {store.getState().fetchedData[0]}
-</Container>);
+</div>);
 
 export class App extends React.Component {
   constructor(props){
@@ -43,7 +45,7 @@ export class App extends React.Component {
 
 function mapStateToProps(state){
 
-  return { boolean: state.truePanel_falseButtonBoolean, fetchedData: state.fetchedData }
+  return { boolean: state.truePanel_falseButtonBoolean, fetchedData: state.fetchedData, show: state.show }
 
 }
 
