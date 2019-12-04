@@ -6,12 +6,17 @@ import {store} from '../redux/store.js';
 
 
 export class LogoGuide extends React.Component{
+    constructor(props){
+        super(props);
+        
+
+    }
 
 render(){
     return (
         <>
-        <img src={logo} className="mr-5" alt="Defensa Ciudadana" 
-        style={{position: "absolute", right: "0%", top: "20vh", animation: store.getState().logoAnimation }} 
+        <img src={logo} className={this.props.bootstrapClass} alt="Defensa Ciudadana" 
+        style={{position: "absolute", left: "50%",animation: store.getState().logoAnimation }} 
         onMouseOver={panelBtnChanger}/>
         </>
     );

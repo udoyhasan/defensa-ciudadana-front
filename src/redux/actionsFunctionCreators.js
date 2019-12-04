@@ -1,5 +1,5 @@
 
-export function changeVisibility(criteria1, criteria2, criteria3) {/*FUNCION CREADORA DE ACCION 2*/
+export function changeVisibility(criteria1, criteria2) {/*FUNCION CREADORA DE ACCION 2*/
     return {
       type: "DISPLAY_INTRO",
       doneAction1: criteria1,

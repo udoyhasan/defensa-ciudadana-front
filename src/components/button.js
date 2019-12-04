@@ -36,8 +36,8 @@ export class Button extends React.Component{
     render(){
         
         return(
-        <><code>{this.props.items}</code>
-    <button id={this.props.id} type="button" onClick={this.onclick} className="btn btn-secondary d-block mb-3 w-25">{this.props.btnLabel}</button>
+        <>
+    <button id={this.props.id} type="button" onClick={this.onclick} className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%"}}>{this.props.btnLabel} {this.props.items}</button>
         </>
 
     ) ;}
@@ -57,7 +57,6 @@ Button.propTypes = {
   };
 
   const mapStateToProps = (state) => {
-      console.log("funciona msp")
     return { items: state.fetchedData };
   };
 

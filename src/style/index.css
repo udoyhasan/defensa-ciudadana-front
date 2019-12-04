@@ -24,21 +24,22 @@ body, #root {
 /*COMPONENTS ANIMATIONS*/
 
 @keyframes logoDash {
-  0%{right: 0%;}
-  100%{right: 50%;}
+  0%{ left: 50%; }
+  100%{ left: 0%; }
 }
 
 @-webkit-keyframes logoDash {
-  0%{right: 0%;}
-  100%{right: 50%;}
+  0%{ left: 50%; }
+  100%{ left: 0%; }
 }
 
 @keyframes floatDown {
-  0% {visibility: visible; bottom: 50%;opacity: 0;}
-  30% {visibility: visible; bottom: 50%;opacity: 0;}
-  100% {visibility: visible; bottom: 40%; opacity: 1;}
+  0% {visibility: visible;opacity: 0;}
+  30% {visibility: visible;opacity: 0;}
+  100% {visibility: visible; opacity: 1;}
 }
 @-webkit-keyframes floatDown {
-  0% {visibility: visible; bottom: 50%;}
-  100% {visibility: visible; bottom: 40%}
+  0% {visibility: visible;opacity: 0;}
+  30% {visibility: visible;opacity: 0;}
+  100% {visibility: visible; opacity: 1;}
 }
