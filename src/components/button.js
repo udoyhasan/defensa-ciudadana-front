@@ -37,7 +37,7 @@ export class Button extends React.Component{
         
         return(
         <>
-    <button id={this.props.id} type="button" onClick={this.onclick} className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%"}}>{this.props.btnLabel} {this.props.items}</button>
+        <button id={this.props.id} type="button" onClick={this.onclick} className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%"}}>{this.props.btnLabel} {this.props.items}</button>
         </>
 
     ) ;}

@@ -43,3 +43,15 @@ body, #root {
   30% {visibility: visible;opacity: 0;}
   100% {visibility: visible; opacity: 1;}
 }
+
+@keyframes floatUp {
+  0% {visibility: visible; opacity: 1;}
+  30% {visibility: visible;opacity: 0;}
+  100% {visibility: visible;opacity: 0;}
+  
+}
+@-webkit-keyframes floatUp {
+  0% {visibility: visible; opacity: 1;}
+  30% {visibility: visible;opacity: 0;}
+  100% {visibility: visible;opacity: 0;}
+}
