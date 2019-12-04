@@ -7,7 +7,7 @@ export let initialState = {/*ESTADO INICIAL*/
   btnAnimation: "",
   logoAnimation: "",
   whyUs: "" ,
-  fetchedData: "",
+  fetchedData: ["nada aun"],
   truePanel_falseButtonBoolean: false                    
 } 
 

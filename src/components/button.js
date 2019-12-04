@@ -40,7 +40,10 @@ export class Button extends React.Component{
         
         return(
         <>
-    <button id={this.props.id} type="button" onClick={this.onclick} className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%"}}>{this.props.btnLabel} {this.props.items}</button>
+    <button id={this.props.id} type="button" onClick={this.onclick} 
+    className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%"}}>
+        {this.props.btnLabel}
+        </button>
         </>
 
     ) ;}
@@ -48,7 +51,7 @@ export class Button extends React.Component{
     fetchingData(){
         fetch('https://hn.algolia.com/api/v1/search?query=redux')
         .then(response => response.json())
-        .then(data => {injectFetchedData(data.hits[0].title); console.log(store.getState().fetchedData)})
+        .then(data => {injectFetchedData(data.hits[0]._tags); console.log(store.getState().fetchedData)})
         
     }
 

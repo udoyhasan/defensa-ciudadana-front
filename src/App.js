@@ -16,7 +16,7 @@ const buttonSet= (<Container colOrRow="flex-column" >
 </Container>);
 
 const panel=(<Container colOrRow="flex-column" style={{border: "2px solid red"}}>        
-panel
+{store.getState().fetchedData[0]}
 </Container>);
 
 export class App extends React.Component {
@@ -43,7 +43,7 @@ export class App extends React.Component {
 
 function mapStateToProps(state){
 
-  return { boolean: state.truePanel_falseButtonBoolean}
+  return { boolean: state.truePanel_falseButtonBoolean, fetchedData: state.fetchedData }
 
 }
 
