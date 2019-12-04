@@ -15,5 +15,12 @@ export function changeVisibility(criteria1, criteria2) {/*FUNCION CREADORA DE AC
     }
   }
 
+  export function changeBoolean(criteria) {/*FUNCION CREADORA DE ACCION 3*/
+    return {
+      type: "CHANGE_BOOLEAN",
+      doneAction: criteria,
+     
+    }
+  }
 
 

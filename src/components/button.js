@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectFetchedData} from '../redux/dispatchers.js';
 import { connect } from 'react-redux';
 import {store} from '../redux/store.js';
-
-
+import {injectFetchedData} from '../redux/dispatchers.js';
+import {panelBtnChanger} from '../redux/dispatchers.js';
+import {truePanel_falseButtonSet_handler} from '../redux/dispatchers.js';
 
 
 export class Button extends React.Component{
@@ -18,17 +18,20 @@ export class Button extends React.Component{
 
         switch(event.target.id){
                 case 'whyUs':
-                    console.log(event.target.id )
+                    
                 break;
 
                 case 'client':
-                   console.log(event.target.id )
-                   console.log(store.getState())
+                   
                  break;
 
                 case 'advocate':
-                    console.log(event.target.id )
+                    
                     this.fetchingData()
+                    panelBtnChanger("floatUp 2s forwards", "logoDash 1s forwards")
+                    truePanel_falseButtonSet_handler(true)
+                    console.log(`se cambia el store a: ${store.getState().truePanel_falseButtonBoolean}`)
+
                     break;
         }
     }

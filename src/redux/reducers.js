@@ -10,6 +10,9 @@ export function reducer(state = initialState, action) {/*REDUCER*/
     else if(action.type==="INJECT_FETCHED_DATA"){
       return {...state, fetchedData: action.doneAction};
     }
+    else if(action.type==="CHANGE_BOOLEAN"){
+      return {...state, truePanel_falseButtonBoolean: action.doneAction};
+    }
     else
     {
     return state;
