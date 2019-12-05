@@ -20,6 +20,10 @@ body, #root {
   min-height: 100%;
 }
 
+::-webkit-scrollbar {
+  background-color: white;
+}
+
 
 /*COMPONENTS ANIMATIONS*/
 
