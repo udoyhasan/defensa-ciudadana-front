@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import LogoGuide from './components/logoGuide.js'
 import Container from './components/container';
 import Button from './components/button.js';
+import Input from './components/input.js';
 
 
 
@@ -26,16 +27,15 @@ export class App extends React.Component {
     return (
       <> 
         <div className="row mt-5 mp-5">
-    <div className="col-md-3"></div>
-        <div className="col-md-3 d-flex justify-content-center "><LogoGuide bootstrapClass="mr-5 align-items-end mt-5 mp-5"/></div>
-        <div className="col-md-4 mt-5 mp-5">
-        
-          {(this.props.boolean)? <div className="d-flex justify-content-center mt-5 pt-5 flex-column " style={{position: "absolute"}}>{store.getState().fetchedData}</div>: buttonSet}
+          <div className="col-md-3"></div>
+          <div className="col-md-3 d-flex justify-content-center ">
+            <LogoGuide bootstrapClass="mr-5 align-items-end mt-5 mp-5"/>
           </div>
-        <div className="col-md-2"></div>
+          <div className="col-md-4 mt-5 mp-5">
+            {(this.props.boolean)? <div className="d-flex justify-content-center mt-5 pt-5 flex-column " style={{position: "absolute"}}><Input />{store.getState().fetchedData.map((item)=>{return(<h2 className="badge badge-secondary">{item}</h2>)})}</div>: buttonSet}
+          </div>
+          <div className="col-md-2"></div>
         </div>
-
-
       </>
     );
   }
