@@ -51,7 +51,7 @@ export class Button extends React.Component{
     fetchingData(){
         fetch('https://hn.algolia.com/api/v1/search?query=redux')
         .then(response => response.json())
-        .then(data => {injectFetchedData(data.hits[0]._tags); console.log(store.getState().fetchedData)})
+        .then(data => {injectFetchedData(data.hits[0]._tags); console.log(`este es el store luego del fetch: ${store.getState().fetchedData}`)})
         
     }
 
