@@ -12,8 +12,8 @@ import Input from './components/input.js';
 
 const buttonSet= (<Container colOrRow="flex-column" >        
   <Button id="whyUs" btnLabel="Por qué confiar en Nosotros"/>
-  <Button id="client" btnLabel="Soy Cliente"/>
-  <Button id="advocate" btnLabel="Soy Defensor Ciudadano"/>
+  <Button id="client" btnLabel="Soy Defensor Ciudadano"/>
+  <Button id="advocate" btnLabel="Soy Cliente"/>
 </Container>);
 
 const panel=(            
@@ -32,7 +32,7 @@ export class App extends React.Component {
             <LogoGuide bootstrapClass="mr-5 align-items-end mt-5 mp-5"/>
           </div>
           <div className="col-md-4 mt-5 mp-5">
-            {(this.props.boolean)? <div className="d-flex justify-content-center mt-5 pt-5 flex-column " style={{position: "absolute", overflow: "scroll"}}><Input />{store.getState().fetchedData.map((item)=>{return(<h1 className="badge badge-secondary pt-2 pb-2" style={{fontSize: "100%"}}>{item}</h1>)})}</div>: buttonSet}
+            {(this.props.boolean)? <div><Input /><div className="d-flex justify-content-center mt-2 pt-5 flex-column " style={{width: "100%", height: "310px", overflow: "auto"}}><h1 className="badge badge-secondary pt-2 pb-2" style={{fontSize: "100%", backgroundColor: "white", color: "white"}}>item.name</h1>{store.getState().fetchedData.map((item, index)=>{return(<h1 className="badge badge-secondary pt-2 pb-2" style={{fontSize: "100%", zIndez: "-2"}}>{item.name}</h1>)})}</div></div>: buttonSet}
           </div>
           <div className="col-md-2"></div>
         </div>

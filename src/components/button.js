@@ -11,7 +11,7 @@ export class Button extends React.Component{
     constructor(props) {
         super(props);
         this.onclick = this.onclick.bind(this);
-        this.fetchingData = this.fetchingData.bind(this);
+        /*this.fetchingData = this.fetchingData.bind(this);*/
       }
 
       onclick(event){
@@ -22,25 +22,29 @@ export class Button extends React.Component{
                 break;
 
                 case 'client':
-                   
+                    panelBtnChanger("floatUp 2s forwards", "logoDash 1s forwards")
+                    truePanel_falseButtonSet_handler(true)
                  break;
 
                 case 'advocate':
-                    
-                    this.fetchingData()
                     panelBtnChanger("floatUp 2s forwards", "logoDash 1s forwards")
                     truePanel_falseButtonSet_handler(true)
-                    console.log(`se cambia el store a: ${store.getState().truePanel_falseButtonBoolean}`)
-
                     break;
         }
     }
+
+    /*fetchingData(){
+        fetch('https://hn.algolia.com/api/v1/search?query=redux')
+        .then(response => response.json())
+        .then(data => {injectFetchedData(data.hits[0]._tags); console.log(`este es el store luego del fetch: ${store.getState().fetchedData}`)})
+        
+    }*/
 
     render(){
         
         return(
         <>
-    <button id={this.props.id} type="button" onClick={this.onclick} 
+    <button id={this.props.id} type="button" onClick={this.onclick}
     className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%"}}>
         {this.props.btnLabel}
         </button>
@@ -48,12 +52,7 @@ export class Button extends React.Component{
 
     ) ;}
 
-    fetchingData(){
-        fetch('https://hn.algolia.com/api/v1/search?query=redux')
-        .then(response => response.json())
-        .then(data => {injectFetchedData(data.hits[0]._tags); console.log(`este es el store luego del fetch: ${store.getState().fetchedData}`)})
-        
-    }
+    
 
 } 
 
