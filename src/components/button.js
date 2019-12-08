@@ -22,13 +22,13 @@ export class Button extends React.Component{
                 break;
 
                 case 'client':
-                    panelBtnChanger("floatUp 2s forwards", "logoDash 1s forwards")
-                    truePanel_falseButtonSet_handler(true)
+                    panelBtnChanger("floatUp 2s forwards", "");
+                    setTimeout(()=>{truePanel_falseButtonSet_handler(true)}, 3000);
                  break;
 
                 case 'advocate':
                     panelBtnChanger("floatUp 2s forwards", "logoDash 1s forwards")
-                    truePanel_falseButtonSet_handler(true)
+                    setTimeout(()=>{truePanel_falseButtonSet_handler(true)}, 900);
                     break;
         }
     }

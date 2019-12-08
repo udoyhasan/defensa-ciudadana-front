@@ -38,22 +38,22 @@ body, #root {
 }
 
 @keyframes floatDown {
-  0% {visibility: visible;opacity: 0;}
-  30% {visibility: visible;opacity: 0;}
-  100% {visibility: visible; opacity: 1;}
+  0% {visibility: visible;opacity: 0; }
+  40% {visibility: visible;opacity: 0; top:-20px}
+  100% {visibility: visible; opacity: 1;top:0px;}
 }
 @-webkit-keyframes floatDown {
-  0% {visibility: visible;opacity: 0;}
-  30% {visibility: visible;opacity: 0;}
-  100% {visibility: visible; opacity: 1;}
+  0% {visibility: visible;opacity: 0; }
+  40% {visibility: visible;opacity: 0; top:-20px}
+  100% {visibility: visible; opacity: 1;top:0px;}
 }
 @keyframes floatUp {
-  0% {visibility: visible; opacity: 1;}
-  30% {visibility: hidden;opacity: 0;}
+  0% {visibility: visible; opacity: 1;top:0px}
+  40% {visibility: hidden;opacity: 0;top:-20px}
   100% {visibility: hidden;opacity: 0;}
 }
 @-webkit-keyframes floatUp {
-  0% {visibility: visible; opacity: 1;}
-  30% {visibility: hidden;opacity: 0;}
+  0% {visibility: visible; opacity: 1;top:0px}
+  40% {visibility: hidden;opacity: 0;top:-20px}
   100% {visibility: hidden;opacity: 0;}
 }
