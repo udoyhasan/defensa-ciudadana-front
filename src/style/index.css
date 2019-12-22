@@ -66,3 +66,17 @@ body, #root {
   40% {visibility: hidden;opacity: 0;top:-20px}
   100% {visibility: hidden;opacity: 0;}
 }
+@keyframes bubble {
+ 0%{left:0%; }
+ 25%{left:-3%;}
+ 50%{left:5%;}
+ 75%{left:-3%;}
+ 100%{left:0%;}  
+}
+@-webkit-keyframes bubble {
+  0%{left:0%; }
+  25%{left:-3%;}
+  50%{left:5%;}
+  75%{left:-3%;}
+  100%{left:0%;}   
+}

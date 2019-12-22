@@ -19,7 +19,7 @@ export class Button extends React.Component{
         switch(event.target.id){
                 case 'whyUs':
                     panelBtnChanger("floatUp 2s forwards", "logoDash 1s forwards")
-                    setTimeout(()=>{panelBtnChanger("", "logoDashReverse 1s forwards")}, 900);
+                    setTimeout(()=>{panelBtnChanger("", "logoDashReverse 1s forwards")}, 700);
                 break;
 
                 case 'client':
