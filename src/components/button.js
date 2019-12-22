@@ -18,12 +18,13 @@ export class Button extends React.Component{
 
         switch(event.target.id){
                 case 'whyUs':
-                    
+                    panelBtnChanger("floatUp 2s forwards", "logoDash 1s forwards")
+                    setTimeout(()=>{panelBtnChanger("", "logoDashReverse 1s forwards")}, 900);
                 break;
 
                 case 'client':
-                    panelBtnChanger("floatUp 2s forwards", "");
-                    setTimeout(()=>{truePanel_falseButtonSet_handler(true)}, 3000);
+                    panelBtnChanger("floatUp 2s forwards", "logoDash 1s forwards")
+                    setTimeout(()=>{truePanel_falseButtonSet_handler(true)}, 900);
                  break;
 
                 case 'advocate':

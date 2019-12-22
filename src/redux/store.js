@@ -3,7 +3,7 @@ import {reducer} from './reducers'
 
 
 export let initialState = {/*ESTADO INICIAL*/
-  show: "",
+  showBtns: "",
   btnAnimation: "",
   logoAnimation: "",
   whyUs: "" ,

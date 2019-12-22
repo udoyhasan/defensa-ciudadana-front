@@ -12,8 +12,8 @@ import Input from './components/input.js';
 
 const buttonSet= (<Container colOrRow="flex-column" >        
   <Button id="whyUs" btnLabel="Por qué confiar en Nosotros"/>
-  <Button id="client" btnLabel="Soy Defensor Ciudadano"/>
-  <Button id="advocate" btnLabel="Soy Cliente"/>
+  <Button id="client" btnLabel="Soy Cliente"/>
+  <Button id="advocate" btnLabel="Soy Defensor Ciudadano"/>
 </Container>);
 
 const panel=(            

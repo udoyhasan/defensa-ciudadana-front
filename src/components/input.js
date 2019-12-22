@@ -11,12 +11,11 @@ export default class Input extends React.Component{
       }
 
       fetchingData(){
-        fetch('https://swapi.co/api/people/')
+        fetch('http://127.0.0.1:5000/casosyclientes')//https://swapi.co/api/people/
         .then(response => response.json())
         .then(data => {injectFetchedData(data.results); console.log(`este es el store luego del fetch: ${store.getState().fetchedData}`)})
-        
+        // PARA DESABILITAR CORS: chrome.exe --disable-web-security
     }
-      
     render(){
         
         return(
