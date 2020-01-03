@@ -8,7 +8,8 @@ export let initialState = {/*ESTADO INICIAL*/
   logoAnimation: "",
   whyUs: "" ,
   fetchedData: [],
-  truePanel_falseButtonBoolean: false                    
+  truePanel_falseButtonBoolean: false,
+  showBubbles: "hidden"                 
 } 
 
 export let store = createStore(reducer)/*SE CREA EL ESTADO ANIDADO EL AL REDUCER*/

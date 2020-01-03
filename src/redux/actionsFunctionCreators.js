@@ -23,4 +23,12 @@ export function changeVisibility(criteria1, criteria2) {/*FUNCION CREADORA DE AC
     }
   }
 
+  export function showBubbleCreator(criteria) {/*FUNCION CREADORA DE ACCION 3*/
+    return {
+      type: "CHANGE_BOOBLE_VISIBILITY",
+      doneAction: criteria,
+     
+    }
+  }
+
 
