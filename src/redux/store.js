@@ -7,7 +7,7 @@ export let initialState = {/*ESTADO INICIAL*/
   btnAnimation: "",
   logoAnimation: "",
   whyUs: "" ,
-  fetchedData: [],
+  fetchedData: {resp: []},
   truePanel_falseButtonBoolean: false,
   showBubbles: "hidden",
   fetchBase: "http://127.0.0.1:5000/",

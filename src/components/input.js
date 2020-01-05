@@ -12,9 +12,13 @@ export default class Input extends React.Component{
 
       fetchingData(){
         fetch(store.getState().fetchBase + store.getState().fetchEndPoint)
-        .then(response => {return response.json();})// para ver problema usar response.text()
-        .then(data => {console.log(data); return data})//injectFetchedData(data);
-       
+        .then(response => {return response.json();})
+        .then(data => {
+            console.log(data); 
+            injectFetchedData(data); 
+             return data })
+        
+        
     }
     render(){
         
