@@ -11,10 +11,10 @@ export default class Input extends React.Component{
       }
 
       fetchingData(){
-        fetch('http://127.0.0.1:5000/clientes')//https://swapi.co/api/people/
-        .then(response => response.json())
-        .then(data => {injectFetchedData(data.results); console.log(`este es el store luego del fetch: ${store.getState().fetchedData}`)})
-        // PARA DESABILITAR CORS: chrome.exe --disable-web-security
+        fetch(store.getState().fetchBase + store.getState().fetchEndPoint)
+        .then(response => {return response.json();})// para ver problema usar response.text()
+        .then(data => {console.log(data); return data})//injectFetchedData(data);
+       
     }
     render(){
         
@@ -26,7 +26,7 @@ export default class Input extends React.Component{
                 <button onClick={this.fetchingData} className="btn btn-outline-secondary" type="button" style={{backgroundColor: "#20be2b", color: "white", fontWeight: "200px", borderStyle: "none"}}>Buscar</button>
             </div>
             <input type="text" className="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1"/>
-        </div>        
+        </div>{store.getState().fetchedData[0]}
         </>
 
     ) ;}

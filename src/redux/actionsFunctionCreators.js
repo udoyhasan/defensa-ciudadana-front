@@ -1,5 +1,5 @@
 
-export function changeVisibility(criteria1, criteria2) {/*FUNCION CREADORA DE ACCION 2*/
+export function changeVisibility(criteria1, criteria2) {
     return {
       type: "DISPLAY_INTRO",
       doneAction1: criteria1,
@@ -7,7 +7,7 @@ export function changeVisibility(criteria1, criteria2) {/*FUNCION CREADORA DE AC
     }
   }
 
-  export function fetchData(criteria) {/*FUNCION CREADORA DE ACCION 2*/
+  export function fetchData(criteria) {
     return {
       type: "INJECT_FETCHED_DATA",
       doneAction: criteria,
@@ -15,7 +15,7 @@ export function changeVisibility(criteria1, criteria2) {/*FUNCION CREADORA DE AC
     }
   }
 
-  export function changeBoolean(criteria) {/*FUNCION CREADORA DE ACCION 3*/
+  export function changeBoolean(criteria) {
     return {
       type: "CHANGE_BOOLEAN",
       doneAction: criteria,
@@ -23,9 +23,17 @@ export function changeVisibility(criteria1, criteria2) {/*FUNCION CREADORA DE AC
     }
   }
 
-  export function showBubbleCreator(criteria) {/*FUNCION CREADORA DE ACCION 3*/
+  export function showBubbleCreator(criteria) {
     return {
       type: "CHANGE_BOOBLE_VISIBILITY",
+      doneAction: criteria,
+     
+    }
+  }
+
+  export function changeFetchEndpoint(criteria) {
+    return {
+      type: "CHANGE_ENDPOINT",
       doneAction: criteria,
      
     }

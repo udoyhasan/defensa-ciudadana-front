@@ -6,6 +6,7 @@ import {injectFetchedData} from '../redux/dispatchers.js';
 import {panelBtnChanger} from '../redux/dispatchers.js';
 import {truePanel_falseButtonSet_handler} from '../redux/dispatchers.js';
 import {showBubble} from '../redux/dispatchers.js';
+import {changeEndpoint} from '../redux/dispatchers.js';
 
 
 export class Button extends React.Component{
@@ -19,17 +20,20 @@ export class Button extends React.Component{
 
         switch(event.target.id){
                 case 'whyUs':
+                    setTimeout(()=>{showBubble("visible")},500);
                     panelBtnChanger("floatUp 2s forwards", "logoDash 1s forwards")
-                    setTimeout(()=>{panelBtnChanger("", "logoDashReverse 1s forwards"); }, 700);
-                    setTimeout(()=>{showBubble("visible")},700);
+                    setTimeout(()=>{panelBtnChanger("", "logoDashReverse 1s forwards");}, 700);
+                    
                 break;
 
                 case 'client':
+                    changeEndpoint("clientes")
                     panelBtnChanger("floatUp 2s forwards", "logoDash 1s forwards")
                     setTimeout(()=>{truePanel_falseButtonSet_handler(true)}, 900);
                  break;
 
                 case 'advocate':
+                    changeEndpoint("casos")
                     panelBtnChanger("floatUp 2s forwards", "logoDash 1s forwards")
                     setTimeout(()=>{truePanel_falseButtonSet_handler(true)}, 900);
                     break;
@@ -65,7 +69,7 @@ Button.propTypes = {
   };
 
   const mapStateToProps = (state) => {
-    return { items: state.fetchedData };
+    return { items: state.fetchedData, visibilityStyle: state.showBubble };
   };
 
   export default connect(mapStateToProps)(Button);

@@ -9,9 +9,9 @@ export let initialState = {/*ESTADO INICIAL*/
   whyUs: "" ,
   fetchedData: [],
   truePanel_falseButtonBoolean: false,
-  showBubbles: "hidden"                 
+  showBubbles: "hidden",
+  fetchBase: "http://127.0.0.1:5000/",
+  fetchEndPoint: ""         
 } 
 
 export let store = createStore(reducer)/*SE CREA EL ESTADO ANIDADO EL AL REDUCER*/
-
-console.log(store.getState())/*SE MUESTRA ESTADO INICIAL */

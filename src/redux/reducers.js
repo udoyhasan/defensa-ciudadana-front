@@ -16,6 +16,9 @@ export function reducer(state = initialState, action) {/*REDUCER*/
     else if(action.type==="CHANGE_BOOBLE_VISIBILITY"){
       return {...state, showBubbles: action.doneAction};
     }
+    else if(action.type==="CHANGE_ENDPOINT"){
+      return {...state, fetchEndPoint: action.doneAction};
+    }
     else
     {
     return state;
