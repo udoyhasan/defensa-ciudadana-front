@@ -8,17 +8,15 @@ import {truePanel_falseButtonSet_handler} from '../redux/dispatchers.js';
 import {showBubble} from '../redux/dispatchers.js';
 import {changeEndpoint} from '../redux/dispatchers.js';
 
-
+//COMPONENTE GENERAL DE TODOS LOS BOTONES
 export class Button extends React.Component{
     constructor(props) {
         super(props);
         this.onclick = this.onclick.bind(this);
-        /*this.fetchingData = this.fetchingData.bind(this);*/
       }
 
       onclick(event){
-
-        switch(event.target.id){
+        switch(event.target.id){//AUN NO SE HACE FETCH PERO SI SE VA CONSTRUYENDO LA URL PARA EL ENDPOINT
                 case 'whyUs':
                     setTimeout(()=>{showBubble("visible")},500);
                     panelBtnChanger("floatUp 2s forwards", "logoDash 1s forwards")
@@ -27,7 +25,7 @@ export class Button extends React.Component{
                 break;
 
                 case 'client':
-                    changeEndpoint("clientes")
+                    changeEndpoint("casos/")
                     panelBtnChanger("floatUp 2s forwards", "logoDash 1s forwards")
                     setTimeout(()=>{truePanel_falseButtonSet_handler(true)}, 900);
                  break;
@@ -39,13 +37,6 @@ export class Button extends React.Component{
                     break;
         }
     }
-
-    /*fetchingData(){
-        fetch('https://hn.algolia.com/api/v1/search?query=redux')
-        .then(response => response.json())
-        .then(data => {injectFetchedData(data.hits[0]._tags); console.log(`este es el store luego del fetch: ${store.getState().fetchedData}`)})
-        
-    }*/
 
     render(){
         
