@@ -22,9 +22,25 @@ export default class Input extends React.Component{
        .then(data => {injectFetchedData(data);})
     }
 
-    onChange(event){//'17.402.744-7' 
-    this.setState({inputValue: `"${event.target.value}"` })
-    console.log("state: " , this.state.inputValue)
+    onChange(event){
+
+        let targetValue = event.target.value;
+        let n
+
+        let split = targetValue.split("");
+
+        split.includes("-")? split.splice(split.indexOf("-"),1): n= null;
+        split.includes(".")? split.splice(split.indexOf("."),1): n= null;
+        split.includes(".")? split.splice(split.indexOf("."),1): n= null;
+        
+        split[split.length-1] = "-" + split[split.length-1]
+
+        split.length >5 ? split[split.length-4] = "." + split[split.length-4]: n= null;
+        split.length >7 ? split[split.length-7] = "." + split[split.length-7]: n= null;
+
+        event.target.value = split.join("")
+        
+        this.setState({inputValue: `"${event.target.value}"` });
     }
 
     render(){
