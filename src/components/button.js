@@ -13,6 +13,7 @@ export class Button extends React.Component{
     constructor(props) {
         super(props);
         this.onclick = this.onclick.bind(this);
+        
       }
 
       onclick(event){

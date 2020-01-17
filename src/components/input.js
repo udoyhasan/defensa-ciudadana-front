@@ -16,27 +16,27 @@ export default class Input extends React.Component{
 
       }
 
-    fetchingData(){console.log("funciona")
+    fetchingData(){
        fetch(store.getState().fetchBase + store.getState().fetchEndPoint + this.state.inputValue)
        .then(response => {return response.json();})
-       .then(data => {injectFetchedData(data);})
+       .then(data => {injectFetchedData(data);console.log(store.getState().fetchedData.resp)})
     }
 
     onChange(event){
 
         let targetValue = event.target.value;
-        let n
+        let falseCase;
 
         let split = targetValue.split("");
 
-        split.includes("-")? split.splice(split.indexOf("-"),1): n= null;
-        split.includes(".")? split.splice(split.indexOf("."),1): n= null;
-        split.includes(".")? split.splice(split.indexOf("."),1): n= null;
+        split.includes("-")? split.splice(split.indexOf("-"),1): falseCase= null;
+        split.includes(".")? split.splice(split.indexOf("."),1): falseCase= null;
+        split.includes(".")? split.splice(split.indexOf("."),1): falseCase= null;
         
-        split[split.length-1] = "-" + split[split.length-1]
+        (split.length>=2)?split[split.length-1] = "-" + split[split.length-1]:falseCase= null;
 
-        split.length >5 ? split[split.length-4] = "." + split[split.length-4]: n= null;
-        split.length >7 ? split[split.length-7] = "." + split[split.length-7]: n= null;
+        split.length >5 ? split[split.length-4] = "." + split[split.length-4]: falseCase= null;
+        split.length >7 ? split[split.length-7] = "." + split[split.length-7]: falseCase= null;
 
         event.target.value = split.join("")
         

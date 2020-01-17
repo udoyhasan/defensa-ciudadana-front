@@ -24,7 +24,13 @@ const panel=(
 export class App extends React.Component {
   constructor(props){
   super(props)
+  //this.fetchingData = this.fetchingData.bind(this);
   }
+  
+  fetchingData(){
+    console.log("funciona el fetch function")
+  }
+
   render(){
     return (
       <> 
@@ -38,7 +44,7 @@ export class App extends React.Component {
                             <Input />
                               <div className="d-flex  mt-2 flex-column " style={{width: "100%", height: "310px", overflow: "auto"}}>
                                 <h1 className="badge badge-secondary pt-2 pb-2" style={{fontSize: "100%", backgroundColor: "white", color: "black"}}>
-                                  {store.getState().fetchedData.resp.map((item, index)=>{return <Link to="/clientPanel"><button className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%"}} key={index}>{item[0]}</button></Link>})}                 
+                                  {store.getState().fetchedData.resp.map((item, index)=>{return <Link to="/clientPanel" style={{textDecoration: "none"}}><button className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%"}} key={index} onClick={this.fetchingData}>{item[0]}</button></Link>})}                 
                                 </h1>
                               </div>
                             </div>

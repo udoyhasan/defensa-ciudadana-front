@@ -23,8 +23,10 @@ body, #root {
 ::-webkit-scrollbar {
   background-color: white;
 }
-
-
+.scrollable{
+  overflow-x: hidden;
+  overflow-y: auto; 
+}
 /*COMPONENTS's ANIMATIONS*/
 
 @keyframes logoDash {
