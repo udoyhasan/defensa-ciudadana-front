@@ -12,7 +12,13 @@ import {injectFetchedData} from '../redux/dispatchers.js';
 export class ClientPanel extends React.Component {
   constructor(props){
   super(props)
-  this.state={caso: "nombre transitorio"}
+  this.state={case: "",
+              client: "",
+              update: "",
+              rol: "",
+              trial: "",
+              subject: "",
+              procedure: ""}
   
 
   }
@@ -22,9 +28,17 @@ export class ClientPanel extends React.Component {
        fetch(store.getState().fetchBase + "casos/detalle/" + "'posesion_efectiva'  ")
        .then(response => {return response.json();})
        .then(data => {injectFetchedData(data);
-        console.log(store.getState().fetchedData.resp[0][1]);
-        this.state.caso = store.getState().fetchedData.resp[0][1];
-        console.log("state: " + this.state.caso)
+        
+        this.setState({
+          case: store.getState().fetchedData.resp[0][1],
+          client: store.getState().fetchedData.resp[0][9],
+          update: store.getState().fetchedData.resp[0][7],
+          rol: store.getState().fetchedData.resp[0][2],
+          trial: store.getState().fetchedData.resp[0][3],
+          subject: store.getState().fetchedData.resp[0][4],
+          procedure: store.getState().fetchedData.resp[0][5]}
+          );
+        console.log("state: " + JSON.stringify(this.state))
         })
   }
   
@@ -39,17 +53,17 @@ export class ClientPanel extends React.Component {
             <div className="jumbotron d-flex mb-0 pb-0 pt-3 mt-4 shadow-lg" style={{backgroundColor: "white", borderLeft: "100px solid #6c757d"}} >
             <h1 className="display-4"></h1><br />
             <div className="jumbotron w-100 pt-0 pb-0"  style={{backgroundColor: "white"}}>
-              <h1 className="display-4 mb-0">{this.state.caso}</h1>
-              <h6>Cliente</h6>
+              <h1 className="display-4 mb-0">{this.state.case}</h1>
+              <h6>{this.state.client}</h6>
               <div className="jumbotron p-3 mt-3 d-flex w-100"  style={{backgroundColor: "white"}}>
-                <div className="jumbotron p-0 w-100"  style={{backgroundColor: "white"}}><p className="lead pr-5" style={{borderBottom: "2px solid rgb(3,104,10)"}}>AVANCE</p><span className=" pl-3 pr-5 text-justify">estado de situacion de avance en la causa</span></div>
+    <div className="jumbotron p-0 w-100"  style={{backgroundColor: "white"}}><p className="lead pr-5" style={{borderBottom: "2px solid rgb(3,104,10)"}}>AVANCE</p><span className=" pl-3 pr-5 text-justify">{this.state.update}</span></div>
                 <div className="jumbotron p-0 w-50"  style={{backgroundColor: "white"}}><p className="lead" style={{borderBottom: "2px solid rgb(3,104,10)"}}>OBJETIVO</p><span>obtener el resultado del cliente</span></div>
               </div>
               <div className="jumbotron p-0 w-100" style={{backgroundColor: "white"}}>
               <p className="lead text-left text-center" style={{borderBottom: "2px solid rgb(3,104,10)"}}>MI CAUSA</p>
               <div className="d-flex">
-                <div className="jumbotron p-0 w-100 " style={{backgroundColor: "white"}}><span className="badge badge-success h-100">MATERIA/PROCEDIMEINTO</span></div>
-                <div className="jumbotron p-0 w-100 " style={{backgroundColor: "white"}}><span className="badge badge-success h-100">ROL CAUSA/ TRIBUNAL</span></div>
+  <div className="jumbotron p-0 w-100 " style={{backgroundColor: "white"}}><span className="badge badge-success h-100">{this.state.rol} / {this.state.trial}</span></div>
+                <div className="jumbotron p-0 w-100 " style={{backgroundColor: "white"}}><span className="badge badge-success h-100">{this.state.subject} / {this.state.procedure}</span></div>
               </div>
             </div>
             </div>
