@@ -3,6 +3,7 @@ import './style/App.css';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {store} from './redux/store.js';
+import {injectFetchedData} from './redux/dispatchers.js';
 import { connect } from 'react-redux';
 import LogoGuide from './components/logoGuide.js'
 import Container from './components/container';
@@ -24,11 +25,14 @@ const panel=(
 export class App extends React.Component {
   constructor(props){
   super(props)
-  //this.fetchingData = this.fetchingData.bind(this);
+  this.fetchingData = this.fetchingData.bind(this);
   }
   
   fetchingData(){
-    console.log("funciona el fetch function")
+  injectFetchedData("casos/detalle/")
+    fetch(store.getState().fetchBase + "casos/detalle/" + "'posesion_efectiva'")
+       .then(response => {return response.json();})
+       .then(data => {injectFetchedData(data);console.log(store.getState().fetchedData.resp)})
   }
 
   render(){

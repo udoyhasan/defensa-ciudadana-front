@@ -17,6 +17,7 @@ export default class Input extends React.Component{
       }
 
     fetchingData(){
+        
        fetch(store.getState().fetchBase + store.getState().fetchEndPoint + this.state.inputValue)
        .then(response => {return response.json();})
        .then(data => {injectFetchedData(data);console.log(store.getState().fetchedData.resp)})
