@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {store} from '../redux/store.js';
 import { connect } from 'react-redux';
 import {Container} from '../components/container.js'
+import {injectFetchedData} from '../redux/dispatchers.js';
 
 
 
@@ -11,7 +12,22 @@ import {Container} from '../components/container.js'
 export class ClientPanel extends React.Component {
   constructor(props){
   super(props)
+  this.state={caso: "nombre transitorio"}
+  
+
   }
+
+  componentDidMount() {
+       injectFetchedData("casos/detalle/")
+       fetch(store.getState().fetchBase + "casos/detalle/" + "'posesion_efectiva'  ")
+       .then(response => {return response.json();})
+       .then(data => {injectFetchedData(data);
+        console.log(store.getState().fetchedData.resp[0][1]);
+        this.state.caso = store.getState().fetchedData.resp[0][1];
+        console.log("state: " + this.state.caso)
+        })
+  }
+  
   render(){
     return (
       <> 
@@ -23,7 +39,7 @@ export class ClientPanel extends React.Component {
             <div className="jumbotron d-flex mb-0 pb-0 pt-3 mt-4 shadow-lg" style={{backgroundColor: "white", borderLeft: "100px solid #6c757d"}} >
             <h1 className="display-4"></h1><br />
             <div className="jumbotron w-100 pt-0 pb-0"  style={{backgroundColor: "white"}}>
-              <h1 className="display-4 mb-0">Caso</h1>
+              <h1 className="display-4 mb-0">{this.state.caso}</h1>
               <h6>Cliente</h6>
               <div className="jumbotron p-3 mt-3 d-flex w-100"  style={{backgroundColor: "white"}}>
                 <div className="jumbotron p-0 w-100"  style={{backgroundColor: "white"}}><p className="lead pr-5" style={{borderBottom: "2px solid rgb(3,104,10)"}}>AVANCE</p><span className=" pl-3 pr-5 text-justify">estado de situacion de avance en la causa</span></div>

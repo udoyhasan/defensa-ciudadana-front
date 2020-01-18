@@ -3,7 +3,6 @@ import './style/App.css';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {store} from './redux/store.js';
-import {injectFetchedData} from './redux/dispatchers.js';
 import { connect } from 'react-redux';
 import LogoGuide from './components/logoGuide.js'
 import Container from './components/container';
@@ -25,15 +24,15 @@ const panel=(
 export class App extends React.Component {
   constructor(props){
   super(props)
-  this.fetchingData = this.fetchingData.bind(this);
+  
   }
   
-  fetchingData(){
+  /*fetchingData(){
   injectFetchedData("casos/detalle/")
-    fetch(store.getState().fetchBase + "casos/detalle/" + "'posesion_efectiva'")
+    fetch(store.getState().fetchBase + "casos/detalle/" + "'posesion_efectiva'  ")
        .then(response => {return response.json();})
-       .then(data => {injectFetchedData(data);console.log(store.getState().fetchedData.resp)})
-  }
+       .then(data => {injectFetchedData(data);console.log(store.getState().fetchedData.resp[0][1])})
+  }*/
 
   render(){
     return (
@@ -48,7 +47,7 @@ export class App extends React.Component {
                             <Input />
                               <div className="d-flex  mt-2 flex-column " style={{width: "100%", height: "310px", overflow: "auto"}}>
                                 <h1 className="badge badge-secondary pt-2 pb-2" style={{fontSize: "100%", backgroundColor: "white", color: "black"}}>
-                                  {store.getState().fetchedData.resp.map((item, index)=>{return <Link to="/clientPanel" style={{textDecoration: "none"}}><button className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%"}} key={index} onClick={this.fetchingData}>{item[0]}</button></Link>})}                 
+                                  {store.getState().fetchedData.resp.map((item, index)=>{return <Link to="/clientPanel" style={{textDecoration: "none"}}><button className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%"}} key={index} /*onClick={this.fetchingData}*/>{item[0]}</button></Link>})}                 
                                 </h1>
                               </div>
                             </div>

@@ -20,7 +20,7 @@ export default class Input extends React.Component{
         
        fetch(store.getState().fetchBase + store.getState().fetchEndPoint + this.state.inputValue)
        .then(response => {return response.json();})
-       .then(data => {injectFetchedData(data);console.log(store.getState().fetchedData.resp)})
+       .then(data => {injectFetchedData(data);})
     }
 
     onChange(event){
