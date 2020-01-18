@@ -3,7 +3,6 @@ import '../style/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {store} from '../redux/store.js';
 import { connect } from 'react-redux';
-import {Container} from '../components/container.js'
 import {injectFetchedData} from '../redux/dispatchers.js';
 
 
@@ -18,14 +17,18 @@ export class ClientPanel extends React.Component {
               rol: "",
               trial: "",
               subject: "",
-              procedure: ""}
+              procedure: ""
+              }
   
 
   }
 
-  componentDidMount() {
-       injectFetchedData("casos/detalle/")
-       fetch(store.getState().fetchBase + "casos/detalle/" + "'posesion_efectiva'  ")
+  componentDidMount() {console.log(store.getState().fetchedData.resp)
+        let fetchedDataResp = store.getState().fetchedData.resp;
+        let getingTheClientId;
+        fetchedDataResp.forEach(ele =>{(ele.includes(store.getState().whatCaseWasClicked)? getingTheClientId = ele[1]: console.log(""))})
+
+        fetch(store.getState().fetchBase + "casos/detalle/" + `${getingTheClientId}/` + `"${store.getState().whatCaseWasClicked}"`)
        .then(response => {return response.json();})
        .then(data => {injectFetchedData(data);
         
@@ -39,6 +42,7 @@ export class ClientPanel extends React.Component {
           procedure: store.getState().fetchedData.resp[0][5]}
           );
         console.log("state: " + JSON.stringify(this.state))
+        console.log("store: " + JSON.stringify(store.getState().fetchedData.resp[0][8]))
         })
   }
   
@@ -53,8 +57,8 @@ export class ClientPanel extends React.Component {
             <div className="jumbotron d-flex mb-0 pb-0 pt-3 mt-4 shadow-lg" style={{backgroundColor: "white", borderLeft: "100px solid #6c757d"}} >
             <h1 className="display-4"></h1><br />
             <div className="jumbotron w-100 pt-0 pb-0"  style={{backgroundColor: "white"}}>
-              <h1 className="display-4 mb-0">{this.state.case}</h1>
-              <h6>{this.state.client}</h6>
+              <h1 className="display-4 mb-0">{this.state.case.toUpperCase()}</h1>
+              <h6 className="text-left">{this.state.client}</h6>
               <div className="jumbotron p-3 mt-3 d-flex w-100"  style={{backgroundColor: "white"}}>
     <div className="jumbotron p-0 w-100"  style={{backgroundColor: "white"}}><p className="lead pr-5" style={{borderBottom: "2px solid rgb(3,104,10)"}}>AVANCE</p><span className=" pl-3 pr-5 text-justify">{this.state.update}</span></div>
                 <div className="jumbotron p-0 w-50"  style={{backgroundColor: "white"}}><p className="lead" style={{borderBottom: "2px solid rgb(3,104,10)"}}>OBJETIVO</p><span>obtener el resultado del cliente</span></div>

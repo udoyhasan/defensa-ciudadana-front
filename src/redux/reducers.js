@@ -19,6 +19,9 @@ export function reducer(state = initialState, action) {/*REDUCER*/
     else if(action.type==="CHANGE_ENDPOINT"){
       return {...state, fetchEndPoint: action.doneAction};
     }
+    else if(action.type==="INJECT_CASE"){
+      return {...state, whatCaseWasClicked: action.doneAction};
+    }
     else
     {
     return state;

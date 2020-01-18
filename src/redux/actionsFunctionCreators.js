@@ -15,6 +15,14 @@ export function changeVisibility(criteria1, criteria2) {
     }
   }
 
+  export function whatCaseWasClicked(criteria) {
+    return {
+      type: "INJECT_CASE",
+      doneAction: criteria,
+     
+    }
+  }
+
   export function changeBoolean(criteria) {
     return {
       type: "CHANGE_BOOLEAN",
