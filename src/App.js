@@ -30,10 +30,9 @@ export class App extends React.Component {
   }
   
   handleClick(event) {
-    console.log('this is:', event.target.value );
+
     let data = event.target.value;
     whatCaseWasClickedFunction(data);
-    console.log(store.getState().whatCaseWasClicked)
 
   }
 

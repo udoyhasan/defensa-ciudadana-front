@@ -14,6 +14,7 @@ export class ClientPanel extends React.Component {
   this.state={case: "",
               client: "",
               update: "",
+              objetive: "",
               rol: "",
               trial: "",
               subject: "",
@@ -34,8 +35,9 @@ export class ClientPanel extends React.Component {
         
         this.setState({
           case: store.getState().fetchedData.resp[0][1],
-          client: store.getState().fetchedData.resp[0][9],
+          client: store.getState().fetchedData.resp[0][10],
           update: store.getState().fetchedData.resp[0][7],
+          objetive: store.getState().fetchedData.resp[0][8],
           rol: store.getState().fetchedData.resp[0][2],
           trial: store.getState().fetchedData.resp[0][3],
           subject: store.getState().fetchedData.resp[0][4],
@@ -61,7 +63,7 @@ export class ClientPanel extends React.Component {
               <h6 className="text-left">{this.state.client}</h6>
               <div className="jumbotron p-3 mt-3 d-flex w-100"  style={{backgroundColor: "white"}}>
     <div className="jumbotron p-0 w-100"  style={{backgroundColor: "white"}}><p className="lead pr-5" style={{borderBottom: "2px solid rgb(3,104,10)"}}>AVANCE</p><span className=" pl-3 pr-5 text-justify">{this.state.update}</span></div>
-                <div className="jumbotron p-0 w-50"  style={{backgroundColor: "white"}}><p className="lead" style={{borderBottom: "2px solid rgb(3,104,10)"}}>OBJETIVO</p><span>obtener el resultado del cliente</span></div>
+                <div className="jumbotron p-0 w-50"  style={{backgroundColor: "white"}}><p className="lead" style={{borderBottom: "2px solid rgb(3,104,10)"}}>OBJETIVO</p><span>{this.state.objetive}</span></div>
               </div>
               <div className="jumbotron p-0 w-100" style={{backgroundColor: "white"}}>
               <p className="lead text-left text-center" style={{borderBottom: "2px solid rgb(3,104,10)"}}>MI CAUSA</p>
