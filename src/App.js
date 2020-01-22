@@ -39,12 +39,12 @@ export class App extends React.Component {
   render(){
     return (
       <> 
-        <div className="row mt-5 mp-5">
+        <div className="row"  style={{ paddingTop: "5%"}}>
           <div className="col-md-3"></div>
           <div className="col-md-3 d-flex  ">
             <LogoGuide bootstrapClass="mr-5 align-items-end mt-5 mp-5"/>
           </div>
-          <div className="col-md-4 mt-5 mp-5">
+          <div className="col-md-4" style={{ paddingTop: "3%"}}>
           {(this.props.boolean)? <div>
                             <Input />
                               <div className="d-flex  mt-2 flex-column " style={{width: "100%", height: "310px", overflow: "auto"}}>

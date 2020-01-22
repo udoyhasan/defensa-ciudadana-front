@@ -12,7 +12,8 @@ export default class Input extends React.Component{
             inputValue: ""
         }
         this.fetchingData = this.fetchingData.bind(this);
-        this.onChange = this.onChange.bind(this);        
+        this.onChange = this.onChange.bind(this); 
+        this.keyPressed = this.keyPressed.bind(this);         
 
       }
 
@@ -23,7 +24,15 @@ export default class Input extends React.Component{
        .then(data => {injectFetchedData(data);})
     }
 
+    keyPressed(event) {
+        if (event.key === "Enter") {
+            this.fetchingData();
+        }
+      }
+
     onChange(event){
+
+       
 
         let targetValue = event.target.value;
         let falseCase;
@@ -53,7 +62,7 @@ export default class Input extends React.Component{
             <div className="input-group-prepend">
                 <button onClick={this.fetchingData} className="btn btn-outline-secondary" type="button" style={{backgroundColor: "#20be2b", color: "white", fontWeight: "200px", borderStyle: "none"}}>Buscar</button>
             </div>
-            <input type="text" className="form-control"  onChange={this.onChange} placeholder="" aria-label="" aria-describedby="basic-addon1"/>
+            <input onKeyPress={this.keyPressed} type="text" className="form-control"  onChange={this.onChange} placeholder="" aria-label="" aria-describedby="basic-addon1"/>
         </div>
         </>
 

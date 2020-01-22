@@ -68,7 +68,7 @@ export class ClientPanel extends React.Component {
               <div className="jumbotron p-0 w-100" style={{backgroundColor: "white"}}>
               <p className="lead text-left text-center" style={{borderBottom: "2px solid rgb(3,104,10)"}}>MI CAUSA</p>
               <div className="d-flex">
-  <div className="jumbotron p-0 w-100 " style={{backgroundColor: "white"}}><span className="badge badge-success h-100">{this.state.rol} / {this.state.trial}</span></div>
+  <div className="jumbotron p-0 w-100 " style={{backgroundColor: "white"}}><span className="badge badge-success h-100 mr-2">{this.state.rol} / {this.state.trial}</span></div>
                 <div className="jumbotron p-0 w-100 " style={{backgroundColor: "white"}}><span className="badge badge-success h-100">{this.state.subject} / {this.state.procedure}</span></div>
               </div>
             </div>
