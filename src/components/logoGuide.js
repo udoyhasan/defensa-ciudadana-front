@@ -1,39 +1,52 @@
 import React from 'react';
 import logo from '../img/logo.png';
-import people1 from '../img/dfPeople1.png';
-import people2 from '../img/dfPeople2.png';
-import people3 from '../img/dfPeople3.png';
-import secondaryBubble from '../img/secondaryBubble.png';
-import textBubble from '../img/textBubble.png';
+import textBubble from '../img/textBubble2.png';
+import textBubble2 from '../img/textBubble3.png';
+import imagen1 from '../img/dfPeople1.png';
+import imagen2 from '../img/dfPeople2.png';
+import imagen3 from '../img/dfPeople3.png';
 import {panelBtnChanger} from '../redux/dispatchers.js';
 import { connect } from 'react-redux';
 import {store} from '../redux/store.js';
 
-const miniBubbl = <img src={secondaryBubble} alt="people" style={{position: "fixed", top: "10%",left: "50%", width: "5%", animation: "littleBubble1 7s linear infinite"}}/>
-const miniBubb2 = <img src={textBubble} alt="people" style={{position: "fixed", top: "50%",left: "50%", width: "25%", animation: "littleBubble2 7s linear infinite"}}/>
-const miniBubb3 = <img src={secondaryBubble} alt="people" style={{position: "fixed", top: "25%",left: "30%", width: "5%", animation: "littleBubble3 7s linear infinite"}}/>
+import {truePanel_falseButtonSet_handler} from '../redux/dispatchers.js';
+
 
 export class LogoGuide extends React.Component{
     constructor(props){
         super(props);
-    this.panelBtnChanger= this.panelBtnChanger.bind(this)
+    this.state = {img: logo, zise: "80%", left:"50%", rotate: "rotateY(0)", onclickAnimationBoolean: false} //BORRAR
+    this.panelBtnChanger= this.panelBtnChanger.bind(this);
+    this.onclickAnimationFunction= this.onclickAnimationFunction.bind(this);
+
   
     }
 
     panelBtnChanger(){
         panelBtnChanger("floatDown 1.5s forwards", "logoDash 1s forwards");
+        this.setState({onclickAnimationBoolean: true})
+        console.log(this.state)
+
     }
+
+
+    onclickAnimationFunction(){
+   
+        if(this.state.onclickAnimationBoolean){
+            truePanel_falseButtonSet_handler(false)
+            setTimeout(()=>{panelBtnChanger("", "logoDashReverse 1s forwards")}, 100)
+        }
+    }
+  
 
 render(){
     return (
         <>
-        <img src={logo} className={this.props.bootstrapClass} alt="Defensa Ciudadana" 
-        style={{position: "absolute", left: "50%",animation: store.getState().logoAnimation }} 
-        onMouseOver={this.panelBtnChanger}/>
-<div style={{visibility: store.getState().showBubbles}}>{miniBubbl}<img src={people1} alt="people1" style={{position: "fixed", top: "0%",left: "", width: "25%", animation: "bubble1 7s linear infinite"}}/></div>
-<div style={{visibility: store.getState().showBubbles}}>{miniBubb2}<img src={people2} alt="people2" style={{position: "fixed", top: "30%",left: "25%", width: "25%", animation: "bubble2 7s linear infinite"}}/></div>
-<div style={{visibility: store.getState().showBubbles}}>{miniBubb3}<img src={people3} alt="people3" style={{position: "fixed", top: "10%",left: "50%", width: "25%", animation: "bubble3 7s linear infinite"}}/></div>
+        <img src={store.getState().whyUsImagesDisplayedOnAnimatiton.img} alt="Defensa Ciudadana" className={this.props.bootstrapClass}
+        style={{width: store.getState().whyUsImagesDisplayedOnAnimatiton.zise, position: "absolute", left: store.getState().whyUsImagesDisplayedOnAnimatiton.left ,animation: store.getState().logoAnimation }} 
+        onMouseOver={this.panelBtnChanger} onClick={this.onclickAnimationFunction}/>
         </>
+        
     );
 
 }
@@ -42,7 +55,7 @@ render(){
 
 function mapStateToProps(state){
 
-    return { frase: state.logoAnimation}
+    return { frase: state.logoAnimation, whyUsImagesDisplayedOnAnimatiton: state.whyUsImagesDisplayedOnAnimatiton }
 
 }
 

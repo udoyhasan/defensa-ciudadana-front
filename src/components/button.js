@@ -4,14 +4,22 @@ import { connect } from 'react-redux';
 import {store} from '../redux/store.js';
 import {injectFetchedData} from '../redux/dispatchers.js';
 import {panelBtnChanger} from '../redux/dispatchers.js';
+import {whyUsImagesDisplayedOnAnimatitonDispatcher} from '../redux/dispatchers.js';
 import {truePanel_falseButtonSet_handler} from '../redux/dispatchers.js';
-import {showBubble} from '../redux/dispatchers.js';
 import {changeEndpoint} from '../redux/dispatchers.js';
+
+import logo from '../img/logo.png';
+import textBubble from '../img/textBubble2.png';
+import textBubble2 from '../img/textBubble3.png';
+import imagen1 from '../img/dfPeople1.png';
+import imagen2 from '../img/dfPeople2.png';
+import imagen3 from '../img/dfPeople3.png';
 
 //COMPONENTE GENERAL DE TODOS LOS BOTONES
 export class Button extends React.Component{
     constructor(props) {
         super(props);
+
         this.onclick = this.onclick.bind(this);
         
       }
@@ -19,9 +27,17 @@ export class Button extends React.Component{
       onclick(event){
         switch(event.target.id){//AUN NO SE HACE FETCH PERO SI SE VA CONSTRUYENDO LA URL PARA EL ENDPOINT
                 case 'whyUs':
-                    setTimeout(()=>{showBubble("visible")},500);
-                    panelBtnChanger("floatUp 2s forwards", "logoDash 1s forwards")
-                    setTimeout(()=>{panelBtnChanger("", "logoDashReverse 1s forwards");}, 700);
+                    
+                    panelBtnChanger("floatUp 2s forwards", "logoDashReverse 1s forwards")
+                    setTimeout(()=>{panelBtnChanger("", "whyUsRotation 10s forwards")}, 2000);
+                    
+                    setTimeout(()=>{ whyUsImagesDisplayedOnAnimatitonDispatcher({img: "/static/media/textBubble2.269b12d3.png", zise: "120%", left: "30%"});}, 2300);
+                    setTimeout(()=>{ whyUsImagesDisplayedOnAnimatitonDispatcher({img: "/static/media/dfPeople1.64a6fe4a.png", zise: "120%", left: "30%"});}, 4150);
+                    setTimeout(()=>{ whyUsImagesDisplayedOnAnimatitonDispatcher({img: "/static/media/dfPeople2.bfc81c8b.png", zise: "120%", left: "30%"});}, 4650);
+                    setTimeout(()=>{ whyUsImagesDisplayedOnAnimatitonDispatcher({img: "/static/media/dfPeople3.876947f2.png", zise: "120%", left: "30%"});}, 5100);
+                    setTimeout(()=>{ whyUsImagesDisplayedOnAnimatitonDispatcher({img: "/static/media/textBubble3.01004a76.png", zise: "120%", left: "30%"});}, 5600);
+                    setTimeout(()=>{ whyUsImagesDisplayedOnAnimatitonDispatcher({img: "/static/media/logo.504cc4bb.png", zise: "80%", left: "50%"});}, 8300);
+   
                     
                 break;
 

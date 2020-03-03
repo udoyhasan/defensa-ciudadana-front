@@ -39,7 +39,7 @@ export class App extends React.Component {
   render(){
     return (
       <> 
-        <div className="row"  style={{ paddingTop: "5%"}}>
+        <div className="row prueba"  style={{ paddingTop: "5%"}}>
           <div className="col-md-3"></div>
           <div className="col-md-3 d-flex  ">
             <LogoGuide bootstrapClass="mr-5 align-items-end mt-5 mp-5"/>

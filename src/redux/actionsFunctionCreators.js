@@ -46,5 +46,13 @@ export function changeVisibility(criteria1, criteria2) {
      
     }
   }
+  
+  export function whyUsImagesDisplayedOnAnimatiton(criteria) {
+    return {
+      type: "CHANGE_IMAGE",
+      doneAction: criteria,
+     
+    }
+  }
 
 
