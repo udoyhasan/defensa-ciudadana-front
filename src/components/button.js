@@ -38,7 +38,8 @@ export class Button extends React.Component{
                     setTimeout(()=>{ whyUsImagesDisplayedOnAnimatitonDispatcher({img: "/static/media/textBubble3.01004a76.png", zise: "120%", left: "30%"});}, 5600);
                     setTimeout(()=>{ whyUsImagesDisplayedOnAnimatitonDispatcher({img: "/static/media/logo.504cc4bb.png", zise: "80%", left: "50%"});}, 8300);
    
-                    
+                    setTimeout(()=>{panelBtnChanger("", "")}, 8400);
+
                 break;
 
                 case 'client':

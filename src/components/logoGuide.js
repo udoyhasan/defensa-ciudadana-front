@@ -15,27 +15,36 @@ import {truePanel_falseButtonSet_handler} from '../redux/dispatchers.js';
 export class LogoGuide extends React.Component{
     constructor(props){
         super(props);
-    this.state = {img: logo, zise: "80%", left:"50%", rotate: "rotateY(0)", onclickAnimationBoolean: false} //BORRAR
+    this.state = {
+        img: logo, 
+        zise: "80%", 
+        left:"50%", 
+        rotate: "rotateY(0)", 
+        onclickAnimationBoolean: false, 
+        eventInhibitor: false
+    }
     this.panelBtnChanger= this.panelBtnChanger.bind(this);
     this.onclickAnimationFunction= this.onclickAnimationFunction.bind(this);
 
-  
     }
 
-    panelBtnChanger(){
-        panelBtnChanger("floatDown 1.5s forwards", "logoDash 1s forwards");
-        this.setState({onclickAnimationBoolean: true})
-        console.log(this.state)
+    panelBtnChanger(){//pon if aca para evitar se desencadene evento
+        console.log(store.getState().logoAnimation)
+        if(store.getState().logoAnimation!="whyUsRotation 10s forwards")
+            {
+              panelBtnChanger("floatDown 1.5s forwards", "logoDash 1s forwards");
+            }
+        
+    
 
     }
 
 
     onclickAnimationFunction(){
-   
-        if(this.state.onclickAnimationBoolean){
+    
             truePanel_falseButtonSet_handler(false)
             setTimeout(()=>{panelBtnChanger("", "logoDashReverse 1s forwards")}, 100)
-        }
+        
     }
   
 
