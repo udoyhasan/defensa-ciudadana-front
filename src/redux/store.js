@@ -20,7 +20,8 @@ export let initialState = {/*ESTADO INICIAL*/
   truePanel_falseButtonBoolean: false,
   showBubbles: "hidden",
   fetchBase: "http://127.0.0.1:5000/",
-  fetchEndPoint: ""
+  fetchEndPoint: "",
+  eventIhibitor: false
 
 } 
 

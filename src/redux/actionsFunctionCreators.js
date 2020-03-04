@@ -55,4 +55,10 @@ export function changeVisibility(criteria1, criteria2) {
     }
   }
 
-
+  export function eventInhibitor(criteria) {
+    return {
+      type: "CANCELL_EVENT",
+      doneAction: criteria,
+     
+    }
+  }

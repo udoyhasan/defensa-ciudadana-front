@@ -28,13 +28,12 @@ export class LogoGuide extends React.Component{
 
     }
 
-    panelBtnChanger(){//pon if aca para evitar se desencadene evento
-        console.log(store.getState().logoAnimation)
-        if(store.getState().logoAnimation!="whyUsRotation 10s forwards")
-            {
+    panelBtnChanger(){console.log(store.getState().eventIhibitor)
+        if(store.getState().eventIhibitor!=true)
+        {console.log(store.getState().eventIhibitor)
               panelBtnChanger("floatDown 1.5s forwards", "logoDash 1s forwards");
-            }
-        
+            
+        }
     
 
     }
@@ -42,8 +41,13 @@ export class LogoGuide extends React.Component{
 
     onclickAnimationFunction(){
     
+        if(store.getState().eventIhibitor!=true)
+        {
+
             truePanel_falseButtonSet_handler(false)
             setTimeout(()=>{panelBtnChanger("", "logoDashReverse 1s forwards")}, 100)
+            setTimeout(()=>{panelBtnChanger("", "")}, 1000)
+        }
         
     }
   

@@ -7,6 +7,7 @@ import {panelBtnChanger} from '../redux/dispatchers.js';
 import {whyUsImagesDisplayedOnAnimatitonDispatcher} from '../redux/dispatchers.js';
 import {truePanel_falseButtonSet_handler} from '../redux/dispatchers.js';
 import {changeEndpoint} from '../redux/dispatchers.js';
+import {eventInhibitorDispatcher} from '../redux/dispatchers.js';
 
 import logo from '../img/logo.png';
 import textBubble from '../img/textBubble2.png';
@@ -27,6 +28,8 @@ export class Button extends React.Component{
       onclick(event){
         switch(event.target.id){//AUN NO SE HACE FETCH PERO SI SE VA CONSTRUYENDO LA URL PARA EL ENDPOINT
                 case 'whyUs':
+                    eventInhibitorDispatcher(true)
+                    
                     
                     panelBtnChanger("floatUp 2s forwards", "logoDashReverse 1s forwards")
                     setTimeout(()=>{panelBtnChanger("", "whyUsRotation 10s forwards")}, 2000);
@@ -37,8 +40,8 @@ export class Button extends React.Component{
                     setTimeout(()=>{ whyUsImagesDisplayedOnAnimatitonDispatcher({img: "/static/media/dfPeople3.876947f2.png", zise: "120%", left: "30%"});}, 5100);
                     setTimeout(()=>{ whyUsImagesDisplayedOnAnimatitonDispatcher({img: "/static/media/textBubble3.01004a76.png", zise: "120%", left: "30%"});}, 5600);
                     setTimeout(()=>{ whyUsImagesDisplayedOnAnimatitonDispatcher({img: "/static/media/logo.504cc4bb.png", zise: "80%", left: "50%"});}, 8300);
-   
-                    setTimeout(()=>{panelBtnChanger("", "")}, 8400);
+            
+                    setTimeout(()=>{panelBtnChanger("", ""); eventInhibitorDispatcher(false)}, 8400);
 
                 break;
 
