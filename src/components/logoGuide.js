@@ -1,3 +1,7 @@
+import 'react-tippy/dist/tippy.css'; 
+import {
+    Tooltip,
+  } from 'react-tippy';
 import React from 'react';
 import logo from '../img/logo.png';
 import textBubble from '../img/textBubble2.png';
@@ -28,9 +32,9 @@ export class LogoGuide extends React.Component{
 
     }
 
-    panelBtnChanger(){console.log(store.getState().eventIhibitor)
+    panelBtnChanger(){
         if(store.getState().eventIhibitor!=true)
-        {console.log(store.getState().eventIhibitor)
+        {
               panelBtnChanger("floatDown 1.5s forwards", "logoDash 1s forwards");
             
         }
@@ -52,15 +56,22 @@ export class LogoGuide extends React.Component{
     }
   
 
-render(){
-    return (
-        <>
-        <img src={store.getState().whyUsImagesDisplayedOnAnimatiton.img} alt="Defensa Ciudadana" className={this.props.bootstrapClass}
-        style={{width: store.getState().whyUsImagesDisplayedOnAnimatiton.zise, position: "absolute", left: store.getState().whyUsImagesDisplayedOnAnimatiton.left ,animation: store.getState().logoAnimation }} 
-        onMouseOver={this.panelBtnChanger} onClick={this.onclickAnimationFunction}/>
-        </>
-        
-    );
+    render(){
+        return (
+            <>
+            {/*<Tooltip
+            title="Welcome to React"
+            position="bottom"
+            trigger="mouseenter"
+            placement="right-end"
+            >*/}
+            <img src={store.getState().whyUsImagesDisplayedOnAnimatiton.img} alt="Defensa Ciudadana" className={this.props.bootstrapClass}
+            style={{width: store.getState().whyUsImagesDisplayedOnAnimatiton.zise, position: "absolute", left: store.getState().whyUsImagesDisplayedOnAnimatiton.left ,animation: store.getState().logoAnimation }} 
+            onMouseOver={this.panelBtnChanger} onClick={this.onclickAnimationFunction}/>
+            {/*</Tooltip>*/}
+            </>
+            
+        );
 
 }
 

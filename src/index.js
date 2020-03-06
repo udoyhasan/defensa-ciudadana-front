@@ -9,6 +9,7 @@ import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 
 import App from './App';
 import ClientPanel from './clientPanelView/clientPanel.js';
+import NewClientForm from './components/NewClientForm';
 import docInputView from './views/docInputView/docInputView.js';
 
 import {HookdeEfecto} from './components/hook';
@@ -18,7 +19,7 @@ import {HookdeEfecto} from './components/hook';
 const routing = (
   <Router>
     <div>
-      <Route exact path="/" component={App} />
+      <Route exact path="/" component={NewClientForm} />
       <Route path="/clientPanel" component={ClientPanel} />
     </div>
   </Router>
