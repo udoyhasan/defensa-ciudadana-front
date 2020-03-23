@@ -28,8 +28,8 @@ fetch()
 {
 
     const urlClients = store.getState().fetchBase +'clientes/new'
-    const urlCases = store.getState().fetchBase + 'casos/new'
-    //SE HACE FETCH A LA TABLA CLIENTES
+    //const urlCases = store.getState().fetchBase + 'casos/new'
+    
     // post body data 
     const clientData = {
      nombre: this.nombre.current.value,
@@ -58,28 +58,7 @@ fetch()
         .then(res => {return res.json()})
         .then(data => console.log(JSON.stringify(data)));  
 
-    //SE HACE FETCH A LA TABLA CASOS
-    // post body data 
-   /* const caseData = {
-        descripcion: this.descripcion.current.value,
-        juzgado_institucion: this.juzgado_institucion.current.value,
-        rol_rit_ruc: this.rol_rit_ruc.current.value,
-        materia: this.materia.current.value,
-        procedimiento: this.procedimiento.current.value,
-        objetivo: this.objetivo.current.value
-       };
-       // request options
-       const options2 = {
-           method: 'POST',
-           body: JSON.stringify(caseData),
-           headers: {
-               'Content-Type': 'application/json'
-           }
-       }
-       // send POST request
-       fetch(urlCases, options2)
-           .then(res => {return res.json()})
-           .then(data => console.log(JSON.stringify(data)));  */
+    
    
       
 }
@@ -88,30 +67,30 @@ fetch()
 render(){
     return (
         <>
-        <div style={{flexDirection: 'row'}}>
-            <div style={{flex:1}}></div>
-            <div style={{flex:1}}>
+        <div className="row">
+            <div className="col-md-4"></div>
+            <div className="col-md-4" style={{backgroundColor: "#32D782", borderRadius: "10px", marginTop: "2%"}}>
                 <form>
-                    <div>CLIENTE</div>
-                    <input id='1' ref={this.nombre} placeholder='nombre'/><br />
-                    <input id='2' ref={this.rut} placeholder='rut'/><br />
-                    <input id='3' ref={this.nacionalidad} placeholder='nacionalidad'/><br />
-                    <input id='4' ref={this.estado_Civil} placeholder='estado Civil'/><br />
-                    <input id='5' ref={this.profesion} placeholder='profesión'/><br />
-                    <input id='6' ref={this.domicilio} placeholder='domicilio'/><hr />
-                    <div>CASO</div>
-                    <textarea id='7' ref={this.descripcion}  placeholder='descripcion' /><br />
-                    <input id='8' ref={this.juzgado_institucion} placeholder='juzgado/institucion'/><br />
-                    <input id='9' ref={this.rol_rit_ruc} placeholder='rol/rit/ruc'/><br />
-                    <input id='10' ref={this.materia} placeholder='materia'/><br />
-                    <input id='11' ref={this.procedimiento} placeholder='procedimiento'/><br />
-                    <input id='12' ref={this.objetivo} placeholder='objetivo'/><hr />
+                    <div className="h5" style={{color: "white",  fontWeight: "500", marginTop: "3%", textAlign: "center"}}>-DANOS TUS DATOS-</div>
+                    <input style={{width: "100%", borderColor: "#4DF79F"}} id='1' ref={this.nombre} placeholder='  nombre'/><br />
+                    <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='2' ref={this.rut} placeholder='  rut'/><br />
+                    <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='3' ref={this.nacionalidad} placeholder='  nacionalidad'/><br />
+                    <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='4' ref={this.estado_Civil} placeholder='  estado Civil'/><br />
+                    <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='5' ref={this.profesion} placeholder='  profesión'/><br />
+                    <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='6' ref={this.domicilio} placeholder='  domicilio'/><hr />
+                    <div className="h5" style={{color: "white",  fontWeight: "500", textAlign: "center"}}>-CUENTANOS TU PROBLEMA-</div>
+                    <textarea style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='7' ref={this.descripcion}  placeholder='  descripcion' /><br />
+                    <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='8' ref={this.juzgado_institucion} placeholder='  juzgado/institucion'/><br />
+                    <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='9' ref={this.rol_rit_ruc} placeholder='  rol/rit/ruc'/><br />
+                    <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='10' ref={this.materia} placeholder='  materia'/><br />
+                    <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='11' ref={this.procedimiento} placeholder='  procedimiento'/><br />
+                    <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='12' ref={this.objetivo} placeholder='  objetivo'/>
 
-                    <input id='crear_nuevo_cliente' type='button' value='nuevo cliente' onClick={this.fetch}/><hr />
+                    <input style={{width: "100%", marginTop:"3px",  marginBottom: "3%", height: "50px", backgroundColor: "#6c757d", color: "white", fontWeight: "bold"}} id='crear_nuevo_cliente' type='button' value='nuevo cliente' onClick={this.fetch}/>
                 </form>
                 
             </div>
-            <div style={{flex:1}}></div>
+            <div className="col-md-4"></div>
         </div>    
         </>
         

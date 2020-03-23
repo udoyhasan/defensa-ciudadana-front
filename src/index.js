@@ -19,7 +19,7 @@ import {HookdeEfecto} from './components/hook';
 const routing = (
   <Router>
     <div>
-      <Route exact path="/" component={NewClientForm} />
+      <Route exact path="/" component={App} />
       <Route path="/clientPanel" component={ClientPanel} />
     </div>
   </Router>
