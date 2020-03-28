@@ -13,7 +13,7 @@ export class Container extends React.Component{
   render(){
   return(  <>
             <div className={"d-flex"+ this.props.colOrRow} style={{paddingTop: "25%" ,visibility: "hidden", animation: store.getState().show, position: "absolute"}}> {/* colOrRow permite poner el contenedor flex vertical o horizontal */}
-            {this.props.children}{/* el problema es que el container tiene animation y se resetea al serr panel*/}
+            {this.props.children}
             </div>
             </>    
     

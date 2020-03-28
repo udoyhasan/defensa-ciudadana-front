@@ -9,6 +9,7 @@ import Container from './components/container';
 import Button from './components/button.js';
 import Input from './components/input.js';
 import {whatCaseWasClickedFunction} from './redux/dispatchers.js';
+import {injectFetchedData} from './redux/dispatchers.js';
 
 
 //CONSTANTES QUE AFECTAN AL COMPONENTE
@@ -35,6 +36,10 @@ export class App extends React.Component {
     whatCaseWasClickedFunction(data);
 
   }
+  componentDidMount(){
+
+    injectFetchedData({resp:[]})
+}
 
   render(){
     return (
@@ -49,7 +54,7 @@ export class App extends React.Component {
                             <Input />
                               <div className="d-flex  mt-2 flex-column " style={{width: "100%", height: "310px", overflow: "auto"}}>
                                 <h1 className="badge badge-secondary pt-2 pb-2" style={{fontSize: "100%", backgroundColor: "white", color: "black"}}>
-          {store.getState().fetchedData.resp.map((item, index)=>{return <Link to="/clientPanel" style={{textDecoration: "none"}}><button className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%"}} key={index} onClick={this.handleClick} value={item[0]}>{item[0]} / {item[1]}</button></Link>})}                 
+          {store.getState().fetchedData.resp.map((item, index)=>{return <Link to="/clientPanel" style={{textDecoration: "none"}}><button className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%"}} key={index} onClick={this.handleClick} value={item[1]}>{item[0]} / {item[1]}</button></Link>})}                 
                                 </h1>
                               </div>
                             </div>

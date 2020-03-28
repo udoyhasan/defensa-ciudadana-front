@@ -21,6 +21,7 @@ const routing = (
     <div>
       <Route exact path="/" component={App} />
       <Route path="/clientPanel" component={ClientPanel} />
+      <Route path="/NewClientForm" component={NewClientForm} />
     </div>
   </Router>
 )
