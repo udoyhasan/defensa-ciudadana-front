@@ -9,7 +9,7 @@ import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 
 import App from './App';
 import ClientPanel from './clientPanelView/clientPanel.js';
-import NewClientForm from './components/NewClientForm';
+import Cpanel from './components/cpanel';
 import docInputView from './views/docInputView/docInputView.js';
 
 import {HookdeEfecto} from './components/hook';
@@ -21,7 +21,7 @@ const routing = (
     <div>
       <Route exact path="/" component={App} />
       <Route path="/clientPanel" component={ClientPanel} />
-      <Route path="/NewClientForm" component={NewClientForm} />
+      <Route path="/cpanel" component={Cpanel} />
     </div>
   </Router>
 )
