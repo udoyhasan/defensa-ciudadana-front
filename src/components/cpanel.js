@@ -126,11 +126,11 @@ docSubmit(){
     let str2 = this.dataListInput.current.value;
     let indx2 = str2.indexOf("%");
     let substr2= str2.slice(indx2+1, indx2+2);
-
+    console.log("%c here: ", "color: blue",substr2)
     // SE INSERTAN DATOS DEL DOCUMENTO EN LA BASE DE DATOS ENVIANDOSE AL BACKEND
 const docData = {
-    tipoDocumento: this.tipoDocumento.current.value
-    //caso_id: substr2
+    tipoDocumento: this.tipoDocumento.current.value,
+    casoId: substr2
     };
 
    // request options
