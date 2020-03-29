@@ -129,8 +129,8 @@ docSubmit(){
 
     // SE INSERTAN DATOS DEL DOCUMENTO EN LA BASE DE DATOS ENVIANDOSE AL BACKEND
 const docData = {
-    tipoDocumento: this.tipoDocumento.current.value,
-    caso_id: substr2
+    tipoDocumento: this.tipoDocumento.current.value
+    //caso_id: substr2
     };
 
    // request options
