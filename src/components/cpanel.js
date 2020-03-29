@@ -92,7 +92,7 @@ updateCase(){//FETCH WITH PUT METHOD TO UPDATE THE TABLE
     //SE OBTIENE CASO_ID DEL INPUTDATA
     let str2 = this.dataListInput.current.value;
     let indx2 = str2.indexOf("%");
-    let substr2= str2.slice(indx2+1, indx2+2);
+    let substr2= str2.slice(indx2+1 ,indx2+(str2.length-indx2));
 
     const clientData = {
         nombre: substr,
@@ -125,9 +125,10 @@ docSave(){
 
     //SE OBTIENE CASO_ID DEL INPUTDATA
     let str = document.getElementById('dataListInput').value;
-    console.log("%c", "color: gold", str)
+    console.log(str)
     let indx2 = str.indexOf("%");
-    let substr2= str.slice(indx2+1, indx2+2);
+    let substr2= str.slice(indx2+1 ,indx2+(str.length-indx2));
+    console.log(substr2)
 
     // SE INSERTAN DATOS DEL DOCUMENTO EN LA BASE DE DATOS ENVIANDOSE AL BACKEND
     const docData = {
@@ -156,7 +157,7 @@ docSubmit(){
     //SE OBTIENE CASO_ID DEL INPUTDATA
     let str2 = this.dataListInput.current.value;
     let indx2 = str2.indexOf("%");
-    let substr2= str2.slice(indx2+1, indx2+2);
+    let substr2= str2.slice(indx2+1, str2.length-indx2+1);
 
    //SE  ENVIA ARCHIVO AL BACKEND
     const pdf = this.PDFfile.current.files;
@@ -228,7 +229,7 @@ render(){
                     <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='4' ref={this.estado_Civil} placeholder='  estado Civil'/><br />
                     <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='5' ref={this.profesion} placeholder='  profesión'/><br />
                     <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='6' ref={this.domicilio} placeholder='  domicilio'/><br />
-                    <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='6' ref={this.contacto} placeholder='  teléfono/m@il'/><hr />
+                    <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='' ref={this.contacto} placeholder='  teléfono/m@il'/><hr />
                     <div className="h5" style={{color: "white",  fontWeight: "500", textAlign: "center"}}>-ANTECEDENTES CASO-</div>
                     <textarea style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='7' ref={this.descripcion}  placeholder='  descripcion' /><br />
                     <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='8' ref={this.juzgado_institucion} placeholder='  juzgado/institucion'/><br />
