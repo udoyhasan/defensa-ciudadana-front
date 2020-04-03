@@ -122,10 +122,15 @@ docSubmit(){
 
     const endpoint = store.getState().fetchBase + "uploadDocument";
 
+    //SE OBTIENE CASO_ID DEL INPUTDATA
+    let str2 = this.dataListInput.current.value;
+    let indx2 = str2.indexOf("%");
+    let substr2= str2.slice(indx2+1, indx2+2);
+
     // SE INSERTAN DATOS DEL DOCUMENTO EN LA BASE DE DATOS ENVIANDOSE AL BACKEND
 const docData = {
     tipoDocumento: this.tipoDocumento.current.value,
-    caso_id: 4
+    caso_id: substr2
     };
 
    // request options
