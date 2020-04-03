@@ -40,7 +40,7 @@ export default class Cpanel extends React.Component{
         //REFERENCIAS DOCUMENTO CARGADO
         this.PDFfile = React.createRef();
         //this.fechaFirma = React.createRef(); 
-        //this.tipo_doc = React.createRef();
+        this.tipoDocumento = React.createRef();
     }
 
 postNewCaseAndClient()
@@ -120,7 +120,28 @@ updateCase(){//FETCH WITH PUT METHOD TO UPDATE THE TABLE
 
 docSubmit(){
 
-    const endpoint = store.getState().fetchBase + "prueba";
+    const endpoint = store.getState().fetchBase + "uploadDocument";
+
+    // SE INSERTAN DATOS DEL DOCUMENTO EN LA BASE DE DATOS ENVIANDOSE AL BACKEND
+const docData = {
+    tipoDocumento: this.tipoDocumento.current.value,
+    caso_id: 4
+    };
+
+   // request options
+   const docOptions = {
+       method: 'POST',
+       body: JSON.stringify(docData),
+       headers: {
+           'Content-Type': 'application/json'
+       }
+   }
+
+fetch(endpoint, docOptions)
+    .then(res => {return res.json()})
+    .then(data => JSON.stringify(data));
+
+   //SE  ENVIA ARCHIVO AL BACKEND
     const pdf = this.PDFfile.current.files;
     const formData = new FormData();
 
@@ -128,12 +149,16 @@ docSubmit(){
 
     fetch(endpoint,{
 
-        method: "POST",
+        method: "PUT",
         body: formData
     })
     .then(res => {return res.json()})
-        .then(data => console.log(JSON.stringify(data.resp)));
-    
+    .then(data => {
+        
+        console.log(JSON.stringify(data.resp))
+    });
+
+ 
 }
 
 componentDidMount(){
@@ -220,7 +245,8 @@ render(){
 {/**------------------------------------------------------------------------------------------------ */}
                 <div className="mt-4" style={{backgroundColor: "#32D782", borderRadius: "10px", padding: "2%"}}>
                     <form>
-                        <input ref={this.PDFfile} type="file" accept=".pdf"/>    
+                        <input ref={this.PDFfile} type="file" accept=".pdf"/> 
+                        <input ref={this.tipoDocumento} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  tipo documento'/><br />   
                         <input  onClick={this.docSubmit} value='CARGAR DOCUMENTO'  type='button' style={{width: "100%", marginTop:"3px",  marginBottom: "3%", height: "50px", backgroundColor: "#6c757d", color: "white", fontWeight: "bold"}}/>
                     </form>
                 </div>
