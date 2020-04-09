@@ -180,6 +180,7 @@ docSubmit(){
 }
 
 componentDidMount(){
+    
     let arr = [];
     fetch(store.getState().fetchBase + 'casos/"17.402.744-7"')//SE CARGA LOS DATOS DEL DATALIST
     .then(response => {return response.json();})
@@ -193,7 +194,7 @@ componentDidMount(){
             fetch(store.getState().fetchBase + `casos/detalle/${item[3]}/${item[2]}`)//SE CARGA LOS DATOS DEL DATALIST
             .then(response => {return response.json();})
             .then(data => {
-                arr[index].push(data.resp[0][13]); //SE OBTIENE EL NOMBRE DEL CLIENTE EN EL CASO
+                arr[index].push(data.resp[0][14]); //SE OBTIENE EL NOMBRE DEL CLIENTE EN EL CASO
                 this.setState({dataList:arr});
                 console.table(this.state.dataList)
                 

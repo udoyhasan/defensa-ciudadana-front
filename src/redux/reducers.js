@@ -28,6 +28,9 @@ export function reducer(state = initialState, action) {/*REDUCER*/
     else if(action.type==="CANCELL_EVENT"){
       return {...state, eventIhibitor:action.doneAction};
     }
+    else if(action.type==="SAVE_RUT"){
+      return {...state, rutSaver:action.doneAction};
+    }
     else
     {
     return state;

@@ -21,7 +21,8 @@ export let initialState = {/*ESTADO INICIAL*/
   showBubbles: "hidden",
   fetchBase: "http://127.0.0.1:5000/",
   fetchEndPoint: "",
-  eventIhibitor: false
+  eventIhibitor: false,
+  rutSaver:""
 
 } 
 

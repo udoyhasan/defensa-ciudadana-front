@@ -4,10 +4,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {store} from '../redux/store.js';
 import {injectFetchedData} from '../redux/dispatchers.js';
+import {rutSaverDispatcher} from '../redux/dispatchers.js';
 
 export default class Input extends React.Component{
     constructor(props) {
         super(props);
+        this.inputRut = React.createRef();
+
+
         this.state = {
             inputValue: ""
         }
@@ -18,15 +22,20 @@ export default class Input extends React.Component{
       }
 
     fetchingData(){
-        
+
+       rutSaverDispatcher(this.inputRut.current.value)
+       console.log(store.getState())
        fetch(store.getState().fetchBase + store.getState().fetchEndPoint + this.state.inputValue)
        .then(response => {return response.json();})
-       .then(data => {injectFetchedData(data);})
+       .then(data => {
+           injectFetchedData(data);})
+           
     }
 
     keyPressed(event) {
         if (event.key === "Enter") {
             this.fetchingData();
+            
         }
       }
 
@@ -62,7 +71,7 @@ export default class Input extends React.Component{
             <div className="input-group-prepend">
                 <button onClick={this.fetchingData} className="btn btn-outline-secondary" type="button" style={{backgroundColor: "#20be2b", color: "white", fontWeight: "200px", borderStyle: "none"}}>Buscar</button>
             </div>
-            <input onKeyPress={this.keyPressed} type="text" className="form-control"  onChange={this.onChange} placeholder="" aria-label="" aria-describedby="basic-addon1"/>
+            <input onKeyPress={this.keyPressed} type="text" className="form-control"  onChange={this.onChange} placeholder="" ref={this.inputRut}  aria-label="" aria-describedby="basic-addon1"/>
         </div>
         </>
 

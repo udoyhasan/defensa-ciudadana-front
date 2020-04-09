@@ -62,3 +62,11 @@ export function changeVisibility(criteria1, criteria2) {
      
     }
   }
+
+  export function rutSaver(criteria) {
+    return {
+      type: "SAVE_RUT",
+      doneAction: criteria,
+     
+    }
+  }

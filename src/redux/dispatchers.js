@@ -8,6 +8,7 @@ import {changeFetchEndpoint} from '../redux/actionsFunctionCreators.js'
 import {whatCaseWasClicked} from '../redux/actionsFunctionCreators.js'
 import {whyUsImagesDisplayedOnAnimatiton} from '../redux/actionsFunctionCreators.js'
 import {eventInhibitor} from '../redux/actionsFunctionCreators.js'
+import {rutSaver} from '../redux/actionsFunctionCreators.js'
 
 export const panelBtnChanger = (criteria1,criteria2)=>{store.dispatch(changeVisibility(criteria1,criteria2));};
 
@@ -24,3 +25,5 @@ export const changeEndpoint = (endpoint) =>{store.dispatch(changeFetchEndpoint(e
 export const whyUsImagesDisplayedOnAnimatitonDispatcher = (object) =>{store.dispatch(whyUsImagesDisplayedOnAnimatiton(object));};
 
 export const eventInhibitorDispatcher = (boolean) =>{store.dispatch(eventInhibitor(boolean));};
+
+export const rutSaverDispatcher = (str) =>{store.dispatch(rutSaver(str));};

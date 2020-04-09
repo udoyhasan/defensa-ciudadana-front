@@ -4,7 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {store} from '../redux/store.js';
 import { connect } from 'react-redux';
 import {injectFetchedData} from '../redux/dispatchers.js';
-import logo from '../img/logo.png'
+import tippy from 'tippy.js';
+import 'tippy.js/dist/tippy.css';
 
 
 
@@ -13,6 +14,7 @@ export class ClientPanel extends React.Component {
   constructor(props){
   super(props)
   this.DocsDownloadMapedDiv = React.createRef;
+  this.downloadPassword= this.downloadPassword.bind(this);
   this.state={case: "",
               client: "",
               update: "",
@@ -25,7 +27,8 @@ export class ClientPanel extends React.Component {
               nacionalidad: "",
               clientId: "",
               casoId: "",
-              documents_id_arr: []
+              documents_id_arr: [],
+              documentDownloadInputTippyPassword: ""
               }
   //REFERENCIAS REACT
   this.documentListContainer = React.createRef();
@@ -33,7 +36,7 @@ export class ClientPanel extends React.Component {
 
   }
 
-  componentDidMount() {
+  componentDidMount() { 
         let fetchedDataResp = store.getState().fetchedData.resp;
         
         let arrOfCaseIdAndClientID= [];
@@ -46,10 +49,28 @@ export class ClientPanel extends React.Component {
 
         injectFetchedData(data);
         
+        let date = store.getState().fetchedData.resp[0][12];//SE TRANSFORMA A FECHA CORTA
+        date = date.slice(date.indexOf(',')+1)
+        // ENCUENTRA TERCER ESPACIO Y SACA HORAS Y MINUTOS
+        let dateArr = date.split('')
+        let thirdSpaceIndex= 0
+        let iterator=0;
+        dateArr.forEach((item, index)=>{
+          if(item===' '){
+            iterator++;
+            if(iterator==4){
+            thirdSpaceIndex= index;
+            }
+          }
+        })
+        date = date.slice(0, thirdSpaceIndex)
+   
+
         this.setState({
           case: store.getState().fetchedData.resp[0][1],
-          client: store.getState().fetchedData.resp[0][13],
+          client: store.getState().fetchedData.resp[0][14],
           update: store.getState().fetchedData.resp[0][7],
+          updateDate: date,
           objetive: store.getState().fetchedData.resp[0][8],
           rol: store.getState().fetchedData.resp[0][2],
           trial: store.getState().fetchedData.resp[0][3],
@@ -60,6 +81,8 @@ export class ClientPanel extends React.Component {
           clientId: store.getState().fetchedData.resp[0][6],
           casoId: store.getState().fetchedData.resp[0][0]
         });
+        
+        
 
         //SE OBTIENE LA LISTA DE DOCUMENTOS ASOCIADOS AL CASO
         let objUrl = null;
@@ -76,14 +99,23 @@ export class ClientPanel extends React.Component {
               objUrl = URL.createObjectURL(blob)
 
               let node = document.createElement("A"); 
-              node.setAttribute("class", "list-group-item list-group-item-action")
+              node.setAttribute("class", "password list-group-item list-group-item-action") 
               node.download = `${item[1]}.pdf`;
               node.setAttribute("href", objUrl)
               let textnode =  document.createTextNode(item[1]); 
               node.appendChild(textnode);              
               this.documentListContainer.current.appendChild(node);
 
-               console.log("blob ha sido guardado en: ", objUrl)
+              tippy('.password', {
+                content: `<input type="text" onClick={function x(){}} className="form-control" placeholder="INGRESA DFPASS"  ref={this.inputRut} />`,
+                allowHTML: true,
+                interactive: true,
+                theme: 'tomato',
+                placement: 'left',
+                theme: ""/*color pero no se pone*/,
+                trigger: 'mouseenter click',
+    
+              });
               
 
               })
@@ -91,9 +123,17 @@ export class ClientPanel extends React.Component {
         })
 
         })
+        
+      }
 
-  }
-  
+  downloadPassword() {
+       
+            alert("funciona")
+            
+     
+      }
+   
+
   render(){
     return (
       <> 
@@ -108,7 +148,7 @@ export class ClientPanel extends React.Component {
               <h1 className="display-4 mb-0 text-left">{this.state.subject.toUpperCase()}</h1>
               <h6 className="text-left">{this.state.client}</h6>
               <div className="jumbotron p-3 pr-0 mr-0 mt-3 d-flex w-100"  style={{backgroundColor: "white"}}>
-    <div className="jumbotron p-0 pr-4 w-100"  style={{backgroundColor: "white"}}><p className="lead pr-5" style={{borderBottom: "2px solid rgb(3,104,10)"}}>AVANCE</p><span className="text-justify">{this.state.update}</span></div>
+    <div className="jumbotron p-0 pr-4 w-100"  style={{backgroundColor: "white"}}><p className="lead pr-5" style={{borderBottom: "2px solid rgb(3,104,10)"}}>AVANCE <span style={{fontSize: "10px"}}>{this.state.updateDate}</span></p><span className="text-justify">{this.state.update}</span></div>
                 <div className="jumbotron p-0 w-50"  style={{backgroundColor: "white"}}><p className="lead" style={{borderBottom: "2px solid rgb(3,104,10)", }}>OBJETIVO</p><span style={{wordSpacing: "1px"}}>{this.state.objetive}</span></div>
               </div>
               <div className="jumbotron p-0 w-100" style={{backgroundColor: "white"}}>
@@ -125,10 +165,6 @@ export class ClientPanel extends React.Component {
                 <a href="#" className="list-group-item list-group-item-action border-0 active" style={{backgroundColor: "rgb(31,191,42)"}}>
                 DOCUMENTOS
                 </a>
-                
-                <img id="imagenprueba" />
-
-                
               </div>
             </div>
             </div>
