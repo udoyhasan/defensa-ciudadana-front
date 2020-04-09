@@ -280,6 +280,8 @@ render(){
                             <option value="Recurso">Recurso</option>
                             <option value="Informe">Informe</option>
                             <option value="Publicación">Publicación</option>
+                            <option value="Resolucion fija Audiencia">Resolución (fija Audiencia)</option>
+                            <option value="Resolucion Relevante">Resolución Relevante</option>
                             <option value="Documento Otros">Documento Otros</option>
                         </select><br />   
                         <input  onClick={this.docSave} value='GUARDAR DATOS'  type='button' style={{width: "100%", marginTop:"3px",  marginBottom: "3%", height: "50px", backgroundColor: "#6c757d", color: "white", fontWeight: "bold"}}/>
