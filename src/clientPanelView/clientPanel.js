@@ -14,7 +14,6 @@ export class ClientPanel extends React.Component {
   constructor(props){
   super(props)
   this.DocsDownloadMapedDiv = React.createRef;
-  this.downloadPassword= this.downloadPassword.bind(this);
   this.state={case: "",
               client: "",
               update: "",
@@ -31,8 +30,8 @@ export class ClientPanel extends React.Component {
               documentDownloadInputTippyPassword: ""
               }
   //REFERENCIAS REACT
-  this.documentListContainer = React.createRef();
-  
+  this.documentListContainer = React.createRef(); 
+  this.dfPass = React.createRef();
 
   }
 
@@ -83,8 +82,7 @@ export class ClientPanel extends React.Component {
           casoId: store.getState().fetchedData.resp[0][0]
         });
         
-        
-
+      
         //SE OBTIENE LA LISTA DE DOCUMENTOS ASOCIADOS AL CASO
         let objUrl = null;
         fetch(store.getState().fetchBase + "getDocument_id_list/" + this.state.casoId)
@@ -101,9 +99,47 @@ export class ClientPanel extends React.Component {
               objUrl = URL.createObjectURL(blob)
 
               let node = document.createElement("A"); 
-              node.setAttribute("class", "password list-group-item list-group-item-action") 
-              node.download = `${item[1]}.pdf`;
-              node.setAttribute("href", objUrl)
+              node.setAttribute("class", "list-group-item list-group-item-action") 
+
+              let download = `${item[1]}.pdf`              
+
+              let rutSaver = store.getState().rutSaver; // DFPASS
+              let arrRutSaver = rutSaver.split('')
+              let dfpass = arrRutSaver.slice(7 , 10)
+              dfpass =dfpass.join('')              
+
+              this.dfPass.current.addEventListener("mouseover", (e)=>{
+                    
+                setTimeout(()=>{
+                  
+                  let tipyExpanded = e.target.getAttribute("aria-expanded")
+                    if(tipyExpanded){//SE DETECTA QUE EL TOOLTIP APARECIÓ
+
+                      let elements = document.getElementsByClassName('tipy')
+
+                          for (var i = 0; i < elements.length; i++) {
+                           
+                            let elementValue = elements[i].value;
+                            
+                            elements[i].addEventListener('keypress', function(e) {
+                              
+                              if(e.key=="Enter"){
+                            
+                                console.log(elementValue)
+                                if(elementValue===dfpass){
+                                  node.setAttribute("href", objUrl)
+                                  node.download = `${item[1]}.pdf`;
+                                }
+                              }
+
+                          });
+                        }
+                    
+                    }
+                },500)
+                
+                  
+              })
               let textnode =  document.createTextNode(item[1]); 
               node.appendChild(textnode);              
               
@@ -113,16 +149,20 @@ export class ClientPanel extends React.Component {
                 this.documentListContainer.current.appendChild(item.node);
               })
 
+              
+
               tippy('.password', {
-                content: `<input type="text" onClick={function x(){}} className="form-control" placeholder="INGRESA DFPASS"  ref={this.inputRut} />`,
+                content: `<input class="tipy" type="text" className="form-control" placeholder="INGRESA DFPASS"/>`,
                 allowHTML: true,
                 interactive: true,
                 theme: 'tomato',
                 placement: 'left',
                 theme: ""/*color pero no se pone*/,
                 trigger: 'mouseenter click',
+                hideOnClick: false,
     
               });
+
               
 
               })
@@ -132,14 +172,6 @@ export class ClientPanel extends React.Component {
         })
 
       }
-
-  downloadPassword() {
-       
-            alert("funciona")
-            
-     
-      }
-   
 
   render(){
     return (
@@ -169,7 +201,7 @@ export class ClientPanel extends React.Component {
             
             <div className="jumbotron p-4 pt-5 d-flex w-50"  style={{backgroundColor: "white", marginTop: "10%"}}>
               <div className="list-group w-100" ref={this.documentListContainer} >
-                <a href="#" className="list-group-item list-group-item-action border-0 active" style={{backgroundColor: "rgb(31,191,42)"}}>
+                <a href="#" ref={this.dfPass} className="password list-group-item list-group-item-action border-0 active" style={{backgroundColor: "rgb(31,191,42)"}}>
                 DOCUMENTOS
                 </a>
               </div>
