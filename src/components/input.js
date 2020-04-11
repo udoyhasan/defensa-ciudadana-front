@@ -1,7 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import {store} from '../redux/store.js';
 import {injectFetchedData} from '../redux/dispatchers.js';
 import {rutSaverDispatcher} from '../redux/dispatchers.js';
@@ -24,7 +21,6 @@ export default class Input extends React.Component{
     fetchingData(){
 
        rutSaverDispatcher(this.inputRut.current.value)
-       console.log(store.getState())
        fetch(store.getState().fetchBase + store.getState().fetchEndPoint + this.state.inputValue)
        .then(response => {return response.json();})
        .then(data => {

@@ -98,9 +98,9 @@ updateCase(){//FETCH WITH PUT METHOD TO UPDATE THE TABLE
         nombre: substr,
         caso_id: substr2,
         actualizacion: (this.ActualizacionAvanceCausa.current.value === "")? "null" :this.ActualizacionAvanceCausa.current.value,
-        caso_rol_rit_ruc: (this.modificacion_rol_rit_ruc.current.value == "")? "null" :this.modificacion_rol_rit_ruc.current.value,
-        juzgado_institucion: (this.modificacion_juzgado_institucion.current.value == "")? "null" :this.modificacion_juzgado_institucion.current.value,
-        descripcion: (this.modificacion_descripcion.current.value == "")? "null" :this.modificacion_descripcion.current.value,
+        caso_rol_rit_ruc: (this.modificacion_rol_rit_ruc.current.value === "")? "null" :this.modificacion_rol_rit_ruc.current.value,
+        juzgado_institucion: (this.modificacion_juzgado_institucion.current.value === "")? "null" :this.modificacion_juzgado_institucion.current.value,
+        descripcion: (this.modificacion_descripcion.current.value === "")? "null" :this.modificacion_descripcion.current.value,
         causaTerminada: this.causa_teminada_checkBox.current.checked.toString()
  
         };

@@ -38,6 +38,7 @@ export class ClientPanel extends React.Component {
 
   componentDidMount() { 
         let fetchedDataResp = store.getState().fetchedData.resp;
+        let nodeArr=[];
         
         let arrOfCaseIdAndClientID= [];
         fetchedDataResp.forEach(ele =>{(ele.includes(store.getState().whatCaseWasClicked)? arrOfCaseIdAndClientID.push(ele[2], ele[3]): console.log(""))})
@@ -91,10 +92,11 @@ export class ClientPanel extends React.Component {
         .then(data => {
                 
             this.setState({documents_id_arr: data.resp.documents_list})//SE GUARDA LA LISTA DE DOCUMENTOS (PROVENIENTES DEL FETCH) EN EL STATE DEL COMPONENTE
+           
             this.state.documents_id_arr.forEach((item)=>{
               fetch(store.getState().fetchBase + "getFiles/" + item[0])
               .then(response => {return response.blob();})//SE RECIBE EL PDF COMO BLOB
-              .then(blob =>{console.log(blob)
+              .then(blob =>{
 
               objUrl = URL.createObjectURL(blob)
 
@@ -104,7 +106,12 @@ export class ClientPanel extends React.Component {
               node.setAttribute("href", objUrl)
               let textnode =  document.createTextNode(item[1]); 
               node.appendChild(textnode);              
-              this.documentListContainer.current.appendChild(node);
+              
+              nodeArr.push({index: item[0], node: node})// SE ORDENAN LOS DOCUMENTOS DE ACUERDO AL ID (FECHA INGRESO)
+              nodeArr.sort((a,b)=>a.index-b.index);
+              nodeArr.forEach((item)=>{
+                this.documentListContainer.current.appendChild(item.node);
+              })
 
               tippy('.password', {
                 content: `<input type="text" onClick={function x(){}} className="form-control" placeholder="INGRESA DFPASS"  ref={this.inputRut} />`,
@@ -123,7 +130,7 @@ export class ClientPanel extends React.Component {
         })
 
         })
-        
+
       }
 
   downloadPassword() {
