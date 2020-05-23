@@ -30,6 +30,7 @@ export default class Input extends React.Component{
 
     keyPressed(event) {
         if (event.key === "Enter") {
+            rutSaverDispatcher(this.inputRut.current.value)
             this.fetchingData();
             
         }
@@ -54,8 +55,8 @@ export default class Input extends React.Component{
         split.length >7 ? split[split.length-7] = "." + split[split.length-7]: falseCase= null;
 
         event.target.value = split.join("")
-        
-        this.setState({inputValue: `"${event.target.value}"` });
+        this.setState({inputValue: `${event.target.value}` });
+
     }
 
     render(){
