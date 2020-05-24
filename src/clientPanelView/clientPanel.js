@@ -9,11 +9,10 @@ import 'tippy.js/dist/tippy.css';
 import {changeEndpoint} from '../redux/dispatchers.js';
 
 
-
-//COMPONENTE
 export class ClientPanel extends React.Component {
   constructor(props){
   super(props)
+  this.download = this.download.bind(this)
   this.DocsDownloadMapedDiv = React.createRef;
   this.state={cases_activeCase: "",
               cases_client_id: "",
@@ -32,7 +31,8 @@ export class ClientPanel extends React.Component {
               cases_updateDate: "",
               documents_id_arr: [],
               documentDownloadInputTippyPassword: "",
-              wholeClickedCase: ""
+              wholeClickedCase: "",
+              documentsIdArr: []
               }
 
   //REFERENCIAS REACT
@@ -84,13 +84,45 @@ export class ClientPanel extends React.Component {
            }): console.log(" ")
           
         })
+
+        //FETCH A cLIENTS, PARA OBTENER NOMBRE CLIENTE
+        
         fetch(store.getState().fetchBase + store.getState().fetchEndPoint + this.state.cases_client_rut)
        .then(response => {return response.json();})
        .then(data => {
-           this.setState({cases_client_name: data.resp[0].clients_name});
+           this.setState({documentsIdArr: data});
           })
-        
+        //FETCH A DOCUMENTS PARA OBTENER DATOS DE LOS DOCUMENTOS ASOCIADOS AL ACASO
+        changeEndpoint("documentos/")
+        fetch(store.getState().fetchBase + store.getState().fetchEndPoint + store.getState().whatCaseWasClicked) 
+        .then(response => {return response.json();})
+        .then(data => {
+          let sorteData= data.resp.sort((a,b)=>a.documents_cases_id-b.documents_cases_id);
+          sorteData.forEach((item)=>{
+            var node = document.createElement("A");    
+            node.className = 'password list-group-item list-group-item-action border-5 border-gray text-center'
+            node.style.cursor = "pointer"
+            node.download = true
+            node.dataset.iD = item.documents_cases_id
+            node.addEventListener("click", this.download);
+            var textnode = document.createTextNode(item.documents_type);        
+            node.appendChild(textnode);                             
+            this.documentListContainer.current.appendChild(node) 
+          })
+        })
       }
+
+  download(e){
+    fetch(store.getState().fetchBase + store.getState().fetchEndPoint + 'download' + '/3') 
+    .then(response => {return response.blob();})//SE RECIBE EL PDF COMO BLOB
+    .then(blob =>{
+      let clciked = e.target
+      let objUrl = URL.createObjectURL(blob)
+      clciked.setAttribute("href", objUrl)
+      clciked.download = `${clciked.innerText}.pdf`;
+    })
+       
+  }
 
   render(){
     return (

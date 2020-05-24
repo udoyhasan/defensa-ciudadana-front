@@ -8,10 +8,15 @@ import {store} from '../redux/store.js';
 export default class Cpanel extends React.Component{
     constructor(props){
         super(props);
-        this.state = {dataList:[]}
+        this.state = {
+            dataList:[],
+            cases_client_id: ""
+
+        }
 
         //FUNCIONES ENLAZADAS CON CLASE DE COMPONENTE
-        this.postNewCaseAndClient=this.postNewCaseAndClient.bind(this);
+        this.postNewClient=this.postNewClient.bind(this);
+        this.postNewCase=this.postNewCase.bind(this);
         this.updateCase=this.updateCase.bind(this);
         this.docSubmit=this.docSubmit.bind(this);
 
@@ -44,39 +49,95 @@ export default class Cpanel extends React.Component{
         this.tipoDocumento = React.createRef();
     }
 
-postNewCaseAndClient()
-{
-
-    const urlClients = store.getState().fetchBase +'clientes/new'
+    componentDidMount(){
     
-    // post body data 
-    const clientData = {
-     nombre: this.nombre.current.value,
-     rut: this.rut.current.value,
-     nacionalidad: this.nacionalidad.current.value,
-     estado_Civil: this.estado_Civil.current.value,
-     profesion: this.profesion.current.value,
-     domicilio: this.domicilio.current.value,
-     contacto: this.contacto.current.value,
-     descripcion: this.descripcion.current.value,
-     juzgado_institucion: this.juzgado_institucion.current.value,
-     rol_rit_ruc: this.rol_rit_ruc.current.value,
-     materia: this.materia.current.value,
-     procedimiento: this.procedimiento.current.value,
-     objetivo: this.objetivo.current.value
-    };
+        let arr = [];
+        fetch(store.getState().fetchBase + 'casos/17.402.744-7')//SE CARGA LOS DATOS DEL DATALIST
+        .then(response => {return response.json();})
+        .then(data => {
+            this.setState({dataList: data.resp})
+
+            })  
+    }
+
+postNewClient()
+{
+    //FETCH CLIENTES
+    let urlClients = store.getState().fetchBase +'clientes/no_rut'
+     // post body data 
+     let clientData = {
+        name: this.nombre.current.value,
+        rut: this.rut.current.value,
+        nationality: this.nacionalidad.current.value,
+        civilStatus: this.estado_Civil.current.value,
+        job: this.profesion.current.value,
+        address: this.domicilio.current.value,
+        contact: this.contacto.current.value,
+       };
     // request options
-    const options = {
+    let options = {
         method: 'POST',
         body: JSON.stringify(clientData),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
+        headers: {'Content-Type': 'application/json'}};
     // send POST request
     fetch(urlClients, options)
         .then(res => {return res.json()})
-        .then(data => console.log(JSON.stringify(data)));  
+        .then(data => {
+            this.setState({cases_client_id: parseInt(data.lastId)}, ()=>{
+
+                console.log("callback")
+                const urlCasos = store.getState().fetchBase +'casos/no_rut'
+                let caseData = { 
+                    cases_description: this.descripcion.current.value,
+                    cases_rol_rit_ruc: this.rol_rit_ruc.current.value,
+                    cases_trial_entity: this.juzgado_institucion.current.value,
+                    cases_legalIssue: this.materia.current.value,
+                    cases_procedure: this.procedimiento.current.value,
+                    cases_objetive: this.objetivo.current.value,
+                    cases_client_id: parseInt(this.state.cases_client_id),
+                    cases_update: "",
+                    cases_activeCase: true
+                };
+            
+                let options2 = {
+                    method: 'POST',
+                    body: JSON.stringify(caseData),
+                    headers: {'Content-Type': 'application/json'}};
+            
+            
+                fetch(urlCasos, options2)
+                .then(res => {return res.json()})
+                .then(data => console.log("JSON.stringify(data)"));
+                           
+            }
+            
+            )}); 
+}
+
+postNewCase(){
+
+const urlCasos = store.getState().fetchBase +'casos/no_rut'
+    let caseData = { 
+        cases_description: this.descripcion.current.value,
+        cases_rol_rit_ruc: this.rol_rit_ruc.current.value,
+        cases_trial_entity: this.juzgado_institucion.current.value,
+        cases_legalIssue: this.materia.current.value,
+        cases_procedure: this.procedimiento.current.value,
+        cases_objetive: this.objetivo.current.value,
+        cases_client_id: parseInt(this.state.cases_client_id),
+        cases_update: "",
+        cases_activeCase: true
+    };
+
+    let options2 = {
+        method: 'POST',
+        body: JSON.stringify(caseData),
+        headers: {'Content-Type': 'application/json'}};
+
+
+    fetch(urlCasos, options2)
+    .then(res => {return res.json()})
+    .then(data => console.log("JSON.stringify(data)"));
 
 }
 
@@ -179,35 +240,6 @@ docSubmit(){
  
 }
 
-componentDidMount(){
-    
-    let arr = [];
-    fetch(store.getState().fetchBase + 'casos/"17.402.744-7"')//SE CARGA LOS DATOS DEL DATALIST
-    .then(response => {return response.json();})
-    .then(data => {
-        
-
-        arr.push(...data.resp)
-        
-        arr.map((item, index)=>{
-            
-            fetch(store.getState().fetchBase + `casos/detalle/${item[3]}/${item[2]}`)//SE CARGA LOS DATOS DEL DATALIST
-            .then(response => {return response.json();})
-            .then(data => {
-                arr[index].push(data.resp[0][14]); //SE OBTIENE EL NOMBRE DEL CLIENTE EN EL CASO
-                this.setState({dataList:arr});
-                console.table(this.state.dataList)
-                
-        
-        })
-
-            
-        })
-        })
-    
-    
-}
-
 render(){
     return (
         <>
@@ -230,7 +262,9 @@ render(){
                     <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='4' ref={this.estado_Civil} placeholder='  estado Civil'/><br />
                     <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='5' ref={this.profesion} placeholder='  profesión'/><br />
                     <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='6' ref={this.domicilio} placeholder='  domicilio'/><br />
-                    <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='' ref={this.contacto} placeholder='  teléfono/m@il'/><hr />
+                    <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='' ref={this.contacto} placeholder='  teléfono/m@il'/>
+
+               
                     <div className="h5" style={{color: "white",  fontWeight: "500", textAlign: "center"}}>-ANTECEDENTES CASO-</div>
                     <textarea style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='7' ref={this.descripcion}  placeholder='  descripcion' /><br />
                     <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='8' ref={this.juzgado_institucion} placeholder='  juzgado/institucion'/><br />
@@ -238,10 +272,10 @@ render(){
                     <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='10' ref={this.materia} placeholder='  materia'/><br />
                     <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='11' ref={this.procedimiento} placeholder='  procedimiento'/><br />
                     <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='12' ref={this.objetivo} placeholder='  objetivo'/>
+                    <input style={{width: "100%", marginTop:"3px",  marginBottom: "3%", height: "50px", backgroundColor: "#6c757d", color: "white", fontWeight: "bold"}} id='crear_nuevo_cliente' type='button' value='NUEVO CLIENTE' onClick={this.postNewClient}/>
 
-                    <input style={{width: "100%", marginTop:"3px",  marginBottom: "3%", height: "50px", backgroundColor: "#6c757d", color: "white", fontWeight: "bold"}} id='crear_nuevo_cliente' type='button' value='NUEVO CLIENTE' onClick={this.postNewCaseAndClient}/>
                 </form>
-                
+
             </div>
             <div className="col-md-3">
         
@@ -249,9 +283,12 @@ render(){
                 <div className="h5" style={{color: "white",  fontWeight: "500", marginTop: "3%", textAlign: "center"}}>-ACTUALIZACIÓN CAUSA-</div>
                     <input list="casos" id="dataListInput" style={{width: "100%", borderColor: "#4DF79F"}} ref={this.dataListInput}/>
                     <datalist id="casos" >
-                    {this.state.dataList.map((item, index)=>{
-                            return <option key={index} value={`${item[4]}/${item[1]} [${item[0]}]  %${item[2]}`} />//DEBES HACER QUE AL SELECCIONAR UNO SE TENGA EN CUENTA EL CASO_I Y EL CLIENTE_ID
+                    
+                    {this.state.dataList.map((item, index) => {
+                            return <option value={`${item.clients_name} / ${item.cases_rol_rit_ruc}`}/>
+                        })
                     })}
+
                     </datalist><br />
                     <textarea ref={this.ActualizacionAvanceCausa} className="mt-3" style={{width: "100%", borderColor: "#4DF79F"}} placeholder='  actualizar avance de la causa'/><br />
                     <input ref={this.modificacion_rol_rit_ruc} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  modificar rol/rit/ruc causa'/><br />
