@@ -10,13 +10,13 @@ export default class Cpanel extends React.Component{
         super(props);
         this.state = {
             dataList:[],
-            cases_client_id: ""
+            cases_client_id: "",
+            documentLastRowInserted: ""
 
         }
 
         //FUNCIONES ENLAZADAS CON CLASE DE COMPONENTE
         this.postNewClient=this.postNewClient.bind(this);
-        this.postNewCase=this.postNewCase.bind(this);
         this.updateCase=this.updateCase.bind(this);
         this.docSubmit=this.docSubmit.bind(this);
 
@@ -45,7 +45,6 @@ export default class Cpanel extends React.Component{
 
         //REFERENCIAS DOCUMENTO CARGADO
         this.PDFfile = React.createRef();
-        //this.fechaFirma = React.createRef(); 
         this.tipoDocumento = React.createRef();
     }
 
@@ -60,185 +59,164 @@ export default class Cpanel extends React.Component{
             })  
     }
 
-postNewClient()
-{
-    //FETCH CLIENTES
-    let urlClients = store.getState().fetchBase +'clientes/no_rut'
-     // post body data 
-     let clientData = {
-        name: this.nombre.current.value,
-        rut: this.rut.current.value,
-        nationality: this.nacionalidad.current.value,
-        civilStatus: this.estado_Civil.current.value,
-        job: this.profesion.current.value,
-        address: this.domicilio.current.value,
-        contact: this.contacto.current.value,
-       };
-    // request options
-    let options = {
-        method: 'POST',
-        body: JSON.stringify(clientData),
-        headers: {'Content-Type': 'application/json'}};
-    // send POST request
-    fetch(urlClients, options)
+    postNewClient()
+    {
+        //FETCH CLIENTES
+        let urlClients = store.getState().fetchBase +'clientes/no_rut'
+        // post body data 
+        let clientData = {
+            name: this.nombre.current.value,
+            rut: this.rut.current.value,
+            nationality: this.nacionalidad.current.value,
+            civilStatus: this.estado_Civil.current.value,
+            job: this.profesion.current.value,
+            address: this.domicilio.current.value,
+            contact: this.contacto.current.value,
+        };
+        // request options
+        let options = {
+            method: 'POST',
+            body: JSON.stringify(clientData),
+            headers: {'Content-Type': 'application/json'}};
+        // send POST request
+        fetch(urlClients, options)
+            .then(res => {return res.json()})
+            .then(data => {
+                this.setState({cases_client_id: parseInt(data.lastId)}, ()=>{
+
+                    console.log("callback")
+                    const urlCasos = store.getState().fetchBase +'casos/no_rut'
+                    let caseData = { 
+                        cases_description: this.descripcion.current.value,
+                        cases_rol_rit_ruc: this.rol_rit_ruc.current.value,
+                        cases_trial_entity: this.juzgado_institucion.current.value,
+                        cases_legalIssue: this.materia.current.value,
+                        cases_procedure: this.procedimiento.current.value,
+                        cases_objetive: this.objetivo.current.value,
+                        cases_client_id: parseInt(this.state.cases_client_id),
+                        cases_update: "",
+                        cases_activeCase: true
+                    };
+                
+                    let options2 = {
+                        method: 'POST',
+                        body: JSON.stringify(caseData),
+                        headers: {'Content-Type': 'application/json'}};
+                
+                
+                    fetch(urlCasos, options2)
+                    .then(res => {return res.json()})
+                    .then(data => console.log("JSON.stringify(data)"));
+                            
+                }
+                
+                )}); 
+    }
+
+    updateCase(){//FETCH WITH PUT METHOD TO UPDATE THE TABLE
+        
+        const urlClients = store.getState().fetchBase +'casos/no_rut'//FETCH CON POST A CLIENTES
+
+        //SE OBTIENE NOMBRE DEL INPUTDATA
+        let str = this.dataListInput.current.value;
+        let indx = str.indexOf("/");
+        let nombre= str.slice(0,indx-1);
+        //SE OBTIENE ROL DEL INPUTDATA
+        let rol= str.slice(indx+2 ,indx+(str.length-indx));
+
+        const clientData = {
+            cases_rol_rit_ruc: rol,
+            cases_update: this.ActualizacionAvanceCausa.current.value,
+            cases_trial_entity: this.modificacion_juzgado_institucion.current.value,
+            cases_description: this.modificacion_descripcion.current.value,
+            cases_activeCase: (this.causa_teminada_checkBox.current.checked==false)? 0: 1
+    
+            };
+
+            console.log(clientData)
+
+        // request options
+        const options = {
+            method: 'PUT',
+            body: JSON.stringify(clientData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        fetch(urlClients, options) 
+            .then(res => {return res.json()})
+            .then(data => JSON.stringify(data));
+        
+    }
+
+    docSubmit(){
+        const casesEndpoint = store.getState().fetchBase + "casos/";//PRIMERO SE HACE GET A CASOS PARA TRAER TODOS LOS CASOS DEL CLIENTE
+
+        //SE OBTIENE RUT DEL INPUTDATA
+        let str = this.dataListInput.current.value;
+        let indx = str.indexOf("/");
+        let rut= str.slice(0,indx-1);
+        //SE OBTIENE ROL DEL INPUTDATA
+        let rol= str.slice(indx+2 ,indx+(str.length-indx));
+        
+        fetch(casesEndpoint + rut)
         .then(res => {return res.json()})
         .then(data => {
-            this.setState({cases_client_id: parseInt(data.lastId)}, ()=>{
+            let resp = data.resp;
+            let chosenItem
+            resp.forEach((item) => {
+                (item.cases_rol_rit_ruc==rol)? chosenItem= item: console.log("")
 
-                console.log("callback")
-                const urlCasos = store.getState().fetchBase +'casos/no_rut'
-                let caseData = { 
-                    cases_description: this.descripcion.current.value,
-                    cases_rol_rit_ruc: this.rol_rit_ruc.current.value,
-                    cases_trial_entity: this.juzgado_institucion.current.value,
-                    cases_legalIssue: this.materia.current.value,
-                    cases_procedure: this.procedimiento.current.value,
-                    cases_objetive: this.objetivo.current.value,
-                    cases_client_id: parseInt(this.state.cases_client_id),
-                    cases_update: "",
-                    cases_activeCase: true
-                };
+                return chosenItem//SE OBITENE TODA LA INFORMACIÓN DE EL CASO SELECCIONADO, EN ESPECIAL EL ID DEL CASO
+            });
+
+        console.log(chosenItem.cases_id)
+
+            // SE INSERTAN DATOS DEL DOCUMENTO EN LA TABLA DOCUMENTS, CON ID DEL CASO
+        const docsEndpoint = store.getState().fetchBase + "documentos/1";; 
+        const docData = {
+                documents_type: document.getElementById('tipoDocumento').value,
+                documents_cases_id: chosenItem.cases_id
+            };
             
-                let options2 = {
-                    method: 'POST',
-                    body: JSON.stringify(caseData),
-                    headers: {'Content-Type': 'application/json'}};
-            
-            
-                fetch(urlCasos, options2)
-                .then(res => {return res.json()})
-                .then(data => console.log("JSON.stringify(data)"));
-                           
+        // request options
+        const docOptions = {
+            method: 'POST',
+            body: JSON.stringify(docData),
+            headers: {
+                'Content-Type': 'application/json'
             }
+        }
+
+        fetch(docsEndpoint, docOptions)
+                .then(res => {return res.json()})
+                .then(data => this.setState({documentLastRowInserted: JSON.stringify(data.resp)},
+                ()=> {
+
+                    //SE  ENVIA ARCHIVO AL BACKEND
+        const pdf = this.PDFfile.current.files;
+        const formData = new FormData();
+
+        formData.append('pdf', pdf[0]);
+
+        const docsEndpoint = store.getState().fetchBase + "documentos/upload/" + this.state.documentLastRowInserted;
+        fetch(docsEndpoint,{
+
+            method: "POST",
+            body: formData
+        })
+        .then(res => {return res.json()})
+        .then(data => {
             
-            )}); 
-}
+            console.log(JSON.stringify(data.resp))
+        });
 
-postNewCase(){
+                }
+                ));
 
-const urlCasos = store.getState().fetchBase +'casos/no_rut'
-    let caseData = { 
-        cases_description: this.descripcion.current.value,
-        cases_rol_rit_ruc: this.rol_rit_ruc.current.value,
-        cases_trial_entity: this.juzgado_institucion.current.value,
-        cases_legalIssue: this.materia.current.value,
-        cases_procedure: this.procedimiento.current.value,
-        cases_objetive: this.objetivo.current.value,
-        cases_client_id: parseInt(this.state.cases_client_id),
-        cases_update: "",
-        cases_activeCase: true
-    };
-
-    let options2 = {
-        method: 'POST',
-        body: JSON.stringify(caseData),
-        headers: {'Content-Type': 'application/json'}};
-
-
-    fetch(urlCasos, options2)
-    .then(res => {return res.json()})
-    .then(data => console.log("JSON.stringify(data)"));
-
-}
-
-updateCase(){//FETCH WITH PUT METHOD TO UPDATE THE TABLE
-    
-    const urlClients = store.getState().fetchBase +'clientes/new'//FETCH CON POST A CLIENTES
-
-    //SE OBTIENE NOMBRE DEL INPUTDATA
-    let str = this.dataListInput.current.value;
-    let indx = str.indexOf("/");
-    let substr= str.slice(0,indx);
-
-    //SE OBTIENE CASO_ID DEL INPUTDATA
-    let str2 = this.dataListInput.current.value;
-    let indx2 = str2.indexOf("%");
-    let substr2= str2.slice(indx2+1 ,indx2+(str2.length-indx2));
-
-    const clientData = {
-        nombre: substr,
-        caso_id: substr2,
-        actualizacion: (this.ActualizacionAvanceCausa.current.value === "")? "null" :this.ActualizacionAvanceCausa.current.value,
-        caso_rol_rit_ruc: (this.modificacion_rol_rit_ruc.current.value === "")? "null" :this.modificacion_rol_rit_ruc.current.value,
-        juzgado_institucion: (this.modificacion_juzgado_institucion.current.value === "")? "null" :this.modificacion_juzgado_institucion.current.value,
-        descripcion: (this.modificacion_descripcion.current.value === "")? "null" :this.modificacion_descripcion.current.value,
-        causaTerminada: this.causa_teminada_checkBox.current.checked.toString()
- 
-        };
-
-       // request options
-       const options = {
-           method: 'PUT',
-           body: JSON.stringify(clientData),
-           headers: {
-               'Content-Type': 'application/json'
-           }
-       }
-
-    fetch(urlClients, options)
-        .then(res => {return res.json()})
-        .then(data => JSON.stringify(data));
-     
-}
-docSave(){
-
-    const endpoint = store.getState().fetchBase + "uploadDocument";
-
-    //SE OBTIENE CASO_ID DEL INPUTDATA
-    let str = document.getElementById('dataListInput').value;
-    console.log(str)
-    let indx2 = str.indexOf("%");
-    let substr2= str.slice(indx2+1 ,indx2+(str.length-indx2));
-    console.log(substr2)
-
-    // SE INSERTAN DATOS DEL DOCUMENTO EN LA BASE DE DATOS ENVIANDOSE AL BACKEND
-    const docData = {
-        tipoDocumento: document.getElementById('tipoDocumento').value,
-        casoId: substr2
-        };
-        
-       // request options
-       const docOptions = {
-           method: 'POST',
-           body: JSON.stringify(docData),
-           headers: {
-               'Content-Type': 'application/json'
-           }
-       }
-    
-    fetch(endpoint, docOptions)
-        .then(res => {return res.json()})
-        .then(data => JSON.stringify(data));
-
-}
-docSubmit(){
-
-    const endpoint = store.getState().fetchBase + "uploadDocument";
-
-    //SE OBTIENE CASO_ID DEL INPUTDATA
-    let str2 = this.dataListInput.current.value;
-    let indx2 = str2.indexOf("%");
-    let substr2= str2.slice(indx2+1, str2.length-indx2+1);
-
-   //SE  ENVIA ARCHIVO AL BACKEND
-    const pdf = this.PDFfile.current.files;
-    const formData = new FormData();
-
-    formData.append('pdf', pdf[0]);
-
-    fetch(endpoint,{
-
-        method: "PUT",
-        body: formData
-    })
-    .then(res => {return res.json()})
-    .then(data => {
-        
-        console.log(JSON.stringify(data.resp))
-    });
-
- 
-}
+            });
+    }
 
 render(){
     return (
@@ -285,7 +263,7 @@ render(){
                     <datalist id="casos" >
                     
                     {this.state.dataList.map((item, index) => {
-                            return <option value={`${item.clients_name} / ${item.cases_rol_rit_ruc}`}/>
+                            return <option value={`${item.clients_rut} / ${item.cases_rol_rit_ruc}`}/>
                         })
                     })}
 
@@ -299,7 +277,7 @@ render(){
                     <input  style={{width: "100%", marginTop:"3px",  marginBottom: "3%", height: "50px", backgroundColor: "#6c757d", color: "white", fontWeight: "bold"}} id='actiualizar_causa' type='button' value='ACTUALIZAR CAUSA' onClick={this.updateCase}/>
                     
                 </div>
-{/**------------------------------------------------------------------------------------------------ */}
+
                 <div className="mt-4" style={{backgroundColor: "#32D782", borderRadius: "10px", padding: "2%"}}>
                     <form>
                         <input ref={this.PDFfile} type="file" accept=".pdf"/> 
@@ -322,11 +300,9 @@ render(){
                             <option value="Resolucion Relevante">Resolución Relevante</option>
                             <option value="Documento Otros">Documento Otros</option>
                         </select><br />   
-                        <input  onClick={this.docSave} value='GUARDAR DATOS'  type='button' style={{width: "100%", marginTop:"3px",  marginBottom: "3%", height: "50px", backgroundColor: "#6c757d", color: "white", fontWeight: "bold"}}/>
-                        <input  onClick={this.docSubmit} value='CARGAR DOCUMENTO'  type='button' style={{width: "100%", marginTop:"3px",  marginBottom: "3%", height: "50px", backgroundColor: "#6c757d", color: "white", fontWeight: "bold"}}/>
+                        <input  onClick={this.docSubmit} value='GUARDAR DATOS'  type='button' style={{width: "100%", marginTop:"3px",  marginBottom: "3%", height: "50px", backgroundColor: "#6c757d", color: "white", fontWeight: "bold"}}/>
                     </form>
                 </div>
-{/**------------------------------------------------------------------------------------------------ */}
                 
             </div>
             <div className="col-md-1 mt-4"></div>
