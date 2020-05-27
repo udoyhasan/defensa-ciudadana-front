@@ -49,10 +49,14 @@ export class ClientPanel extends React.Component {
 
         changeEndpoint("clientes/")
 
+        console.log(fetchedDataResp)
+
         fetchedDataResp.forEach(ele =>{
 
           let date = ele.cases_updateDate ;//SE TRANSFORMA A FECHA CORTA
-          date = date.slice(date.indexOf(',')+1)
+          
+          date = (date == null)? "": date.slice(date.indexOf(',')+1)
+          console.log(date)
           // ENCUENTRA TERCER ESPACIO Y SACA HORAS Y MINUTOS
           let dateArr = date.split('')
           let thirdSpaceIndex= 0
