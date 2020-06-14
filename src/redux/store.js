@@ -19,7 +19,7 @@ export let initialState = {/*ESTADO INICIAL*/
   whatCaseWasClicked: "",
   truePanel_falseButtonBoolean: false,
   showBubbles: "hidden",
-  fetchBase: "http://guillermopiedrabuena.pythonanywhere.com",
+  fetchBase: "http://guillermopiedrabuena.pythonanywhere.com/",
   fetchEndPoint: "",
   eventIhibitor: false,
   rutSaver:""
