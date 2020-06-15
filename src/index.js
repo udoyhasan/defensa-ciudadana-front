@@ -21,7 +21,7 @@ const routing = (
     <div>
       <Route exact path="/" component={App} />
       <Route path="/clientPanel" component={ClientPanel} />
-      <Route path="https://defensa-ciudadana.com/controlPanel" component={Cpanel} />
+      <Route path="/controlPanel" component={Cpanel} />
     </div>
   </Router>
 )

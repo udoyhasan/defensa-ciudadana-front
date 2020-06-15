@@ -74,6 +74,7 @@ export class ClientPanel extends React.Component {
           ele.cases_rol_rit_ruc == store.getState().whatCaseWasClicked? this.setState({
             cases_activeCase: ele.cases_activeCase ,
             cases_client_id:  ele.cases_client_id,
+            cases_client_name:  ele.clients_name,
             cases_deadLine: ele.cases_deadLine ,
             cases_description:  ele.cases_description,
             cases_id: ele.cases_id ,
