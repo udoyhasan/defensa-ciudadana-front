@@ -118,6 +118,21 @@ export class ClientPanel extends React.Component {
       }
 
   download(e){
+    //---------------------------------------------
+    fetch(store.getState().fetchBase + store.getState().fetchEndPoint + '/' + store.getState().whatCaseWasClicked)
+    .then(response => {return response.json();})//SE RECIBE EL PDF COMO JSON
+    .then(data =>{
+    let arr = []
+    data.resp.forEach((item)=>{
+    console.log("llegaron doc id: " + item.documents_cases_id)
+      arr.push(item.documents_cases_id)
+    })
+    console.log("arr: " + arr)
+    this.setState({documentsIdArr: [...arr]})
+    console.log("state" + this.state)
+    
+    })
+    //-------------------------------------------
     fetch(store.getState().fetchBase + store.getState().fetchEndPoint + 'download' + '/3') 
     .then(response => {return response.blob();})//SE RECIBE EL PDF COMO BLOB
     .then(blob =>{
