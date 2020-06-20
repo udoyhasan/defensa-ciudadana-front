@@ -32,7 +32,8 @@ export class ClientPanel extends React.Component {
               documents_id_arr: [],
               documentDownloadInputTippyPassword: "",
               wholeClickedCase: "",
-              documentsIdArr: []
+              documentsIdArr: [],
+              documentsIdArr2: []
               }
 
   //REFERENCIAS REACT
@@ -118,30 +119,51 @@ export class ClientPanel extends React.Component {
       }
 
   download(e){
-    //---------------------------------------------
+    
+    //SE OBTIENEN LOS ID DE LOS DOCUMENTOS
     fetch(store.getState().fetchBase + store.getState().fetchEndPoint + '/' + store.getState().whatCaseWasClicked)
-    .then(response => {return response.json();})//SE RECIBE EL PDF COMO JSON
+    .then(response => {return response.json();})
     .then(data =>{
     let arr = []
     data.resp.forEach((item)=>{
-    console.log("llegaron doc id: " + item.documents_cases_id)
-      arr.push(item.documents_cases_id)
+      arr.push({documents_id: item.documents_id, documents_type: item.documents_type})
     })
-    console.log("arr: " + arr)
-    this.setState({documentsIdArr: [...arr]})
-    console.log("state" + this.state)
-    
-    })
-    //-------------------------------------------
-    fetch(store.getState().fetchBase + store.getState().fetchEndPoint + 'download' + '/3') 
-    .then(response => {return response.blob();})//SE RECIBE EL PDF COMO BLOB
-    .then(blob =>{
-      let clciked = e.target
-      let objUrl = URL.createObjectURL(blob)
-      clciked.setAttribute("href", objUrl)
-      clciked.download = `${clciked.innerText}.pdf`;
-    })
-       
+    this.setState({documentsIdArr2: [...arr]},
+      
+      ()=>{ 
+          //EN EL CALLBAKC SE RECORRE CADA ITEM DE documentsIdArr PARA DESCARGAR EL PDF EN ESPECÍFICO
+
+          this.state.documentsIdArr2.forEach((item)=>{
+            console.log(item.documents_type, e.target.innerText)
+            console.log(item.documents_type == e.target.innerText)
+            
+              console.log("si funciona")
+              fetch(store.getState().fetchBase + store.getState().fetchEndPoint + 'download/' + item.documents_id) 
+              .then(response => {return response.blob();})//SE RECIBE EL PDF COMO BLOB
+              .then(blob =>{
+                let clciked = e.target
+                let objUrl = URL.createObjectURL(blob)
+                if(item.documents_type == e.target.innerText){
+                clciked.setAttribute("href", objUrl)
+                clciked.download = `${clciked.innerText}.pdf`;}
+                        })
+
+
+          
+           /* fetch(store.getState().fetchBase + store.getState().fetchEndPoint + 'download/' + item.documents_id) 
+            .then(response => {return response.blob();})//SE RECIBE EL PDF COMO BLOB
+            .then(blob =>{
+              let clciked = e.target
+              let objUrl = URL.createObjectURL(blob)
+              clciked.setAttribute("href", objUrl)
+              clciked.download = `${clciked.innerText}.pdf`;
+                      })*/
+           
+        })}
+     
+      
+      )    
+    })       
   }
 
   render(){
