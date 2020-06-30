@@ -122,7 +122,10 @@ export default class Cpanel extends React.Component{
         let indx = str.indexOf("/");
         let nombre= str.slice(0,indx-1);
         //SE OBTIENE ROL DEL INPUTDATA
-        let rol= str.slice(indx+2 ,indx+(str.length-indx));
+        let nameStart = str.indexOf('%');
+        let rol= str.slice(indx+2 ,nameStart);
+        console.log(rol)
+   
 
         const clientData = {
             cases_rol_rit_ruc: rol,
@@ -158,7 +161,9 @@ export default class Cpanel extends React.Component{
         let indx = str.indexOf("/");
         let rut= str.slice(0,indx-1);
         //SE OBTIENE ROL DEL INPUTDATA
-        let rol= str.slice(indx+2 ,indx+(str.length-indx));
+        let nameStart = str.indexOf('%');
+        let rol= str.slice(indx+2 ,indx+(nameStart));
+        console.log(rol)
         
         fetch(casesEndpoint + rut)
         .then(res => {return res.json()})
@@ -170,8 +175,6 @@ export default class Cpanel extends React.Component{
 
                 return chosenItem//SE OBITENE TODA LA INFORMACIÓN DE EL CASO SELECCIONADO, EN ESPECIAL EL ID DEL CASO
             });
-
-        console.log(chosenItem.cases_id)
 
             // SE INSERTAN DATOS DEL DOCUMENTO EN LA TABLA DOCUMENTS, CON ID DEL CASO
         const docsEndpoint = store.getState().fetchBase + "documentos/1";; 
@@ -263,9 +266,9 @@ render(){
                     <datalist id="casos" >
                     
                     {this.state.dataList.map((item, index) => {
-                            return <option value={`${item.clients_rut} / ${item.cases_rol_rit_ruc}`}/>
+                            return <option value={`${item.clients_rut} / ${item.cases_rol_rit_ruc}% ${item.clients_name}`} />
                         })
-                    })}
+                    }
 
                     </datalist><br />
                     <textarea ref={this.ActualizacionAvanceCausa} className="mt-3" style={{width: "100%", borderColor: "#4DF79F"}} placeholder='  actualizar avance de la causa'/><br />
