@@ -1,6 +1,6 @@
 import React from 'react';
 import './style/App.css';
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
+import {Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {store} from './redux/store.js';
 import { connect } from 'react-redux';
@@ -9,7 +9,6 @@ import Container from './components/container';
 import Button from './components/button.js';
 import Input from './components/input.js';
 import {whatCaseWasClickedFunction} from './redux/dispatchers.js';
-import {injectFetchedData} from './redux/dispatchers.js';
 
 
 //CONSTANTES QUE AFECTAN AL COMPONENTE
@@ -27,8 +26,10 @@ const panel=(
 //COMPONENTE
 export class App extends React.Component {
   constructor(props){
-  super(props)
-  this.handleClick = this.handleClick.bind(this)
+  super(props);
+  this.myRef = React.createRef();
+  this.handleClick = this.handleClick.bind(this);
+  
   
   }
   
@@ -43,14 +44,15 @@ export class App extends React.Component {
     console.log("%cDefensa Ciudadana©" , "color: green; font-weight: bold; font-size:18px; font-family:Comic Sans MS")
     console.log("%cDerechos de autor, marca y código fuente ", "color: gray; font-weight: bold; font-size:12px; font-family:Courier New")
     console.log("%cde propiedad de Guillermo Piedrabuena Parrochía", "color: gray; font-weight: bold; font-size:12px; font-family:Courier New")
-
-    injectFetchedData({resp:[]})
+    
+    if(this.myRef.current != null){console.log(this.myRef.current.className)}
+    
 }
 
   render(){
     return (
       <> 
-        <div className="row prueba"  style={{ paddingTop: "5%"}}>
+        <div className="row" style={{ paddingTop: "5%"}}>
           <div className="col-md-3"></div>
           <div className="col-md-3 d-flex  ">
             <LogoGuide bootstrapClass="mr-5 align-items-end mt-5 mp-5"/>
@@ -58,7 +60,7 @@ export class App extends React.Component {
           <div className="col-md-4" style={{ paddingTop: "3%"}}>
           {(this.props.boolean)? <div>
                             <Input />
-                              <div className="d-flex  mt-2 flex-column " style={{width: "100%", height: "310px", overflow: "auto"}}>
+                              <div ref={this.myRef} className="d-flex  mt-2 flex-column " style={{width: "100%", height: "310px", overflow: "auto"}}>
                                 <h1 className="badge badge-secondary pt-2 pb-2" style={{fontSize: "100%", backgroundColor: "white", color: "black"}}>
           {store.getState().fetchedData.resp.map((item, index)=>{return <Link to="/clientPanel" style={{textDecoration: "none"}}><button className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%"}} key={index} onClick={this.handleClick} value={item.cases_rol_rit_ruc}>{item.cases_rol_rit_ruc} {item.cases_legalIssue}</button></Link>})}                 
                                 </h1>

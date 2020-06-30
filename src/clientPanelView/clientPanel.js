@@ -147,23 +147,20 @@ export class ClientPanel extends React.Component {
                 clciked.setAttribute("href", objUrl)
                 clciked.download = `${clciked.innerText}.pdf`;}
                         })
-
-
-          
-           /* fetch(store.getState().fetchBase + store.getState().fetchEndPoint + 'download/' + item.documents_id) 
-            .then(response => {return response.blob();})//SE RECIBE EL PDF COMO BLOB
-            .then(blob =>{
-              let clciked = e.target
-              let objUrl = URL.createObjectURL(blob)
-              clciked.setAttribute("href", objUrl)
-              clciked.download = `${clciked.innerText}.pdf`;
-                      })*/
            
         })}
      
       
       )    
     })       
+  }
+
+  componentWillUnmount() {
+
+    injectFetchedData({resp:[]})
+    changeEndpoint("casos/")
+    console.clear()
+    
   }
 
   render(){
