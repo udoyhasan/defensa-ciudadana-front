@@ -297,6 +297,7 @@ render(){
                             <option value="Inscripción">Inscripción</option>
                             <option value="Certificado de Remision">Certificado de Remision</option>
                             <option value="Certificado">Certificado</option>
+                            <option value="Contestación">Contestación</option>
                             <option value="Comprobante Ingreso">Comprobante Ingreso</option>
                             <option value="Boleta Gasto">Boleta Gasto</option>
                             <option value="Notificación Receptor">Notificación Receptor</option>
