@@ -1,6 +1,6 @@
 import React from 'react';
 import './style/App.css';
-import {Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {store} from './redux/store.js';
 import { connect } from 'react-redux';
@@ -15,8 +15,7 @@ import {whatCaseWasClickedFunction} from './redux/dispatchers.js';
 const buttonSet= (<Container colOrRow="flex-column" >        
   <Button id="whyUs" btnLabel="Por qué confiar en Nosotros"/>
   <Button id="client" btnLabel="Soy Cliente"/>
-  {/*<Button id="advocate" btnLabel="Soy Defensor Ciudadano" block="disabled"/>*/}
-  <button id="advocate" type="button" className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%", cursor: "no-drop"}}>Soy Defensor Ciudadano</button>
+  <Link to='/jobExchange' className='text-white text-decoration-none'><button id="advocate" type="button" className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%", cursor: "pointer"}}>Soy Defensor Ciudadano</button></Link>
   
 </Container>);
 
@@ -45,7 +44,7 @@ export class App extends React.Component {
     console.log("%cDerechos de autor, marca y código fuente ", "color: gray; font-weight: bold; font-size:12px; font-family:Courier New")
     console.log("%cde propiedad de Guillermo Piedrabuena Parrochía", "color: gray; font-weight: bold; font-size:12px; font-family:Courier New")
     
-    if(this.myRef.current != null){console.log(this.myRef.current.className)}
+   
     
 }
 

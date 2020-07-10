@@ -57,7 +57,7 @@ export class ClientPanel extends React.Component {
           let date = ele.cases_updateDate ;//SE TRANSFORMA A FECHA CORTA
           
           date = (date == null)? "": date.slice(date.indexOf(',')+1)
-          console.log(date)
+          
           // ENCUENTRA TERCER ESPACIO Y SACA HORAS Y MINUTOS
           let dateArr = date.split('')
           let thirdSpaceIndex= 0
@@ -87,7 +87,7 @@ export class ClientPanel extends React.Component {
             cases_trial_entity:  ele.cases_trial_entity,
             cases_update:  ele.cases_update,
             cases_updateDate: date
-           }): console.log(" ")
+           }): console.clear()
           
         })
 

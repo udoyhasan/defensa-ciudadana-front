@@ -11,6 +11,7 @@ import App from './App';
 import ClientPanel from './clientPanelView/clientPanel.js';
 import Cpanel from './components/cpanel';
 import docInputView from './views/docInputView/docInputView.js';
+import {JobExchange} from './lawyerView/jobExchange.js';
 
 import {HookdeEfecto} from './components/hook';
 
@@ -22,6 +23,7 @@ const routing = (
       <Route exact path="/" component={App} />
       <Route path="/clientPanel" component={ClientPanel} />
       <Route path="/controlPanel" component={Cpanel} />
+      <Route path="/jobExchange" component={JobExchange} />
     </div>
   </Router>
 )
