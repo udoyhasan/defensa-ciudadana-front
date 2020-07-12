@@ -44,6 +44,9 @@ export class ClientPanel extends React.Component {
 
   componentDidMount() {
 
+    
+
+
         let fetchedDataResp = store.getState().fetchedData.resp;
         let nodeArr=[];
         let arrOfCaseIdAndClientID= [];
@@ -70,24 +73,18 @@ export class ClientPanel extends React.Component {
               }
             }
           })
+
           date = date.slice(0, thirdSpaceIndex)
           //FILL THE PANEL WITH DE CASE DATA
-          ele.cases_rol_rit_ruc == store.getState().whatCaseWasClicked || store.getState().whatCaseWasClicked == ele.cases_id? this.setState({
-            cases_activeCase: ele.cases_activeCase ,
-            cases_client_id:  ele.cases_client_id,
-            cases_client_name: ele.clients_name,
-            cases_deadLine: ele.cases_deadLine ,
-            cases_description:  ele.cases_description,
-            cases_id: ele.cases_id ,
-            cases_incomeDate: ele.cases_incomeDate ,
-            cases_legalIssue: ele.cases_legalIssue ,
-            cases_objetive: ele.cases_objetive ,
-            cases_procedure:  ele.cases_procedure,
-            cases_rol_rit_ruc:  ele.cases_rol_rit_ruc,
-            cases_trial_entity:  ele.cases_trial_entity,
-            cases_update:  ele.cases_update,
-            cases_updateDate: date
-           }): console.clear()
+          if(ele.cases_rol_rit_ruc == store.getState().whatCaseWasClicked || store.getState().whatCaseWasClicked == ele.cases_id)
+          {
+            
+           
+            localStorage.setItem("savedEle", JSON.stringify(ele));
+           
+            this.setState({cases_updateDate: date})
+            console.clear()
+           } 
           
         })
 
@@ -116,6 +113,27 @@ export class ClientPanel extends React.Component {
             this.documentListContainer.current.appendChild(node) 
           })
         })
+
+
+
+        let jsonSavedEle = JSON.parse(localStorage.getItem("savedEle"));
+    this.setState({
+      cases_activeCase: jsonSavedEle.cases_activeCase ,
+      cases_client_id:  jsonSavedEle.cases_client_id,
+      cases_client_name: jsonSavedEle.clients_name,
+      cases_deadLine: jsonSavedEle.cases_deadLine ,
+      cases_description:  jsonSavedEle.cases_description,
+      cases_id: jsonSavedEle.cases_id ,
+      cases_incomeDate: jsonSavedEle.cases_incomeDate ,
+      cases_legalIssue: jsonSavedEle.cases_legalIssue ,
+      cases_objetive: jsonSavedEle.cases_objetive ,
+      cases_procedure:  jsonSavedEle.cases_procedure,
+      cases_rol_rit_ruc:  jsonSavedEle.cases_rol_rit_ruc,
+      cases_trial_entity:  jsonSavedEle.cases_trial_entity,
+      cases_update:  jsonSavedEle.cases_update,
+     
+     })
+     
       }
 
   download(e){
@@ -160,6 +178,7 @@ export class ClientPanel extends React.Component {
     injectFetchedData({resp:[]})
     changeEndpoint("casos/")
     console.clear()
+    //localStorage.removeItem("savedEle")
     
   }
 
