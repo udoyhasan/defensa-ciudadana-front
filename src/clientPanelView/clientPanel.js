@@ -43,23 +43,17 @@ export class ClientPanel extends React.Component {
   }
 
   componentDidMount() {
-
-    
-
-
         let fetchedDataResp = store.getState().fetchedData.resp;
-        let nodeArr=[];
-        let arrOfCaseIdAndClientID= [];
 
         changeEndpoint("clientes/")
 
-        console.log(fetchedDataResp)
+        //console.log(fetchedDataResp)
 
         fetchedDataResp.forEach(ele =>{
 
           let date = ele.cases_updateDate ;//SE TRANSFORMA A FECHA CORTA
           
-          date = (date == null)? "": date.slice(date.indexOf(',')+1)
+          date = (date == null)? localStorage.getItem("date"): date.slice(date.indexOf(',')+1)
           
           // ENCUENTRA TERCER ESPACIO Y SACA HORAS Y MINUTOS
           let dateArr = date.split('')
@@ -75,15 +69,16 @@ export class ClientPanel extends React.Component {
           })
 
           date = date.slice(0, thirdSpaceIndex)
+          
           //FILL THE PANEL WITH DE CASE DATA
           if(ele.cases_rol_rit_ruc == store.getState().whatCaseWasClicked || store.getState().whatCaseWasClicked == ele.cases_id)
           {
             
-           
+            localStorage.setItem("date", date.toString())
             localStorage.setItem("savedEle", JSON.stringify(ele));
            
-            this.setState({cases_updateDate: date})
-            console.clear()
+            
+            //console.clear()
            } 
           
         })
@@ -116,7 +111,8 @@ export class ClientPanel extends React.Component {
 
 
 
-        let jsonSavedEle = JSON.parse(localStorage.getItem("savedEle"));
+    let jsonSavedEle = JSON.parse(localStorage.getItem("savedEle"));
+    this.setState({cases_updateDate: localStorage.getItem("date")})
     this.setState({
       cases_activeCase: jsonSavedEle.cases_activeCase ,
       cases_client_id:  jsonSavedEle.cases_client_id,
@@ -132,8 +128,7 @@ export class ClientPanel extends React.Component {
       cases_trial_entity:  jsonSavedEle.cases_trial_entity,
       cases_update:  jsonSavedEle.cases_update,
      
-     })
-     
+        }) 
       }
 
   download(e){
@@ -178,7 +173,7 @@ export class ClientPanel extends React.Component {
     injectFetchedData({resp:[]})
     changeEndpoint("casos/")
     console.clear()
-    //localStorage.removeItem("savedEle")
+
     
   }
 
