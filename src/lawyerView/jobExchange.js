@@ -12,10 +12,12 @@ export function JobExchange(){
 
 
     useEffect(()=>{
-            fetch( store.getState().fetchBase + '/casos/17.402.744-7') 
+            fetch( store.getState().fetchBase + 'casosDisponibles') 
             .then(response => {return response.json();})
             .then(data => {
+                
                 setJobs([...data.resp])
+                
             })}, []
       );
 
@@ -43,6 +45,7 @@ export function JobExchange(){
         
         
         setSelectedJob(e.target.id);//THE CASE ID
+        //HAY QUE HACER POST QUE CAMBIE EL CASES_LAWYER_ID
         
 
       }
@@ -55,7 +58,7 @@ export function JobExchange(){
            <div className="d-flex flex-row bd-highlight mt-5 mb-3 h-100">
                 <div className="p-2 m-2 jumbotron w-50" style={{height: "29vh", overflowY: 'scroll'}}>
                 {jobsList.map((item) => {
-                    if(item.cases_lawyer_id==1){
+                    if(item.cases_lawyer_id!=1){
                         return <Button click={clickedJob} id={item.cases_id} key={item.cases_id}>{item.cases_description}</Button>
                     }
                 })}

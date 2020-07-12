@@ -71,8 +71,8 @@ export class ClientPanel extends React.Component {
             }
           })
           date = date.slice(0, thirdSpaceIndex)
-
-          ele.cases_rol_rit_ruc == store.getState().whatCaseWasClicked? this.setState({
+          //FILL THE PANEL WITH DE CASE DATA
+          ele.cases_rol_rit_ruc == store.getState().whatCaseWasClicked || store.getState().whatCaseWasClicked == ele.cases_id? this.setState({
             cases_activeCase: ele.cases_activeCase ,
             cases_client_id:  ele.cases_client_id,
             cases_client_name: ele.clients_name,

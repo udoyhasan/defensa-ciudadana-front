@@ -59,6 +59,10 @@ export default class Input extends React.Component{
 
     }
 
+    componentDidMount(){
+        this.inputRut.current.focus()
+    }
+
     render(){
         
         return(
