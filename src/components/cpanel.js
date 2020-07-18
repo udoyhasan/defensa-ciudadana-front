@@ -95,7 +95,8 @@ export default class Cpanel extends React.Component{
                         cases_objetive: this.objetivo.current.value,
                         cases_client_id: parseInt(this.state.cases_client_id),
                         cases_update: "",
-                        cases_activeCase: true
+                        cases_activeCase: true,
+                        cases_lawyer_id: 1,
                     };
                 
                     let options2 = {
@@ -161,9 +162,10 @@ export default class Cpanel extends React.Component{
         let str = this.dataListInput.current.value;
         let indx = str.indexOf("/");
         let rut= str.slice(0,indx-1);
+        console.log(rut)
         //SE OBTIENE ROL DEL INPUTDATA
         let nameStart = str.indexOf('%');
-        let rol= str.slice(indx+2 ,indx+(nameStart));
+        let rol= str.slice(indx+2 ,nameStart);
         console.log(rol)
         
         fetch(casesEndpoint + rut)
@@ -173,12 +175,12 @@ export default class Cpanel extends React.Component{
             let chosenItem
             resp.forEach((item) => {
                 (item.cases_rol_rit_ruc==rol)? chosenItem= item: console.log("")
-
+                console.log(chosenItem)
                 return chosenItem//SE OBITENE TODA LA INFORMACIÓN DE EL CASO SELECCIONADO, EN ESPECIAL EL ID DEL CASO
             });
 
             // SE INSERTAN DATOS DEL DOCUMENTO EN LA TABLA DOCUMENTS, CON ID DEL CASO
-        const docsEndpoint = store.getState().fetchBase + "documentos/1";; 
+        const docsEndpoint = store.getState().fetchBase + "documentos/no_rol";; 
         const docData = {
                 documents_type: document.getElementById('tipoDocumento').value,
                 documents_cases_id: chosenItem.cases_id
