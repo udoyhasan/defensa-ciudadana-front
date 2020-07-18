@@ -128,7 +128,8 @@ export default class Cpanel extends React.Component{
    
 
         const clientData = {
-            cases_rol_rit_ruc: rol,
+            selected: rol,
+            cases_rol_rit_ruc: this.modificacion_rol_rit_ruc.current.value,
             cases_update: this.ActualizacionAvanceCausa.current.value,
             cases_trial_entity: this.modificacion_juzgado_institucion.current.value,
             cases_description: this.modificacion_descripcion.current.value,

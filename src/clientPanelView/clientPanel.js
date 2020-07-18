@@ -56,6 +56,7 @@ export class ClientPanel extends React.Component {
           date = (date == null)? localStorage.getItem("date"): date.slice(date.indexOf(',')+1)
           
           // ENCUENTRA TERCER ESPACIO Y SACA HORAS Y MINUTOS
+          if(date!=null){
           let dateArr = date.split('')
           let thirdSpaceIndex= 0
           let iterator=0;
@@ -69,12 +70,13 @@ export class ClientPanel extends React.Component {
           })
 
           date = date.slice(0, thirdSpaceIndex)
-          
+        }
           //FILL THE PANEL WITH DE CASE DATA
           if(ele.cases_rol_rit_ruc == store.getState().whatCaseWasClicked || store.getState().whatCaseWasClicked == ele.cases_id)
           {
-            
+            if(date!=null){
             localStorage.setItem("date", date.toString())
+          }
             localStorage.setItem("savedEle", JSON.stringify(ele));
            
             
