@@ -115,7 +115,7 @@ export default class Cpanel extends React.Component{
     }
 
     updateCase(){//FETCH WITH PUT METHOD TO UPDATE THE TABLE
-        
+
         const urlClients = store.getState().fetchBase +'casos/no_rut'//FETCH CON POST A CLIENTES
 
         //SE OBTIENE NOMBRE DEL INPUTDATA
@@ -134,11 +134,11 @@ export default class Cpanel extends React.Component{
             cases_update: this.ActualizacionAvanceCausa.current.value,
             cases_trial_entity: this.modificacion_juzgado_institucion.current.value,
             cases_description: this.modificacion_descripcion.current.value,
-            cases_activeCase: this.causa_teminada_checkBox.current.checked
+            cases_activeCase: (this.causa_teminada_checkBox.current.checked == false)?true: false
     
             };
 
-            console.log(clientData)
+            console.log(clientData.cases_activeCase)
 
         // request options
         const options = {
