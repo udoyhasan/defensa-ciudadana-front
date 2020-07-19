@@ -134,7 +134,7 @@ export default class Cpanel extends React.Component{
             cases_update: this.ActualizacionAvanceCausa.current.value,
             cases_trial_entity: this.modificacion_juzgado_institucion.current.value,
             cases_description: this.modificacion_descripcion.current.value,
-            cases_activeCase: (this.causa_teminada_checkBox.current.checked==false)? 0: 1
+            cases_activeCase: this.causa_teminada_checkBox.current.checked
     
             };
 
@@ -151,7 +151,7 @@ export default class Cpanel extends React.Component{
 
         fetch(urlClients, options) 
             .then(res => {return res.json()})
-            .then(data => JSON.stringify(data));
+            .then(data => console.log(JSON.stringify(data)));
         
     }
 
