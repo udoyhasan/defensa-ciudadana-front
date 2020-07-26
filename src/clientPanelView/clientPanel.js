@@ -5,6 +5,7 @@ import {store} from '../redux/store.js';
 import { connect } from 'react-redux';
 import {injectFetchedData} from '../redux/dispatchers.js';
 import tippy from 'tippy.js';
+import lottie from 'lottie-web';
 import 'tippy.js/dist/tippy.css';
 import {changeEndpoint} from '../redux/dispatchers.js';
 
@@ -12,6 +13,8 @@ import {changeEndpoint} from '../redux/dispatchers.js';
 export class ClientPanel extends React.Component {
   constructor(props){
   super(props)
+  this.container = React.createRef();
+  this.fileJSON = React.createRef();
   this.download = this.download.bind(this)
   this.DocsDownloadMapedDiv = React.createRef;
   this.state={cases_activeCase: "",
@@ -43,6 +46,23 @@ export class ClientPanel extends React.Component {
   }
 
   componentDidMount() {
+
+    lottie.loadAnimation({
+      container: this.container.current,
+      render: 'svg',
+      loop: true,
+      autoplay: true,
+      animationData: require('../img/27268-bubbles.json')
+  })
+  lottie.loadAnimation({
+    container: this.fileJSON.current,
+    render: 'svg',
+    loop: true,
+    autoplay: true,
+    animationData: require('../img/file.json')
+})
+
+
         let fetchedDataResp = store.getState().fetchedData.resp;
 
         changeEndpoint("clientes/")
@@ -182,7 +202,8 @@ export class ClientPanel extends React.Component {
   render(){
     return (
       <> 
-      <div className="container">
+      <div  ref={this.container} className='ml-5' style={{width: '100%' ,zIndex: '1', position: 'absolute', bottom:'-10%', transform: 'rotate(90deg)'}}></div>
+      <div className="container" style={{zIndex: '5', position: 'relative'}}>
         <div className="row">
           <div className="col-md-1"></div>
           <div className="col-md-10 text-justify">
@@ -207,8 +228,10 @@ export class ClientPanel extends React.Component {
             
             <div className="jumbotron p-4 pt-5 d-flex w-50"  style={{backgroundColor: "white", marginTop: "10%"}}>
               <div className="list-group w-100" ref={this.documentListContainer} >
-                <a href="#" ref={this.dfPass} className="password list-group-item list-group-item-action border-0 active" style={{backgroundColor: "rgb(31,191,42)"}}>
-                DOCUMENTOS
+                <a href="#" ref={this.dfPass} className="d-inline password list-group-item list-group-item-action border-0 active" style={{maxHeight: "15%",backgroundColor: "rgb(31,191,42)"}}>
+                <div className='text-center'>
+                <b>DOCUMENTS</b>
+                </div>
                 </a>
               </div>
             </div>

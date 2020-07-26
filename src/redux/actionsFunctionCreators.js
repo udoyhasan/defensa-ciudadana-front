@@ -70,3 +70,10 @@ export function changeVisibility(criteria1, criteria2) {
      
     }
   }
+  export function loaderShower(criteria) {
+    return {
+      type: "SHOW_LOADER",
+      doneAction: criteria,
+     
+    }
+  }

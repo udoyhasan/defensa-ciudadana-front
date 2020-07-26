@@ -1,7 +1,5 @@
 import 'react-tippy/dist/tippy.css'; 
-import {
-    Tooltip,
-  } from 'react-tippy';
+import {Tooltip} from 'react-tippy';
 import React from 'react';
 import logo from '../img/logo.png';
 import textBubble from '../img/textBubble2.png';
@@ -12,13 +10,15 @@ import imagen3 from '../img/dfPeople3.png';
 import {panelBtnChanger} from '../redux/dispatchers.js';
 import { connect } from 'react-redux';
 import {store} from '../redux/store.js';
-
 import {truePanel_falseButtonSet_handler} from '../redux/dispatchers.js';
+import lottie from 'lottie-web';
 
 
 export class LogoGuide extends React.Component{
     constructor(props){
         super(props);
+        this.logoContainer = React.createRef();
+
     this.state = {
         img: logo, 
         zise: "80%", 
@@ -30,6 +30,17 @@ export class LogoGuide extends React.Component{
     this.panelBtnChanger= this.panelBtnChanger.bind(this);
     this.onclickAnimationFunction= this.onclickAnimationFunction.bind(this);
 
+    }
+
+    componentDidMount(){
+
+        lottie.loadAnimation({
+            container: this.logoContainer.current,
+            render: 'svg',
+            loop: false,
+            autoplay: true,
+            animationData: require('../img/logo.json')
+        })
     }
 
     panelBtnChanger(){
@@ -53,8 +64,7 @@ export class LogoGuide extends React.Component{
             setTimeout(()=>{panelBtnChanger("", "")}, 1000)
         }
         
-    }
-  
+    }  
 
     render(){
         return (
@@ -65,9 +75,12 @@ export class LogoGuide extends React.Component{
             trigger="mouseenter"
             placement="right-end"
             >*/}
-            <img src={store.getState().whyUsImagesDisplayedOnAnimatiton.img} alt="Defensa Ciudadana" className={this.props.bootstrapClass}
+            <div style={{width: store.getState().whyUsImagesDisplayedOnAnimatiton.zise, position: "absolute", left: store.getState().whyUsImagesDisplayedOnAnimatiton.left ,animation: store.getState().logoAnimation }} className={this.props.bootstrapClass} onMouseOver={this.panelBtnChanger} onClick={this.onclickAnimationFunction} ref={this.logoContainer}>
+
+            </div>
+            {/*<img src={store.getState().whyUsImagesDisplayedOnAnimatiton.img} alt="Defensa Ciudadana" className={this.props.bootstrapClass}
             style={{width: store.getState().whyUsImagesDisplayedOnAnimatiton.zise, position: "absolute", left: store.getState().whyUsImagesDisplayedOnAnimatiton.left ,animation: store.getState().logoAnimation }} 
-            onMouseOver={this.panelBtnChanger} onClick={this.onclickAnimationFunction}/>
+        onMouseOver={this.panelBtnChanger} onClick={this.onclickAnimationFunction}/>*/}
             {/*</Tooltip>*/}
             </>
             

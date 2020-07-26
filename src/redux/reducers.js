@@ -31,6 +31,9 @@ export function reducer(state = initialState, action) {/*REDUCER*/
     else if(action.type==="SAVE_RUT"){
       return {...state, rutSaver:action.doneAction};
     }
+    else if(action.type==="SHOW_LOADER"){
+      return {...state, showLoader:action.doneAction};
+    }
     else
     {
     return state;

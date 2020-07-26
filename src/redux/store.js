@@ -22,7 +22,8 @@ export let initialState = {/*ESTADO INICIAL*/
   fetchBase: "http://guillermopiedrabuena.pythonanywhere.com/",
   fetchEndPoint: "",
   eventIhibitor: false,
-  rutSaver:""
+  rutSaver:"",
+  showLoader: "d-none"
 
 } 
 

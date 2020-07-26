@@ -9,6 +9,8 @@ import {whatCaseWasClicked} from '../redux/actionsFunctionCreators.js'
 import {whyUsImagesDisplayedOnAnimatiton} from '../redux/actionsFunctionCreators.js'
 import {eventInhibitor} from '../redux/actionsFunctionCreators.js'
 import {rutSaver} from '../redux/actionsFunctionCreators.js'
+import {loaderShower} from '../redux/actionsFunctionCreators.js'
+
 
 export const panelBtnChanger = (criteria1,criteria2)=>{store.dispatch(changeVisibility(criteria1,criteria2));};
 
@@ -27,3 +29,5 @@ export const whyUsImagesDisplayedOnAnimatitonDispatcher = (object) =>{store.disp
 export const eventInhibitorDispatcher = (boolean) =>{store.dispatch(eventInhibitor(boolean));};
 
 export const rutSaverDispatcher = (str) =>{store.dispatch(rutSaver(str));};
+
+export const loaderShowerDispatcher = (str) =>{store.dispatch(loaderShower(str));};

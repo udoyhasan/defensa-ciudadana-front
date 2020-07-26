@@ -2,6 +2,7 @@ import React from 'react';
 import {store} from '../redux/store.js';
 import {injectFetchedData} from '../redux/dispatchers.js';
 import {rutSaverDispatcher} from '../redux/dispatchers.js';
+import {loaderShowerDispatcher} from '../redux/dispatchers.js';
 
 export default class Input extends React.Component{
     constructor(props) {
@@ -19,10 +20,11 @@ export default class Input extends React.Component{
       }
 
     fetchingData(){
-
+        loaderShowerDispatcher('')
        rutSaverDispatcher(this.inputRut.current.value)
        fetch(store.getState().fetchBase + store.getState().fetchEndPoint + this.state.inputValue)
-       .then(response => {return response.json();})
+       .then(response => { (!response.ok)?loaderShowerDispatcher('d-none'): console.log("aun no llega")
+           return response.json();})
        .then(data => {
            injectFetchedData(data);})
            
