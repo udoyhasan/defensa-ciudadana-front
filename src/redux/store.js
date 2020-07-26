@@ -10,11 +10,13 @@ import imagen3 from '../img/dfPeople3.png';
 
 
 export let initialState = {/*ESTADO INICIAL*/
+  backArrowAnimation: "d-none",
   showBtns: "",
+  show:"",
   btnAnimation: "",
   logoAnimation: "",
   whyUs: "" ,
-  whyUsImagesDisplayedOnAnimatiton: {img: logo, zise: "80%", left: "50%"} ,
+  whyUsImagesDisplayedOnAnimatiton: {img: logo, zise: "90%", left: "50%", position: 'relative'} ,
   fetchedData: {resp: []},
   whatCaseWasClicked: "",
   truePanel_falseButtonBoolean: false,

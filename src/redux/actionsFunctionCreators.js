@@ -15,6 +15,14 @@ export function changeVisibility(criteria1, criteria2) {
     }
   }
 
+  export function backArrowAnimation(criteria) {
+    return {
+      type: "DISPLAY_ARROW",
+      doneAction: criteria,
+     
+    }
+  }
+
   export function whatCaseWasClicked(criteria) {
     return {
       type: "INJECT_CASE",
@@ -57,7 +65,7 @@ export function changeVisibility(criteria1, criteria2) {
 
   export function eventInhibitor(criteria) {
     return {
-      type: "CANCELL_EVENT",
+      type: "CANCEL_EVENT",
       doneAction: criteria,
      
     }

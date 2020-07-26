@@ -230,7 +230,7 @@ export class ClientPanel extends React.Component {
               <div className="list-group w-100" ref={this.documentListContainer} >
                 <a href="#" ref={this.dfPass} className="d-inline password list-group-item list-group-item-action border-0 active" style={{maxHeight: "15%",backgroundColor: "rgb(31,191,42)"}}>
                 <div className='text-center'>
-                <b>DOCUMENTS</b>
+                <b>DOCUMENTOS</b>
                 </div>
                 </a>
               </div>

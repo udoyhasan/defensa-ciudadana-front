@@ -10,6 +10,9 @@ export function reducer(state = initialState, action) {/*REDUCER*/
     else if(action.type==="INJECT_FETCHED_DATA"){
       return {...state, fetchedData: action.doneAction};
     }
+    else if(action.type==="DISPLAY_ARROW"){
+      return {...state, backArrowAnimation: action.doneAction};
+    }
     else if(action.type==="CHANGE_BOOLEAN"){
       return {...state, truePanel_falseButtonBoolean: action.doneAction};
     }
@@ -25,7 +28,7 @@ export function reducer(state = initialState, action) {/*REDUCER*/
     else if(action.type==="CHANGE_IMAGE"){
       return {...state, whyUsImagesDisplayedOnAnimatiton:action.doneAction};
     }
-    else if(action.type==="CANCELL_EVENT"){
+    else if(action.type==="CANCEL_EVENT"){
       return {...state, eventIhibitor:action.doneAction};
     }
     else if(action.type==="SAVE_RUT"){

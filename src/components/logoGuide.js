@@ -8,9 +8,11 @@ import imagen1 from '../img/dfPeople1.png';
 import imagen2 from '../img/dfPeople2.png';
 import imagen3 from '../img/dfPeople3.png';
 import {panelBtnChanger} from '../redux/dispatchers.js';
+import {backArrowAnimationDispatcher} from '../redux/dispatchers.js';
 import { connect } from 'react-redux';
 import {store} from '../redux/store.js';
 import {truePanel_falseButtonSet_handler} from '../redux/dispatchers.js';
+import {eventInhibitorDispatcher} from '../redux/dispatchers.js';
 import lottie from 'lottie-web';
 
 
@@ -39,29 +41,29 @@ export class LogoGuide extends React.Component{
             render: 'svg',
             loop: false,
             autoplay: true,
-            animationData: require('../img/logo.json')
+            animationData: require('../img/Logo.json')
         })
     }
 
     panelBtnChanger(){
-        if(store.getState().eventIhibitor!=true)
+        if(store.getState().eventIhibitor==false)
         {
-              panelBtnChanger("floatDown 1.5s forwards", "logoDash 1s forwards");
-            
+              panelBtnChanger("floatDown", "logoDash 1s forwards");
+              backArrowAnimationDispatcher(" backArrow ");
+              eventInhibitorDispatcher(true);
+              
         }
-    
-
     }
 
 
     onclickAnimationFunction(){
-    
-        if(store.getState().eventIhibitor!=true)
-        {
-
+        
+        if(store.getState().eventIhibitor==true)
+        {      
+            backArrowAnimationDispatcher(" backArrowReverse ");
             truePanel_falseButtonSet_handler(false)
-            setTimeout(()=>{panelBtnChanger("", "logoDashReverse 1s forwards")}, 100)
-            setTimeout(()=>{panelBtnChanger("", "")}, 1000)
+            setTimeout(()=>{panelBtnChanger("", " logoDashReverse "); }, 100)
+            setTimeout(()=>{panelBtnChanger("", ""); eventInhibitorDispatcher(false);}, 1000)
         }
         
     }  
@@ -69,19 +71,9 @@ export class LogoGuide extends React.Component{
     render(){
         return (
             <>
-            {/*<Tooltip
-            title="Welcome to React"
-            position="bottom"
-            trigger="mouseenter"
-            placement="right-end"
-            >*/}
-            <div style={{width: store.getState().whyUsImagesDisplayedOnAnimatiton.zise, position: "absolute", left: store.getState().whyUsImagesDisplayedOnAnimatiton.left ,animation: store.getState().logoAnimation }} className={this.props.bootstrapClass} onMouseOver={this.panelBtnChanger} onClick={this.onclickAnimationFunction} ref={this.logoContainer}>
-
+            <div style={{width: store.getState().whyUsImagesDisplayedOnAnimatiton.zise,position: store.getState().whyUsImagesDisplayedOnAnimatiton.position}} className={this.props.bootstrapClass + store.getState().logoAnimation} onMouseOver={(window.screen.width>=800)?this.panelBtnChanger:console.log(" ")} ref={this.logoContainer}>
+            <i onClick={this.onclickAnimationFunction} class={'fas fa-angle-left mr-5 text-left ' + store.getState().backArrowAnimation} style={{zIndex: 5 , left: '30%', top: '10%', position: 'absolute', fontSize:'2vw'}}></i>
             </div>
-            {/*<img src={store.getState().whyUsImagesDisplayedOnAnimatiton.img} alt="Defensa Ciudadana" className={this.props.bootstrapClass}
-            style={{width: store.getState().whyUsImagesDisplayedOnAnimatiton.zise, position: "absolute", left: store.getState().whyUsImagesDisplayedOnAnimatiton.left ,animation: store.getState().logoAnimation }} 
-        onMouseOver={this.panelBtnChanger} onClick={this.onclickAnimationFunction}/>*/}
-            {/*</Tooltip>*/}
             </>
             
         );

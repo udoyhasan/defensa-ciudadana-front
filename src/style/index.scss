@@ -27,43 +27,117 @@ body, #root {
   overflow-x: hidden;
   overflow-y: auto; 
 }
+
+/*
 $posicion: absolute;
 $top: 1cm;
 #prueba{
   position: $posicion;
   top: $top+0cm;
   background-color: white;
-}
-/*COMPONENTS's ANIMATIONS*/
+}*/
 
-@keyframes logoDash {
-  0%{ left: 50%; }
-  100%{ left: 25%; }
+
+/*COMPONENTS's ANIMATIONS ACCORDING DEVICE VIEWPORT */
+@media all and (max-width: 1500px) {
+  .logoDash{
+    animation: logoDashPC 1s forwards;} 
+    .logoDashReverse {
+      animation: logoDashReversePC 1s forwards;}
+  .btn-container{
+      left: 40%;
+    }
+  .input-cases-container{
+    position: absolute;
+    top: 30%;
+    left: 40%;
+  }
+  .floatDown{
+
+      animation: floatDownPC 1.5s forwards;
+    }
+  .backArrow{
+    animation: backArrow 2s forwards;
+  }
+  .backArrow:hover, .backArrow:active{
+    color: #1FBF2D;
+  }
+
+  .backArrowReverse{
+
+    animation: backArrowReverse 1s forwards;
+  }
+
 }
 
-@-webkit-keyframes logoDash {
-  0%{ left: 50%; }
-  100%{ left: 25%; }
-}
-@keyframes logoDashReverse {
-  0%{ left: 25%; }
-  100%{ left: 50%; }
+@media all and (max-width: 800px) {
+
+  .logoDash {
+    animation: logoDashPhone 1s forwards;}
+  .logoDashReverse {
+      animation: logoDashReversePhone 1s forwards;}
+  .floatDown{
+      animation: floatDownPhone 1.5s forwards;
+    }
+  .input-cases-container{
+    position: absolute;
+    top: 40%;
+    left: 20%;
+    }
 }
 
-@keyframes logoDashReverse {
-  0%{ left: 25%; }
-  100%{ left: 50%; }
+@keyframes logoDashPC {
+  0%{ right: 0%; }
+  100%{ right: 35%; }
 }
 
-@keyframes floatDown {
+@-webkit-keyframes logoDashPC {
+  0%{ right: 0%; }
+  100%{ right: 35%; }
+}
+
+@keyframes logoDashPhone {
+  0%{ bottom: 0vh; }
+  100%{ bottom: 25vh;}
+}
+
+@-webkit-keyframes logoDashPhone {
+  0%{ bottom: 0vh; }
+  100%{ bottom: 25vh;}
+}
+
+
+@keyframes logoDashReversePC {
+  0%{ right: 35%; }
+  100%{ right: 0%; }
+}
+
+@keyframes logoDashReversePC {
+  0%{ right: 35%; }
+  100%{ right: 0%; }
+}
+
+
+@keyframes floatDownPC {
   0% {visibility: visible;opacity: 0; }
   40% {visibility: visible;opacity: 0; top:-20px}
   100% {visibility: visible; opacity: 1;top:0px;}
 }
-@-webkit-keyframes floatDown {
+@-webkit-keyframes floatDownPC {
   0% {visibility: visible;opacity: 0; }
   40% {visibility: visible;opacity: 0; top:-20px}
   100% {visibility: visible; opacity: 1;top:0px;}
+}
+
+@keyframes floatDownPhone {
+  0% {visibility: visible;opacity: 0; left: 20%;}
+  40% {visibility: visible;opacity: 0; top:40px}
+  100% {visibility: visible; opacity: 1;top:60px; left: 20%;}
+}
+@-webkit-keyframes floatDownPhone {
+  0% {visibility: visible;opacity: 0; left: 20%;}
+  40% {visibility: visible;opacity: 0; top:40px}
+  100% {visibility: visible; opacity: 1;top:60px; left: 20%;}
 }
 @keyframes floatUp {
   0% {visibility: visible; opacity: 1;top:0px}
@@ -74,6 +148,30 @@ $top: 1cm;
   0% {visibility: visible; opacity: 1;top:0px}
   40% {visibility: hidden;opacity: 0;top:-20px}
   100% {visibility: hidden;opacity: 0;}
+}
+
+@keyframes backArrow {
+  0%{ opacity: 0; transform: rotate(90deg);  }
+  70%{ opacity: 0; transform: rotate(90deg); }
+  100%{ opacity:1; transform: rotate(0deg); }
+}
+
+@-webkit-keyframes backArrow {
+  0%{ opacity: 0; transform: rotate(90deg);  }
+  70%{ opacity: 0; transform: rotate(90deg); }
+  100%{ opacity:1; transform: rotate(0deg); }
+}
+
+@keyframes backArrowReverse {
+  0%{ opacity: 1; transform: rotate(0deg);  }
+  70%{ opacity: 1; transform: rotate(90deg); }
+  100%{ opacity:0; transform: rotate(90deg); }
+}
+
+@-webkit-keyframes backArrowReverse {
+  0%{ opacity: 1; transform: rotate(0deg);  }
+  70%{ opacity: 1; transform: rotate(90deg); }
+  100%{ opacity:0; transform: rotate(90deg); }
 }
 
 @keyframes whyUsRotation {// esta es la animacion de  al WhyUS 

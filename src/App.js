@@ -13,7 +13,7 @@ import lottie from 'lottie-web';
 
 
 //CONSTANTES QUE AFECTAN AL COMPONENTE
-const buttonSet= (<Container colOrRow="flex-column" >        
+const buttonSet= (<Container colOrRow="flex-column btn-container mt-4" >        
   <Button id="whyUs" btnLabel="Por qué confiar en Nosotros"/>
   <Button id="client" btnLabel="Soy Cliente"/>
   <Link to='/jobExchange' className='text-white text-decoration-none'><button id="advocate" type="button" className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%", cursor: "pointer"}}>Soy Defensor Ciudadano</button></Link>
@@ -62,15 +62,13 @@ export class App extends React.Component {
   render(){
     return (
       <> 
-        <div className="row" style={{ paddingTop: "5%"}}>
-          <div className="col-md-3"></div>
-          <div className="col-md-3 d-flex  ">
-            <LogoGuide bootstrapClass="mr-5 align-items-end mt-5 mp-5"/>
-          </div>
-          <div className="col-md-4" style={{ paddingTop: "3%"}}>
-            
-          {(this.props.boolean)? <div>
-                            <Input /> <div className={store.getState().showLoader} id='esta' style={{zIndex: '4', width: '50%'}} ref={this.loader}></div>
+      <div className="container-fluid text-center">
+      <div className="row mt-5">
+        <div className="col-sm-4 h-100"></div>
+        <div className="col-sm-4 h-100">
+          <LogoGuide bootstrapClass="mr-5 align-items-end mt-5 mp-5 center-block "/>
+          {(this.props.boolean)? <div className="input-cases-container">
+                            <Input /> <div className={store.getState().showLoader} style={{ zIndex: '4', width: '50%'}} ref={this.loader}></div>
                               <div ref={this.myRef} className="d-flex  mt-2 flex-column " style={{width: "100%", height: "310px", overflow: "auto"}}>
                                 <h1 className="badge badge-secondary pt-2 pb-2" style={{fontSize: "100%", backgroundColor: "white", color: "black"}}>
           {store.getState().fetchedData.resp.map((item, index)=>{return <Link to="/clientPanel" style={{textDecoration: "none"}}><button className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%"}} key={index} onClick={this.handleClick} value={(item.cases_rol_rit_ruc=='-sin rol-')?item.cases_id:item.cases_rol_rit_ruc}>{(item.cases_rol_rit_ruc=='-sin rol-')?`rol transitorio N°${item.cases_id}`:item.cases_rol_rit_ruc} {item.cases_legalIssue}</button></Link>})}                 
@@ -78,9 +76,11 @@ export class App extends React.Component {
                               </div>
                             </div>
             : buttonSet}
-          </div>
-          <div className="col-md-2"></div>
         </div>
+        <div className="col-sm-4 h-100"></div>
+      </div>
+      </div>
+        
       </>
     );
   }

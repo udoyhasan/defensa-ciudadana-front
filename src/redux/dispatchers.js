@@ -10,7 +10,9 @@ import {whyUsImagesDisplayedOnAnimatiton} from '../redux/actionsFunctionCreators
 import {eventInhibitor} from '../redux/actionsFunctionCreators.js'
 import {rutSaver} from '../redux/actionsFunctionCreators.js'
 import {loaderShower} from '../redux/actionsFunctionCreators.js'
+import {backArrowAnimation} from '../redux/actionsFunctionCreators.js'
 
+export const backArrowAnimationDispatcher = (criteria1)=>{store.dispatch(backArrowAnimation(criteria1));};
 
 export const panelBtnChanger = (criteria1,criteria2)=>{store.dispatch(changeVisibility(criteria1,criteria2));};
 

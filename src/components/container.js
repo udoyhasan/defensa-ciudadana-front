@@ -12,7 +12,7 @@ export class Container extends React.Component{
 
   render(){
   return(  <>
-            <div className={"d-flex"+ this.props.colOrRow} style={{paddingTop: "25%" ,visibility: "hidden", animation: store.getState().show, position: "absolute"}}> {/* colOrRow permite poner el contenedor flex vertical o horizontal */}
+            <div className={"d-flex"+ this.props.colOrRow + " " + store.getState().show} style={{paddingTop: "25%" ,visibility: "hidden", position: "absolute"}}> {/* colOrRow permite poner el contenedor flex vertical u horizontal */}
             {this.props.children}
             </div>
             </>    

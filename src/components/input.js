@@ -74,7 +74,7 @@ export default class Input extends React.Component{
             <div className="input-group-prepend">
                 <button onClick={this.fetchingData} className="btn btn-outline-secondary" type="button" style={{backgroundColor: "#20be2b", color: "white", fontWeight: "200px", borderStyle: "none"}}>Buscar</button>
             </div>
-            <input onKeyPress={this.keyPressed} type="text" className="form-control"  onChange={this.onChange} placeholder="" ref={this.inputRut}  aria-label="" aria-describedby="basic-addon1"/>
+            <input placeholder="ingrese su rut" onKeyPress={this.keyPressed} type="text" className="form-control"  onChange={this.onChange} ref={this.inputRut}  aria-label="" aria-describedby="basic-addon1"/>
         </div>
         </>
 
