@@ -65,17 +65,18 @@ export class App extends React.Component {
       <div className="container-fluid text-center">
       <div className="row mt-5">
         <div className="col-sm-4 h-100"></div>
-        <div className="col-sm-4 h-100">
+        <div className="col-sm-4 h-100">                                
           <LogoGuide bootstrapClass="mr-5 align-items-end mt-5 mp-5 center-block "/>
           {(this.props.boolean)? <div className="input-cases-container">
-                            <Input /> <div className={store.getState().showLoader} style={{ zIndex: '4', width: '50%'}} ref={this.loader}></div>
+                            <Input /> 
                               <div ref={this.myRef} className="d-flex  mt-2 flex-column " style={{width: "100%", height: "310px", overflow: "auto"}}>
                                 <h1 className="badge badge-secondary pt-2 pb-2" style={{fontSize: "100%", backgroundColor: "white", color: "black"}}>
-          {store.getState().fetchedData.resp.map((item, index)=>{return <Link to="/clientPanel" style={{textDecoration: "none"}}><button className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%"}} key={index} onClick={this.handleClick} value={(item.cases_rol_rit_ruc=='-sin rol-')?item.cases_id:item.cases_rol_rit_ruc}>{(item.cases_rol_rit_ruc=='-sin rol-')?`rol transitorio N°${item.cases_id}`:item.cases_rol_rit_ruc} {item.cases_legalIssue}</button></Link>})}                 
+          {store.getState().fetchedData.resp.map((item, index)=>{return <Link key={index} to="/clientPanel" style={{textDecoration: "none"}}><button className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%"}} key={index} onClick={this.handleClick} value={(item.cases_rol_rit_ruc=='-sin rol-')?item.cases_id:item.cases_rol_rit_ruc}>{(item.cases_rol_rit_ruc=='-sin rol-')?`rol transitorio N°${item.cases_id}`:item.cases_rol_rit_ruc} {item.cases_legalIssue}</button></Link>})}                 
                                 </h1>
                               </div>
                             </div>
-            : buttonSet}
+            : buttonSet} 
+            <div className={this.props.showLoader} style={{ width: '30%', position: 'relative', bottom: '30vh', left: '55%'}} ref={this.loader}></div>
         </div>
         <div className="col-sm-4 h-100"></div>
       </div>
@@ -88,7 +89,7 @@ export class App extends React.Component {
 
 function mapStateToProps(state){
 
-  return { boolean: state.truePanel_falseButtonBoolean, fetchedData: state.fetchedData, show: state.show }
+  return {showLoader: state.showLoader, boolean: state.truePanel_falseButtonBoolean, fetchedData: state.fetchedData, show: state.show }
 
 }
 

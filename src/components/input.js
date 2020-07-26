@@ -20,18 +20,19 @@ export default class Input extends React.Component{
       }
 
     fetchingData(){
-        loaderShowerDispatcher('')
+        loaderShowerDispatcher("")
        rutSaverDispatcher(this.inputRut.current.value)
        fetch(store.getState().fetchBase + store.getState().fetchEndPoint + this.state.inputValue)
-       .then(response => { (!response.ok)?loaderShowerDispatcher('d-none'): console.log("aun no llega")
+       .then(response => { 
            return response.json();})
-       .then(data => {
+       .then(data => {(!data.ok)?loaderShowerDispatcher('d-none'): console.log("")
            injectFetchedData(data);})
            
     }
 
     keyPressed(event) {
         if (event.key === "Enter") {
+            
             rutSaverDispatcher(this.inputRut.current.value)
             this.fetchingData();
             
@@ -74,7 +75,7 @@ export default class Input extends React.Component{
             <div className="input-group-prepend">
                 <button onClick={this.fetchingData} className="btn btn-outline-secondary" type="button" style={{backgroundColor: "#20be2b", color: "white", fontWeight: "200px", borderStyle: "none"}}>Buscar</button>
             </div>
-            <input placeholder="ingrese su rut" onKeyPress={this.keyPressed} type="text" className="form-control"  onChange={this.onChange} ref={this.inputRut}  aria-label="" aria-describedby="basic-addon1"/>
+            <input placeholder="00.000.000-0" onKeyPress={this.keyPressed} type="text" className="form-control"  onChange={this.onChange} ref={this.inputRut}  aria-label="" aria-describedby="basic-addon1"/>
         </div>
         </>
 
