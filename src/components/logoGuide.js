@@ -71,7 +71,7 @@ export class LogoGuide extends React.Component{
     render(){
         return (
             <>
-            <div style={{width: store.getState().whyUsImagesDisplayedOnAnimatiton.zise,position: store.getState().whyUsImagesDisplayedOnAnimatiton.position}} className={this.props.bootstrapClass + store.getState().logoAnimation} onMouseOver={(window.screen.width>=800)?this.panelBtnChanger:console.log(" ")} ref={this.logoContainer}>
+            <div style={{width: store.getState().whyUsImagesDisplayedOnAnimatiton.zise,position: store.getState().whyUsImagesDisplayedOnAnimatiton.position}} className={this.props.bootstrapClass + store.getState().logoAnimation} onClick={(window.screen.width<=800)?this.panelBtnChanger:console.log(" ")} onMouseOver={(window.screen.width>=800)?this.panelBtnChanger:console.log(" ")} ref={this.logoContainer}>
             <i onClick={this.onclickAnimationFunction} className={'fas fa-angle-left mr-5 text-left ' + store.getState().backArrowAnimation} style={{zIndex: 5 , left: '30%', top: '10%', position: 'absolute', fontSize:'2vw'}}></i>
             </div>
             </>

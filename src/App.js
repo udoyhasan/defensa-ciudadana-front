@@ -13,7 +13,7 @@ import lottie from 'lottie-web';
 
 
 //CONSTANTES QUE AFECTAN AL COMPONENTE
-const buttonSet= (<Container colOrRow="flex-column btn-container mt-4" >        
+const buttonSet= (<Container colOrRow="flex-column btn-container mt-5" >        
   <Button id="whyUs" btnLabel="Por qué confiar en Nosotros"/>
   <Button id="client" btnLabel="Soy Cliente"/>
   <Link to='/jobExchange' className='text-white text-decoration-none'><button id="advocate" type="button" className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%", cursor: "pointer"}}>Soy Defensor Ciudadano</button></Link>
@@ -76,7 +76,7 @@ export class App extends React.Component {
                               </div>
                             </div>
             : buttonSet} 
-            <div className={this.props.showLoader} style={{ width: '30%', position: 'relative', bottom: '30vh', left: '55%'}} ref={this.loader}></div>
+            <div id="lottie-file-loader" className={this.props.showLoader} ref={this.loader}></div>
         </div>
         <div className="col-sm-4 h-100"></div>
       </div>

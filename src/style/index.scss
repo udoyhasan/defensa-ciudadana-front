@@ -39,7 +39,13 @@ $top: 1cm;
 
 
 /*COMPONENTS's ANIMATIONS ACCORDING DEVICE VIEWPORT */
-@media all and (max-width: 1500px) {
+@media all and (max-width: 3000px) {
+  #lottie-file-loader{
+    width: 30%;
+    position: relative;
+    bottom: 30vh;
+    left: 55%;
+  }
   .logoDash{
     animation: logoDashPC 1s forwards;} 
     .logoDashReverse {
@@ -64,13 +70,27 @@ $top: 1cm;
   }
 
   .backArrowReverse{
-
     animation: backArrowReverse 1s forwards;
   }
 
 }
 
 @media all and (max-width: 800px) {
+
+  #lottie-file-loader{
+
+    width: 30%;
+    position: relative;
+    bottom: 10vh;
+    left: 35%;
+  }
+  svg{
+
+    margin-left: 5%;
+  }
+  .fas.fa-angle-left{
+    font-size: 10vw!important;
+  }
 
   .logoDash {
     animation: logoDashPhone 1s forwards;}
@@ -81,8 +101,12 @@ $top: 1cm;
     }
   .input-cases-container{
     position: absolute;
-    top: 40%;
-    left: 20%;
+    top: 60%;
+    left: 10%;
+    }
+
+    .backArrowReverse{
+      animation: backArrowReverse 1s forwards;
     }
 }
 
@@ -98,12 +122,12 @@ $top: 1cm;
 
 @keyframes logoDashPhone {
   0%{ bottom: 0vh; }
-  100%{ bottom: 25vh;}
+  100%{ bottom: 15vh;}
 }
 
 @-webkit-keyframes logoDashPhone {
   0%{ bottom: 0vh; }
-  100%{ bottom: 25vh;}
+  100%{ bottom: 20vh;}
 }
 
 
@@ -115,6 +139,16 @@ $top: 1cm;
 @keyframes logoDashReversePC {
   0%{ right: 35%; }
   100%{ right: 0%; }
+}
+
+@keyframes logoDashReversePhone {
+  0%{bottom: 15vh; }
+  100%{ bottom: 0vh;}
+}
+
+@keyframes logoDashReversePhone {
+  0%{ bottom: 15vh; }
+  100%{ bottom: 0vh; }
 }
 
 
