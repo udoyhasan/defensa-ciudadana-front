@@ -14,7 +14,7 @@ import lottie from 'lottie-web';
 
 //CONSTANTES QUE AFECTAN AL COMPONENTE
 const buttonSet= (<Container colOrRow="flex-column btn-container mt-5" >        
-  <Button id="whyUs" btnLabel="Por qué confiar en Nosotros"/>
+  <Button id="whyUs" cursor="not-allowed" btnLabel="¿Es Chile Justo?"/>
   <Button id="client" btnLabel="Soy Cliente"/>
   <Link to='/jobExchange' className='text-white text-decoration-none'><button id="advocate" type="button" className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%", cursor: "pointer"}}>Soy Defensor Ciudadano</button></Link>
   

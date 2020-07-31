@@ -27,7 +27,7 @@ export class Button extends React.Component{
 
       onclick(event){
         switch(event.target.id){//AUN NO SE HACE FETCH PERO SI SE VA CONSTRUYENDO LA URL PARA EL ENDPOINT
-                case 'whyUs':
+                /*case 'whyUs':
                     eventInhibitorDispatcher(true)
                     
                     
@@ -43,7 +43,7 @@ export class Button extends React.Component{
             
                     setTimeout(()=>{panelBtnChanger("", ""); eventInhibitorDispatcher(false)}, 8400);
 
-                break;
+                break;*/
 
                 case 'client':
                     changeEndpoint("casos/")
@@ -64,7 +64,7 @@ export class Button extends React.Component{
         return(
         <>
         <button id={this.props.id} type="button" onClick={this.onclick}
-            className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%"}}>
+            className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%", cursor: this.props.cursor}}>
                 {this.props.btnLabel}
         </button>
         </>
