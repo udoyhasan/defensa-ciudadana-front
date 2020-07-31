@@ -40,6 +40,10 @@ $top: 1cm;
 
 /*COMPONENTS's ANIMATIONS ACCORDING DEVICE VIEWPORT */
 @media all and (max-width: 3000px) {
+
+  .shadow-lg-custom{
+   box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
+  }
   #lottie-file-loader{
     width: 30%;
     position: relative;
@@ -74,9 +78,56 @@ $top: 1cm;
   }
 
 }
+@media only screen and (max-width: 800px) and (orientation: landscape) {
+  .shadow-lg-custom{
+    box-shadow: 0 0 0 0;
+   }
+  .client-panel{
+  transform: rotate(0deg)!important;
+   
+  }
+  .bubbles-background svg{display: none}
+  body *{box-shadow: none!important;}
+  .client-panel{
 
-@media all and (max-width: 800px) {
+    transform: rotate(90deg);
+    height: 10cm!important;
+    width: 100%!important;
+    position: fixed!important;
+  }
+  .client-panel * {font-size: 0.6rem!important;}
+  .horizontal-landscape{
+    width: 90vw!important;
+    height: 70vh!important;
+  }
+  .docs-horizontal-landscape{
+    width: 100%!important;
 
+  }
+  
+}
+@media all and (max-width: 800px) and (orientation: portrait){
+  .shadow-lg-custom{
+    box-shadow: 0 0 0 0;
+   }
+  .bubbles-background svg{display: none}
+  .client-panel{
+
+    transform: rotate(90deg);
+    height: 10cm!important;
+    width: 100%!important;
+    position: fixed!important;
+  }
+  .client-panel * {font-size: 0.6rem!important;}
+  .horizontal-landscape{
+    width: 90vw!important;
+    height: 70vh!important;
+  }
+  .docs-horizontal-landscape{
+    width: 100%!important;
+
+  }
+  
   #lottie-file-loader{
 
     width: 30%;
