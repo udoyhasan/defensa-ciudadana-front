@@ -78,7 +78,16 @@ $top: 1cm;
   @media only all and (min-width: 800px){
     .floatUp{
       animation: floatUpPC 2s forwards;
-
+    }
+    .d-flex.mt-2.flex-column {
+      position: relative;
+      left: 48%;
+      bottom: 50vh;
+    
+    }
+    #lottie-file-loader{
+      left: 75%;
+      bottom: 85vh;
     }
   }
   @media only all and (max-width: 800px){
@@ -87,9 +96,6 @@ $top: 1cm;
 
     }
   }
-
-
-
   .backArrow{
     animation: backArrow 2s forwards;
   }

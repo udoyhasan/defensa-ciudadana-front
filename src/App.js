@@ -69,7 +69,7 @@ export class App extends React.Component {
     <LogoGuide bootstrapClass="text-center align-items-end center-block "/>{/*dejar espacio al final del class*/}
         {(this.props.boolean)? <div>
                                 <Input > 
-                                  <div ref={this.myRef} className="d-flex  mt-2 flex-column overflow-hidden " style={{width: "100%", height: "310px", overflow: "auto"}}>
+                                  <div ref={this.myRef} className="d-flex  mt-2 flex-column " style={{width: "100%", height: "310px", overflow: "auto"}}>
                                     <h1 className="badge badge-secondary pt-2 pb-2" style={{fontSize: "100%", backgroundColor: "white", color: "black"}}>
               {store.getState().fetchedData.resp.map((item, index)=>{return <Link key={index} to="/clientPanel" style={{textDecoration: "none"}}><button className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%"}} key={index} onClick={this.handleClick} value={(item.cases_rol_rit_ruc=='-sin rol-')?item.cases_id:item.cases_rol_rit_ruc}>{(item.cases_rol_rit_ruc=='-sin rol-')?`rol transitorio N°${item.cases_id}`:item.cases_rol_rit_ruc} {item.cases_legalIssue}</button></Link>})}                 
                                     </h1>
