@@ -39,6 +39,15 @@ export function changeVisibility(criteria1, criteria2) {
     }
   }
 
+  
+  export function inputDisplayedAdvisor(criteria) {
+    return {
+      type: "ADVICE_INPUT_DISPLAY",
+      doneAction: criteria,
+     
+    }
+  }
+
   export function showBubbleCreator(criteria) {
     return {
       type: "CHANGE_BOOBLE_VISIBILITY",

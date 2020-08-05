@@ -47,13 +47,13 @@ export class Button extends React.Component{
 
                 case 'client':
                     changeEndpoint("casos/")
-                    panelBtnChanger("floatUp 2s forwards", "logoDash 1s forwards")
+                    panelBtnChanger("floatUp ", "logoDash 1s forwards")
                     setTimeout(()=>{truePanel_falseButtonSet_handler(true)}, 900);
                  break;
 
                 case 'advocate':
                     changeEndpoint("casos")
-                    panelBtnChanger("floatUp 2s forwards", "logoDash 1s forwards")
+                    panelBtnChanger(" floatUp ", "logoDash 1s forwards")
                     setTimeout(()=>{truePanel_falseButtonSet_handler(true)}, 900);
                     break;
         }

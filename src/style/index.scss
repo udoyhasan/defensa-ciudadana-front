@@ -28,6 +28,13 @@ body, #root {
   overflow-y: auto; 
 }
 
+@media only screen and (max-width: 3000px) and (min-width: 800px){
+.inputRutContainerPopUp{
+
+  animation: inputRutContainerPopUpPC 1s forwards;
+
+  }
+}
 /*
 $posicion: absolute;
 $top: 1cm;
@@ -63,9 +70,26 @@ $top: 1cm;
     left: 40%;
   }
   .floatDown{
-
       animation: floatDownPC 1.5s forwards;
     }
+
+  
+
+  @media only all and (min-width: 800px){
+    .floatUp{
+      animation: floatUpPC 2s forwards;
+
+    }
+  }
+  @media only all and (max-width: 800px){
+    .floatUp{
+      animation: floatUpPhone 2s forwards;
+
+    }
+  }
+
+
+
   .backArrow{
     animation: backArrow 2s forwards;
   }
@@ -135,10 +159,7 @@ $top: 1cm;
     bottom: 10vh;
     left: 35%;
   }
-  svg{
 
-    margin-left: 5%;
-  }
   .fas.fa-angle-left{
     font-size: 10vw!important;
   }
@@ -173,12 +194,12 @@ $top: 1cm;
 
 @keyframes logoDashPhone {
   0%{ bottom: 0vh; }
-  100%{ bottom: 15vh;}
+  100%{ bottom: 10vh;}
 }
 
 @-webkit-keyframes logoDashPhone {
   0%{ bottom: 0vh; }
-  100%{ bottom: 20vh;}
+  100%{ bottom: 10vh;}
 }
 
 
@@ -187,52 +208,73 @@ $top: 1cm;
   100%{ right: 0%; }
 }
 
-@keyframes logoDashReversePC {
+@-webkit-keyframes logoDashReversePC {
   0%{ right: 35%; }
   100%{ right: 0%; }
 }
 
 @keyframes logoDashReversePhone {
-  0%{bottom: 15vh; }
+  0%{bottom: 10vh; }
   100%{ bottom: 0vh;}
 }
 
-@keyframes logoDashReversePhone {
-  0%{ bottom: 15vh; }
+@-webkit-keyframes logoDashReversePhone {
+  0%{ bottom: 10vh; }
   100%{ bottom: 0vh; }
 }
+@keyframes inputRutContainerPopUpPC {
+  0% {visibility: visible;opacity: 0; bottom: 50vh;left: 15vw;}
+  50% {visibility: visible;opacity: 0;}
+  100% {visibility: visible; opacity: 1; bottom: 50vh; left: 15vw;}
+}
 
+@-webkit-keyframes inputRutContainerPopUpPC {
+  0% {visibility: visible;opacity: 0; bottom: 50vh;left: 15vw;}
+  50% {visibility: visible;opacity: 0;}
+  100% {visibility: visible; opacity: 1; bottom: 50vh; left: 15vw;}
+}
 
 @keyframes floatDownPC {
-  0% {visibility: visible;opacity: 0; }
-  40% {visibility: visible;opacity: 0; top:-20px}
-  100% {visibility: visible; opacity: 1;top:0px;}
+  0% {visibility: visible;opacity: 0; left: 15vw;}
+  40% {visibility: visible;opacity: 0; bottom:50vh}
+  100% {visibility: visible; opacity: 1;bottom:45vh; left: 15vw;}
 }
 @-webkit-keyframes floatDownPC {
-  0% {visibility: visible;opacity: 0; }
-  40% {visibility: visible;opacity: 0; top:-20px}
-  100% {visibility: visible; opacity: 1;top:0px;}
+  0% {visibility: visible;opacity: 0; left: 15vw;}
+  40% {visibility: visible;opacity: 0; bottom:50vh}
+  100% {visibility: visible; opacity: 1;bottom:45vh; left: 15vw;}
 }
 
 @keyframes floatDownPhone {
-  0% {visibility: visible;opacity: 0; left: 20%;}
-  40% {visibility: visible;opacity: 0; top:40px}
-  100% {visibility: visible; opacity: 1;top:60px; left: 20%;}
+  0% {visibility: visible;opacity: 0;}
+  40% {visibility: visible;opacity: 0; top:-20%}
+  100% {visibility: visible; opacity: 1;top:-10%; }
 }
 @-webkit-keyframes floatDownPhone {
-  0% {visibility: visible;opacity: 0; left: 20%;}
-  40% {visibility: visible;opacity: 0; top:40px}
-  100% {visibility: visible; opacity: 1;top:60px; left: 20%;}
+  0% {visibility: visible;opacity: 0;}
+  40% {visibility: visible;opacity: 0; top:-20%}
+  100% {visibility: visible; opacity: 1;top:-10%; }
 }
-@keyframes floatUp {
-  0% {visibility: visible; opacity: 1;top:0px}
-  40% {visibility: hidden;opacity: 0;top:-20px}
-  100% {visibility: hidden;opacity: 0;}
+@keyframes floatUpPC {
+  0% {visibility: visible; opacity: 1;bottom:45vh; left: 15vw;}
+  20% {visibility: visible;opacity: 0; bottom:50vh}
+  100% {visibility: visible;opacity: 0; left: 15vw;}  
 }
-@-webkit-keyframes floatUp {
-  0% {visibility: visible; opacity: 1;top:0px}
-  40% {visibility: hidden;opacity: 0;top:-20px}
-  100% {visibility: hidden;opacity: 0;}
+@-webkit-keyframes floatUpPC {
+  0% {visibility: visible; opacity: 1;bottom:45vh; left: 15vw;}
+  20% {visibility: visible;opacity: 0; bottom:50vh}
+  100% {visibility: visible;opacity: 0; left: 15vw;}
+}
+@keyframes floatUpPhone {
+  0% {visibility: visible; opacity: 1;top:-10%; }
+  40% {visibility: visible;opacity: 0; top:-20%}
+  100% {visibility: visible;opacity: 0;}
+  
+}
+@-webkit-keyframes floatUpPhone {
+  0% {visibility: visible; opacity: 1;top:-10%; }
+  40% {visibility: visible;opacity: 0; top:-20%}
+  100% {visibility: visible;opacity: 0;}
 }
 
 @keyframes backArrow {

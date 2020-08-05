@@ -13,6 +13,9 @@ export function reducer(state = initialState, action) {/*REDUCER*/
     else if(action.type==="DISPLAY_ARROW"){
       return {...state, backArrowAnimation: action.doneAction};
     }
+    else if(action.type==="ADVICE_INPUT_DISPLAY"){
+      return {...state, inputIsDisplayed: action.doneAction};
+    }
     else if(action.type==="CHANGE_BOOLEAN"){
       return {...state, truePanel_falseButtonBoolean: action.doneAction};
     }

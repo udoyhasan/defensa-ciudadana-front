@@ -153,7 +153,7 @@ export class ClientPanel extends React.Component {
         }) 
       }
 
-  download(e){
+  download(e){//ARREGLAR
     
     //SE OBTIENEN LOS ID DE LOS DOCUMENTOS
     fetch(store.getState().fetchBase + store.getState().fetchEndPoint + '/' + store.getState().whatCaseWasClicked)
@@ -169,10 +169,9 @@ export class ClientPanel extends React.Component {
           //EN EL CALLBAKC SE RECORRE CADA ITEM DE documentsIdArr PARA DESCARGAR EL PDF EN ESPECÍFICO
 
           this.state.documentsIdArr2.forEach((item)=>{
-            console.log(item.documents_type, e.target.innerText)
-            console.log(item.documents_type == e.target.innerText)
             
-              console.log("si funciona")
+            
+              
               fetch(store.getState().fetchBase + store.getState().fetchEndPoint + 'download/' + item.documents_id) 
               .then(response => {return response.blob();})//SE RECIBE EL PDF COMO BLOB
               .then(blob =>{

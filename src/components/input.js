@@ -3,11 +3,13 @@ import {store} from '../redux/store.js';
 import {injectFetchedData} from '../redux/dispatchers.js';
 import {rutSaverDispatcher} from '../redux/dispatchers.js';
 import {loaderShowerDispatcher} from '../redux/dispatchers.js';
+import {inputDisplayedAdvisorDispatcher} from '../redux/dispatchers.js'; 
 
 export default class Input extends React.Component{
     constructor(props) {
         super(props);
         this.inputRut = React.createRef();
+        this.inputRutContainer = React.createRef();
 
 
         this.state = {
@@ -64,6 +66,12 @@ export default class Input extends React.Component{
 
     componentDidMount(){
         this.inputRut.current.focus()
+        this.inputRutContainer.current.className += " inputRutContainerPopUp ";
+        inputDisplayedAdvisorDispatcher(true);
+    }
+
+    componentWillUnmount(){
+        inputDisplayedAdvisorDispatcher(false);
     }
 
     render(){
@@ -71,12 +79,13 @@ export default class Input extends React.Component{
         return(
         <>
         
-        <div className="input-group mb-3 p-absolute" style={{bottom: this.props.bottom}}>
+        <div ref={this.inputRutContainer} className="input-group mb-3 p-relative" style={{bottom: this.props.bottom, left: this.props.left}}>
             <div className="input-group-prepend">
                 <button onClick={this.fetchingData} className="btn btn-outline-secondary" type="button" style={{backgroundColor: "#20be2b", color: "white", fontWeight: "200px", borderStyle: "none"}}>Buscar</button>
             </div>
             <input placeholder="00.000.000-0" onKeyPress={this.keyPressed} type="text" className="form-control"  onChange={this.onChange} ref={this.inputRut}  aria-label="" aria-describedby="basic-addon1"/>
         </div>
+        {this.props.children}
         </>
 
     ) ;}

@@ -13,7 +13,7 @@ import lottie from 'lottie-web';
 
 
 //CONSTANTES QUE AFECTAN AL COMPONENTE
-const buttonSet= (<Container colOrRow="flex-column btn-container mt-5" >        
+const buttonSet= (<Container colOrRow="" >        
   <Button id="whyUs" cursor="not-allowed" btnLabel="¿Es Chile Justo?"/>
   <Button id="client" btnLabel="Soy Cliente"/>
   <Link to='/jobExchange' className='text-white text-decoration-none'><button id="advocate" type="button" className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%", cursor: "pointer"}}>Soy Defensor Ciudadano</button></Link>
@@ -62,25 +62,30 @@ export class App extends React.Component {
   render(){
     return (
       <> 
-      <div className="container-fluid text-center">
-      <div className="row mt-5">
-        <div className="col-sm-4 h-100"></div>
-        <div className="col-sm-4 h-100">                                
-          <LogoGuide bootstrapClass="mr-5 align-items-end mt-5 mp-5 center-block "/>
-          {(this.props.boolean)? <div className="input-cases-container">
-                            <Input /> 
-                              <div ref={this.myRef} className="d-flex  mt-2 flex-column " style={{width: "100%", height: "310px", overflow: "auto"}}>
-                                <h1 className="badge badge-secondary pt-2 pb-2" style={{fontSize: "100%", backgroundColor: "white", color: "black"}}>
-          {store.getState().fetchedData.resp.map((item, index)=>{return <Link key={index} to="/clientPanel" style={{textDecoration: "none"}}><button className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%"}} key={index} onClick={this.handleClick} value={(item.cases_rol_rit_ruc=='-sin rol-')?item.cases_id:item.cases_rol_rit_ruc}>{(item.cases_rol_rit_ruc=='-sin rol-')?`rol transitorio N°${item.cases_id}`:item.cases_rol_rit_ruc} {item.cases_legalIssue}</button></Link>})}                 
-                                </h1>
-                              </div>
-                            </div>
-            : buttonSet} 
-            <div id="lottie-file-loader" className={this.props.showLoader} ref={this.loader}></div>
+      <div className="container-fluid pt-5">
+      <div className="row">
+        <div className="col-2 col-sm-2 col-md-2 col-lg-4 col-xl-4 " ></div>
+        <div className="col-8 col-sm-8 col-md-8 col-lg-4 col-xl-4">  
+    <LogoGuide bootstrapClass="text-center align-items-end center-block "/>{/*dejar espacio al final del class*/}
+        {(this.props.boolean)? <div>
+                                <Input > 
+                                  <div ref={this.myRef} className="d-flex  mt-2 flex-column overflow-hidden " style={{width: "100%", height: "310px", overflow: "auto"}}>
+                                    <h1 className="badge badge-secondary pt-2 pb-2" style={{fontSize: "100%", backgroundColor: "white", color: "black"}}>
+              {store.getState().fetchedData.resp.map((item, index)=>{return <Link key={index} to="/clientPanel" style={{textDecoration: "none"}}><button className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%"}} key={index} onClick={this.handleClick} value={(item.cases_rol_rit_ruc=='-sin rol-')?item.cases_id:item.cases_rol_rit_ruc}>{(item.cases_rol_rit_ruc=='-sin rol-')?`rol transitorio N°${item.cases_id}`:item.cases_rol_rit_ruc} {item.cases_legalIssue}</button></Link>})}                 
+                                    </h1>
+                                  </div>
+                                  </Input>
+
+                                </div>
+
+                : buttonSet}                                  
+                <div id="lottie-file-loader" className={this.props.showLoader} ref={this.loader}></div>
+
         </div>
-        <div className="col-sm-4 h-100"></div>
+        <div className="col-2 col-sm-2 col-md-2 col-lg-4 col-xl-4" ></div>
       </div>
       </div>
+   
         
       </>
     );

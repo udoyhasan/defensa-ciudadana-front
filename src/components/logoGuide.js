@@ -57,12 +57,21 @@ export class LogoGuide extends React.Component{
 
 
     onclickAnimationFunction(){
-        
+        console.log(store.getState().inputIsDisplayed);
         if(store.getState().eventIhibitor==true)
         {      
             backArrowAnimationDispatcher(" backArrowReverse ");
-            truePanel_falseButtonSet_handler(false)
-            setTimeout(()=>{panelBtnChanger("", " logoDashReverse "); }, 100)
+            
+            if(store.getState().inputIsDisplayed==true){
+                panelBtnChanger("d-none", " logoDashReverse ")
+            }
+            else{
+                setTimeout(()=>{panelBtnChanger(" floatUp ", " logoDashReverse ")}, 100)
+            } 
+            truePanel_falseButtonSet_handler(false);// este
+            
+
+            
             setTimeout(()=>{panelBtnChanger("", ""); eventInhibitorDispatcher(false);}, 1000)
         }
         
@@ -72,7 +81,7 @@ export class LogoGuide extends React.Component{
         return (
             <>
             <div style={{width: store.getState().whyUsImagesDisplayedOnAnimatiton.zise,position: store.getState().whyUsImagesDisplayedOnAnimatiton.position}} className={this.props.bootstrapClass + store.getState().logoAnimation} onClick={(window.screen.width<=800)?this.panelBtnChanger:console.log(" ")} onMouseOver={(window.screen.width>=800)?this.panelBtnChanger:console.log(" ")} ref={this.logoContainer}>
-            <i onClick={this.onclickAnimationFunction} className={'fas fa-angle-left mr-5 text-left ' + store.getState().backArrowAnimation} style={{zIndex: 5 , left: '30%', top: '10%', position: 'absolute', fontSize:'2vw'}}></i>
+            <i onClick={this.onclickAnimationFunction} className={'fas fa-angle-left text-left ' + store.getState().backArrowAnimation} style={{zIndex: 5 , left: '30%', top: '10%', position: 'absolute', fontSize:'2vw'}}></i>
             </div>
             </>
             

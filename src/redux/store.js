@@ -16,7 +16,7 @@ export let initialState = {/*ESTADO INICIAL*/
   btnAnimation: "",
   logoAnimation: "",
   whyUs: "" ,
-  whyUsImagesDisplayedOnAnimatiton: {img: logo, zise: "90%", left: "50%", position: 'relative'} ,
+  whyUsImagesDisplayedOnAnimatiton: {img: logo, zise: "", left: "50%", position: 'relative'} ,
   fetchedData: {resp: []},
   whatCaseWasClicked: "",
   truePanel_falseButtonBoolean: false,
@@ -25,7 +25,8 @@ export let initialState = {/*ESTADO INICIAL*/
   fetchEndPoint: "",
   eventIhibitor: false,
   rutSaver:"",
-  showLoader: "d-none"
+  showLoader: "d-none",
+  inputIsDisplayed: false
 
 } 
 
