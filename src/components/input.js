@@ -10,10 +10,12 @@ export default class Input extends React.Component{
         super(props);
         this.inputRut = React.createRef();
         this.inputRutContainer = React.createRef();
+        this.errorMsg = React.createRef();
 
 
         this.state = {
-            inputValue: ""
+            inputValue: "",
+            notFound: "none"
         }
         this.fetchingData = this.fetchingData.bind(this);
         this.onChange = this.onChange.bind(this); 
@@ -28,7 +30,15 @@ export default class Input extends React.Component{
        .then(response => { 
            return response.json();})
        .then(data => {(!data.ok)?loaderShowerDispatcher('d-none'): console.log("")
-           injectFetchedData(data);})
+           injectFetchedData(data);
+           this.setState({notFound: "none"})
+        })
+        .catch(() =>{
+            loaderShowerDispatcher('d-none'); 
+            this.setState({notFound: "inline"})
+            this.errorMsg.current.className += " position-absolute mt-5 ml-1"
+            
+        })
            
     }
 
@@ -84,7 +94,8 @@ export default class Input extends React.Component{
                 <button onClick={this.fetchingData} className="btn btn-outline-secondary" type="button" style={{backgroundColor: "#20be2b", color: "white", fontWeight: "200px", borderStyle: "none"}}>Buscar</button>
             </div>
             <input placeholder="00.000.000-0" onKeyPress={this.keyPressed} type="text" className="form-control"  onChange={this.onChange} ref={this.inputRut}  aria-label="" aria-describedby="basic-addon1"/>
-        </div>
+            <small ref={this.errorMsg}className="text-wrap font-weight-bold text-center pt-2" style={{margin: 'auto', color: "#569951",display: this.state.notFound}}>Caso no encontrado, intenta denuevo</small>
+        </div> 
         {this.props.children}
         </>
 

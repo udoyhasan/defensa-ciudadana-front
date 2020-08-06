@@ -66,7 +66,7 @@ export class App extends React.Component {
       <div className="row">
         <div className="col-2 col-sm-2 col-md-2 col-lg-4 col-xl-4 " ></div>
         <div className="col-8 col-sm-8 col-md-8 col-lg-4 col-xl-4">  
-    <LogoGuide bootstrapClass="text-center align-items-end center-block "/>{/*dejar espacio al final del class*/}
+    <LogoGuide bootstrapClass="pt-5 text-center align-items-end center-block "/>{/*dejar espacio al final del class*/}
         {(this.props.boolean)? <div>
                                 <Input > 
                                   <div ref={this.myRef} className="d-flex  mt-2 flex-column " style={{width: "100%", height: "310px", overflow: "auto"}}>
