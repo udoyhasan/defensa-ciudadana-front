@@ -7,6 +7,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   height: 100%!important;
 }
+html, body {
+  overflow: hidden;
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
@@ -27,6 +30,7 @@ body, #root {
   overflow-x: hidden;
   overflow-y: auto; 
 }
+
 
 @media only screen and (max-width: 3000px) and (min-width: 800px){
 .inputRutContainerPopUp{
@@ -73,8 +77,6 @@ $top: 1cm;
       animation: floatDownPC 1.5s forwards;
     }
 
-  
-
   @media only all and (min-width: 800px){
     .floatUp{
       animation: floatUpPC 2s forwards;
@@ -90,7 +92,30 @@ $top: 1cm;
       bottom: 85vh;
     }
   }
+  @media only all and (max-width: 800px) and (orientation: portrait){
+    .turnHorizontalAdvisor{
+      visibility: visible!important;
+    }
+  }
   @media only all and (max-width: 800px){
+    .container-client-panel span{
+      font-size: 3vw;
+    }
+    
+    .container-size{
+      height: 50vh!important;
+   
+    }
+    .container-client-panel p{
+      font-size: 4vw;
+    }
+    .container-client-panel h1{
+      font-size: 4vw;
+    }
+    .client-panel *{
+      font-size: 10px;
+
+    }
     .floatUp{
       animation: floatUpPhone 2s forwards;
 
@@ -109,12 +134,30 @@ $top: 1cm;
 
 }
 @media only screen and (max-width: 800px) and (orientation: landscape) {
+  .container-size{
+    height: 80vh!important;
+  }
   .shadow-lg-custom{
     box-shadow: 0 0 0 0;
    }
   .client-panel{
   transform: rotate(0deg)!important;
-   
+  margin-left: 10vw!important;
+  }
+  .badge-success{
+    font-size: 2vh!important;
+  }
+  .container-client-panel span{
+    font-size: 3vh;
+  }
+  .container-client-panel p{
+    font-size: 4vh;
+  }
+  .container-client-panel b{
+    font-size: 3vh;
+  }
+  .container-client-panel h1{
+    font-size: 4vh;
   }
   .bubbles-background svg{display: none}
   body *{box-shadow: none!important;}
@@ -125,7 +168,7 @@ $top: 1cm;
     width: 100%!important;
     position: fixed!important;
   }
-  .client-panel * {font-size: 0.6rem!important;}
+
   .horizontal-landscape{
     width: 90vw!important;
     height: 70vh!important;
@@ -148,7 +191,7 @@ $top: 1cm;
     width: 100%!important;
     position: fixed!important;
   }
-  .client-panel * {font-size: 0.6rem!important;}
+
   .horizontal-landscape{
     width: 90vw!important;
     height: 70vh!important;

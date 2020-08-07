@@ -14,6 +14,7 @@ export class ClientPanel extends React.Component {
   constructor(props){
   super(props)
   this.container = React.createRef();
+  this.turnHorizontalAdvisor = React.createRef();
   this.fileJSON = React.createRef();
   this.download = this.download.bind(this)
   this.DocsDownloadMapedDiv = React.createRef;
@@ -46,7 +47,7 @@ export class ClientPanel extends React.Component {
   }
 
   componentDidMount() {
-
+//LOTTIE FILES ANIMATIONS SETUP
     lottie.loadAnimation({
       container: this.container.current,
       render: 'svg',
@@ -60,6 +61,14 @@ export class ClientPanel extends React.Component {
     loop: true,
     autoplay: true,
     animationData: require('../img/file.json')
+})
+
+lottie.loadAnimation({
+  container: this.turnHorizontalAdvisor.current,
+  render: 'svg',
+  loop: true,
+  autoplay: true,
+  animationData: require('../img/11330-rotate-phone.json')
 })
 
 
@@ -201,47 +210,74 @@ export class ClientPanel extends React.Component {
   render(){
     return (
       <> 
+      <div  ref={this.turnHorizontalAdvisor} className='turnHorizontalAdvisor' style={{visibility: "hidden", width: '100vw', height: "100vh" ,zIndex: '3', position: 'absolute', backgroundColor: "#1FBF2A"}}></div>
+
       <div  ref={this.container} className='ml-5 bubbles-background' style={{width: '100%' ,zIndex: '1', position: 'absolute', bottom:'-10%', transform: 'rotate(90deg)'}}></div>
-      <div className="container client-panel" style={{zIndex: '5', position: 'relative'}}>
+      <div className="container container-client-panel mt-5 client-panel" style={{backgroundColor: "white" ,zIndex: '2', position: 'relative'}}>
         <div className="row">
-          <div className="col-md-1"></div>
-          <div className="col-md-10 text-justify">
-          
-            <div className="jumbotron d-flex mb-0 pb-0 pt-3 mt-4 shadow-lg-custom" style={{backgroundColor: "white", borderLeft: "100px solid #6c757d"}} >
-            <h1 className="display-4"></h1><br />
-            <div className="jumbotron pt-0 pb-0 pr-0 mr-0 horizontal-landscape"  style={{backgroundColor: "white"}}>
-              <h1 className="display-4 mb-0 text-left">{this.state.cases_description}</h1>
-              <h6 className="text-left">{this.state.cases_client_name}</h6>
-              <div className="jumbotron p-3 pr-0 mr-0 mt-3 d-flex w-100 "  style={{backgroundColor: "white"}}>
-          <div className="jumbotron p-0 pr-4 w-100 "  style={{backgroundColor: "white"}}><p className="lead pr-5" style={{borderBottom: "2px solid rgb(3,104,10)"}}>AVANCE <span style={{fontSize: "10px"}}>{this.state.cases_updateDate}</span></p><span className="text-justify">{this.state.cases_update}</span></div>
-                <div className="jumbotron p-0 w-50"  style={{backgroundColor: "white"}}><p className="lead" style={{borderBottom: "2px solid rgb(3,104,10)", }}>OBJETIVO</p><span style={{wordSpacing: "1px"}}>{this.state.cases_objetive}</span></div>
+          <div className="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 rounded-left" style={{backgroundColor: "rgb(108, 117, 125)"}}>
+          </div>
+          <div className="col-8 col-sm-8 col-md-9 col-lg-9 col-xl-9 container-size" style={{height: "65vh"}}>
+            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pl-4 pt-2 pb-2">
+              <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
+                <h1 className="display-4 mb-0 text-left">{this.state.cases_description}</h1>
               </div>
-              <div className="jumbotron p-0 w-100" style={{backgroundColor: "white"}}>
-              <p className="lead text-left text-center" style={{borderBottom: "2px solid rgb(3,104,10)"}}>MI CAUSA</p>
-              <div className="d-flex">
-          <div className="jumbotron p-0 w-100 " style={{backgroundColor: "white"}}><span className="badge badge-success h-100 mr-2">{this.state.cases_rol_rit_ruc} / {this.state.cases_trial_entity}</span></div>
-                <div className="jumbotron p-0 w-100 " style={{backgroundColor: "white"}}><span className="badge badge-success h-100">{this.state.cases_legalIssue} / {this.state.cases_procedure}</span></div>
-              </div>
+              <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 "><h6 className="text-left">{this.state.cases_client_name}</h6></div>
             </div>
-            </div>
-            
-            <div className="jumbotron p-4 pt-5 d-flex  docs-horizontal-landscape"  style={{backgroundColor: "white", marginTop: "10%"}}>
-              <div className="list-group w-100" ref={this.documentListContainer} >
-                <a href="#" ref={this.dfPass} className="d-inline password list-group-item list-group-item-action border-0 active" style={{maxHeight: "15%",backgroundColor: "rgb(31,191,42)"}}>
-                <div className='text-center'>
-                <b>DOCUMENTOS</b>
-                </div>
-                </a>
-              </div>
-            </div>
+            <div className="row">           
+                  <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 d-inline-block ">
+                   <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
+                     <p className="lead pr-5" style={{borderBottom: "2px solid rgb(3,104,10)"}}>
+                       AVANCE <span style={{fontSize: "10px"}}>{this.state.cases_updateDate}</span>
+                    </p>
+                   </div>
+                   <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style={{height: "30vh"}}>
+                   <span className="text-justify">{this.state.cases_update}</span>
+                   </div>
+                  </div>
+                  <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 d-inline-block">
+                   <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
+                     <p className="lead pr-5" style={{borderBottom: "2px solid rgb(3,104,10)"}}>
+                       OBJETIVO
+                    </p>
+                   </div>
+                   <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style={{height: "30vh"}}>
+                   <span style={{wordSpacing: "1px"}}>{this.state.cases_objetive}</span>
+                   </div>
+                  </div>
             </div>
 
+            <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div className="row">
+                <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center lead" style={{borderBottom: "2px solid rgb(3,104,10)"}}>MI CAUSA</div>
+                </div>
+                <div className="row" >
+                   <div className="col-8 col-sm-8 col-md-6 col-lg-6 col-xl-6 text-right">
+                   <span className="badge badge-success h-100 mr-2 text-right">
+                     {this.state.cases_rol_rit_ruc} / {this.state.cases_trial_entity}
+                   </span>
+                   </div>
+                    <div className="col-4 col-sm-4 col-md-6 col-lg-6 col-xl-6 text-left ">
+                    <span className="badge badge-success h-100 ">
+                      {this.state.cases_legalIssue} / {this.state.cases_procedure}
+                      </span>
+                    </div>
+                </div>
+            </div>
 
           </div>
-          <div className="col-md-1"></div>
+          <div className="col-3 col-sm-3 col-md-2 col-lg-2 col-xl-2 pt-5 pl-0 ml-0">
+            <div className="list-group w-100" ref={this.documentListContainer} >
+              <a href="#" ref={this.dfPass} className="d-inline password list-group-item list-group-item-action border-0 active" style={{maxHeight: "15%",backgroundColor: "rgb(31,191,42)"}}>
+                <div className='text-center'>
+                   <b>DOCUMENTOS</b>
+                </div>
+              </a>
+            </div>
+
+          </div>
         </div>
       </div>
-      
       </>
     );
   }

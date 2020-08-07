@@ -94,7 +94,7 @@ export default class Input extends React.Component{
                 <button onClick={this.fetchingData} className="btn btn-outline-secondary" type="button" style={{backgroundColor: "#20be2b", color: "white", fontWeight: "200px", borderStyle: "none"}}>Buscar</button>
             </div>
             <input placeholder="00.000.000-0" onKeyPress={this.keyPressed} type="text" className="form-control"  onChange={this.onChange} ref={this.inputRut}  aria-label="" aria-describedby="basic-addon1"/>
-            <small ref={this.errorMsg}className="text-wrap font-weight-bold text-center pt-2" style={{margin: 'auto', color: "#569951",display: this.state.notFound}}>Caso no encontrado, intenta denuevo</small>
+            <small ref={this.errorMsg}className="text-wrap font-weight-bold text-center pt-2" style={{margin: 'auto', color: "#569951",display: this.state.notFound}}>No se encontraron casos asociados a su rut, intenta nuevamente</small>
         </div> 
         {this.props.children}
         </>
