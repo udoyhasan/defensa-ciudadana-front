@@ -98,13 +98,14 @@ $top: 1cm;
     }
   }
 
-  @media only all and (max-width: 800px) and (orientation: landscape){
+  @media only all and (max-width: 1000px) and (orientation: landscape){
     .turnVerticalAdvisor{
       visibility: visible!important;  
     }
     .ifPhoneDeviceTurnGreen{
       background-color: #1FBF2A!important;
     }
+    .pt-5.text-center.align-items-end.center-block  svg, .input-group.mb-3.p-relative , .pt-4.fas.fa-angle-left.text-left{visibility: hidden!important;}
   }
   @media only all and (max-width: 800px){
     .container-client-panel span{
