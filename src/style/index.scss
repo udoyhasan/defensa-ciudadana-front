@@ -97,6 +97,15 @@ $top: 1cm;
       visibility: visible!important;
     }
   }
+
+  @media only all and (max-width: 800px) and (orientation: landscape){
+    .turnVerticalAdvisor{
+      visibility: visible!important;  
+    }
+    .ifPhoneDeviceTurnGreen{
+      background-color: #1FBF2A!important;
+    }
+  }
   @media only all and (max-width: 800px){
     .container-client-panel span{
       font-size: 3vw;

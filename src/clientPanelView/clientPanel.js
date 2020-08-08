@@ -213,7 +213,7 @@ lottie.loadAnimation({
       <div  ref={this.turnHorizontalAdvisor} className='turnHorizontalAdvisor' style={{visibility: "hidden", width: '100vw', height: "100vh" ,zIndex: '3', position: 'absolute', backgroundColor: "#1FBF2A"}}></div>
 
       <div  ref={this.container} className='ml-5 bubbles-background' style={{width: '100%' ,zIndex: '1', position: 'absolute', bottom:'-10%', transform: 'rotate(90deg)'}}></div>
-      <div className="container container-client-panel mt-5 client-panel" style={{backgroundColor: "white" ,zIndex: '2', position: 'relative'}}>
+      <div className="container container-client-panel mt-2 client-panel" style={{backgroundColor: "white" ,zIndex: '2', position: 'relative'}}>
         <div className="row">
           <div className="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 rounded-left" style={{backgroundColor: "rgb(108, 117, 125)"}}>
           </div>

@@ -29,6 +29,8 @@ export class App extends React.Component {
   super(props);
   this.loader = React.createRef();
   this.myRef = React.createRef();
+  this.turnVerticalAdvisor = React.createRef();
+
   this.handleClick = this.handleClick.bind(this);
   
   
@@ -41,13 +43,21 @@ export class App extends React.Component {
 
   }
   componentDidMount(){
-
+//LOTTIE FILES ANIMATIONS
     lottie.loadAnimation({
       container: this.loader.current,
       render: 'svg',
       loop: true,
       autoplay: true,
       animationData: require('./img/17037-loaders-volume-3.json')
+  })
+
+  lottie.loadAnimation({
+    container: this.turnVerticalAdvisor.current,
+    render: 'svg',
+    loop: true,
+    autoplay: true,
+    animationData: require('./img/11330-rotate-phone.json')
   })
 
     console.warn = function() {}// SE DESABILITARON TODOS LOS CONSOLE.WARN()
@@ -62,7 +72,9 @@ export class App extends React.Component {
   render(){
     return (
       <> 
-      <div className="container-fluid pt-5">
+      <div  ref={this.turnVerticalAdvisor} className='turnVerticalAdvisor' style={{visibility: "hidden", transform: "rotate(90deg)", width: '100vw', height: "90vh" ,zIndex: '4', position: 'absolute', backgroundColor: "#1FBF2A"}}></div>
+
+      <div className="container-fluid pt-5 ifPhoneDeviceTurnGreen">
       <div className="row">
         <div className="col-2 col-sm-2 col-md-2 col-lg-4 col-xl-4 " ></div>
         <div className="col-8 col-sm-8 col-md-8 col-lg-4 col-xl-4">  
