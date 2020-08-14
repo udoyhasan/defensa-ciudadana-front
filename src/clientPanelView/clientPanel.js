@@ -213,7 +213,7 @@ lottie.loadAnimation({
       <div  ref={this.turnHorizontalAdvisor} className='turnHorizontalAdvisor' style={{visibility: "hidden", width: '100vw', height: "100vh" ,zIndex: '3', position: 'absolute', backgroundColor: "#1FBF2A"}}></div>
 
       <div  ref={this.container} className='ml-5 bubbles-background' style={{width: '100%' ,zIndex: '1', position: 'absolute', bottom:'-10%', transform: 'rotate(90deg)'}}></div>
-      <div className="container-fluid container-client-panel mt-2 client-panel" style={{backgroundColor: "white" ,zIndex: '2', position: 'relative'}}>
+      <div className="container container-client-panel mt-2 client-panel" style={{backgroundColor: "white" ,zIndex: '2', position: 'relative'}}>
         <div className="row" style={{height: "90vh"}}>
           <div className="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 rounded-left" style={{backgroundColor: "rgb(108, 117, 125)"}}>
           </div>
@@ -231,7 +231,7 @@ lottie.loadAnimation({
                        AVANCE <span style={{fontSize: "10px"}}>{this.state.cases_updateDate}</span>
                     </p>
                    </div>
-                   <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style={{height: "30vh"}}>
+                   <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 overflow-auto" style={{height: "30vh"}}>
                    <span className="text-justify">{this.state.cases_update}</span>
                    </div>
                   </div>
@@ -241,8 +241,8 @@ lottie.loadAnimation({
                        OBJETIVO
                     </p>
                    </div>
-                   <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style={{height: "30vh"}}>
-                   <span style={{wordSpacing: "1px"}}>{this.state.cases_objetive}</span>
+                   <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 overflow-auto" style={{height: "30vh"}}>
+                   <span className="text-justify" style={{wordSpacing: "1px"}}>{this.state.cases_objetive}</span>
                    </div>
                   </div>
             </div>
