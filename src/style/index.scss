@@ -143,7 +143,7 @@ $top: 1cm;
   }
 
 }
-@media only screen and (max-width: 800px) and (orientation: landscape) {
+@media only screen and (max-width: 1100px) and (orientation: landscape) {
   .container-size{
     height: 80vh!important;
   }
@@ -152,7 +152,7 @@ $top: 1cm;
    }
   .client-panel{
   transform: rotate(0deg)!important;
-  margin-left: 10vw!important;
+  margin-left: 2vw!important;
   }
   .badge-success{
     font-size: 2vh!important;

@@ -53,14 +53,14 @@ export class ClientPanel extends React.Component {
       render: 'svg',
       loop: true,
       autoplay: true,
-      animationData: require('../img/27268-bubbles.json')
+      animationData: require('../assets/27268-bubbles.json')
   })
   lottie.loadAnimation({
     container: this.fileJSON.current,
     render: 'svg',
     loop: true,
     autoplay: true,
-    animationData: require('../img/file.json')
+    animationData: require('../assets/file.json')
 })
 
 lottie.loadAnimation({
@@ -68,7 +68,7 @@ lottie.loadAnimation({
   render: 'svg',
   loop: true,
   autoplay: true,
-  animationData: require('../img/11330-rotate-phone.json')
+  animationData: require('../assets/11330-rotate-phone.json')
 })
 
 
@@ -213,11 +213,11 @@ lottie.loadAnimation({
       <div  ref={this.turnHorizontalAdvisor} className='turnHorizontalAdvisor' style={{visibility: "hidden", width: '100vw', height: "100vh" ,zIndex: '3', position: 'absolute', backgroundColor: "#1FBF2A"}}></div>
 
       <div  ref={this.container} className='ml-5 bubbles-background' style={{width: '100%' ,zIndex: '1', position: 'absolute', bottom:'-10%', transform: 'rotate(90deg)'}}></div>
-      <div className="container container-client-panel mt-2 client-panel" style={{backgroundColor: "white" ,zIndex: '2', position: 'relative'}}>
-        <div className="row">
+      <div className="container-fluid container-client-panel mt-2 client-panel" style={{backgroundColor: "white" ,zIndex: '2', position: 'relative'}}>
+        <div className="row" style={{height: "90vh"}}>
           <div className="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 rounded-left" style={{backgroundColor: "rgb(108, 117, 125)"}}>
           </div>
-          <div className="col-8 col-sm-8 col-md-9 col-lg-9 col-xl-9 container-size" style={{height: "65vh"}}>
+          <div className="col-8 col-sm-8 col-md-8 col-lg-9 col-xl-9 container-size" style={{height: "65vh"}}>
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pl-4 pt-2 pb-2">
               <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
                 <h1 className="display-4 mb-0 text-left">{this.state.cases_description}</h1>
@@ -266,7 +266,7 @@ lottie.loadAnimation({
             </div>
 
           </div>
-          <div className="col-3 col-sm-3 col-md-2 col-lg-2 col-xl-2 pt-5 pl-0 ml-0">
+          <div className="col-3 col-sm-3 col-md-3 col-lg-2 col-xl-2 pt-5 pl-0 ml-0" style={{paddingRight:"10vh"}}>
             <div className="list-group w-100" ref={this.documentListContainer} >
               <a href="#" ref={this.dfPass} className="d-inline password list-group-item list-group-item-action border-0 active" style={{maxHeight: "15%",backgroundColor: "rgb(31,191,42)"}}>
                 <div className='text-center'>

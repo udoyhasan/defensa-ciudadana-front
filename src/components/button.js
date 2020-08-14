@@ -9,12 +9,12 @@ import {truePanel_falseButtonSet_handler} from '../redux/dispatchers.js';
 import {changeEndpoint} from '../redux/dispatchers.js';
 import {eventInhibitorDispatcher} from '../redux/dispatchers.js';
 
-import logo from '../img/logo.png';
-import textBubble from '../img/textBubble2.png';
-import textBubble2 from '../img/textBubble3.png';
-import imagen1 from '../img/dfPeople1.png';
-import imagen2 from '../img/dfPeople2.png';
-import imagen3 from '../img/dfPeople3.png';
+import logo from '../assets/logo.png';
+import textBubble from '../assets/textBubble2.png';
+import textBubble2 from '../assets/textBubble3.png';
+import imagen1 from '../assets/dfPeople1.png';
+import imagen2 from '../assets/dfPeople2.png';
+import imagen3 from '../assets/dfPeople3.png';
 
 //COMPONENTE GENERAL DE TODOS LOS BOTONES
 export class Button extends React.Component{

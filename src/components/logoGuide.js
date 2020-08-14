@@ -1,12 +1,12 @@
 import 'react-tippy/dist/tippy.css'; 
 import {Tooltip} from 'react-tippy';
 import React from 'react';
-import logo from '../img/logo.png';
-import textBubble from '../img/textBubble2.png';
-import textBubble2 from '../img/textBubble3.png';
-import imagen1 from '../img/dfPeople1.png';
-import imagen2 from '../img/dfPeople2.png';
-import imagen3 from '../img/dfPeople3.png';
+import logo from '../assets/logo.png';
+import textBubble from '../assets/textBubble2.png';
+import textBubble2 from '../assets/textBubble3.png';
+import imagen1 from '../assets/dfPeople1.png';
+import imagen2 from '../assets/dfPeople2.png';
+import imagen3 from '../assets/dfPeople3.png';
 import {panelBtnChanger} from '../redux/dispatchers.js';
 import {backArrowAnimationDispatcher} from '../redux/dispatchers.js';
 import { connect } from 'react-redux';
@@ -41,7 +41,7 @@ export class LogoGuide extends React.Component{
             render: 'svg',
             loop: false,
             autoplay: true,
-            animationData: require('../img/Logo.json')
+            animationData: require('../assets/Logo.json')
         })
     }
 

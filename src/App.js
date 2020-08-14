@@ -10,6 +10,7 @@ import Button from './components/button.js';
 import Input from './components/input.js';
 import {whatCaseWasClickedFunction} from './redux/dispatchers.js';
 import lottie from 'lottie-web';
+import introSound from './assets/IntroMusic.mp3'
 
 
 //CONSTANTES QUE AFECTAN AL COMPONENTE
@@ -26,10 +27,11 @@ const panel=(
 //COMPONENTE
 export class App extends React.Component {
   constructor(props){
-  super(props);
+  super(props); 
   this.loader = React.createRef();
   this.myRef = React.createRef();
   this.turnVerticalAdvisor = React.createRef();
+  this.player = React.createRef();
 
   this.handleClick = this.handleClick.bind(this);
   
@@ -40,16 +42,19 @@ export class App extends React.Component {
 
     let data = event.target.value;
     whatCaseWasClickedFunction(data);
-
   }
   componentDidMount(){
+ 
+
+    //this.player.current.play()
+    setTimeout(()=>{this.player.current.pause()}, 7000)
 //LOTTIE FILES ANIMATIONS
     lottie.loadAnimation({
       container: this.loader.current,
       render: 'svg',
       loop: true,
       autoplay: true,
-      animationData: require('./img/17037-loaders-volume-3.json')
+      animationData: require('./assets/17037-loaders-volume-3.json')
   })
 
   lottie.loadAnimation({
@@ -57,7 +62,7 @@ export class App extends React.Component {
     render: 'svg',
     loop: true,
     autoplay: true,
-    animationData: require('./img/11330-rotate-phone.json')
+    animationData: require('./assets/11330-rotate-phone.json')
   })
 
     console.warn = function() {}// SE DESABILITARON TODOS LOS CONSOLE.WARN()
@@ -76,7 +81,7 @@ export class App extends React.Component {
 
       <div className="container-fluid pt-5 ifPhoneDeviceTurnGreen">
       <div className="row">
-        <div className="col-2 col-sm-2 col-md-2 col-lg-4 col-xl-4 " ></div>
+        <div className="col-2 col-sm-2 col-md-2 col-lg-4 col-xl-4 " ><audio src={introSound}  ref={this.player} autoPlay/></div>
         <div className="col-8 col-sm-8 col-md-8 col-lg-4 col-xl-4">  
         <div  ref={this.turnVerticalAdvisor} className='turnVerticalAdvisor' style={{paddingBottom: "30%",visibility: "hidden", transform: "rotate(90deg)", height: "70vh", width: "40vw" ,zIndex: '9', position: 'absolute', backgroundColor: "#1FBF2A"}}></div>
     <LogoGuide bootstrapClass="pt-5 text-center align-items-end center-block "/>{/*dejar espacio al final del class*/}
@@ -95,7 +100,8 @@ export class App extends React.Component {
                 <div id="lottie-file-loader" className={this.props.showLoader} ref={this.loader}></div>
 
         </div>
-        <div className="col-2 col-sm-2 col-md-2 col-lg-4 col-xl-4" ></div>
+        <div className="col-2 col-sm-2 col-md-2 col-lg-4 col-xl-4" >
+        </div>
       </div>
       </div>
    
