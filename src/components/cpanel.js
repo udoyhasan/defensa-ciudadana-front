@@ -290,12 +290,13 @@ render(){
                         <select id="tipoDocumento" ref={this.tipoDocumento} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  tipo documento'>
                             <option value="" style={{color: "gray"}}>-Tipo de Documento-</option>
                             <option value="Sentencia">Sentencia</option>
+                            <option value="Medio de prueba">Medio de prueba</option>
                             <option value="Escritura Pública">Escritura Pública</option>
                             <option value="Escritura Privada">Escritura Privada</option>
                             <option value="Inscripción">Inscripción</option>
-                            <option value="Certificado de Remision">Certificado de Remision</option>
+                            <option value="Comprobante Ingreso Administrativo">Comprobante Ingreso Administrativo</option>
                             <option value="Certificado">Certificado</option>
-                            <option value="Comprobante Ingreso">Comprobante Ingreso</option>
+                            <option value="Comprobante Ingreso Judicial">Comprobante Ingreso Judicial</option>
                             <option value="Boleta Gasto">Boleta Gasto</option>
                             <option value="Notificación Receptor">Notificación Receptor</option>
                             <option value="Demanda">Demanda</option>
