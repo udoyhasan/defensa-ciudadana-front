@@ -125,7 +125,7 @@ export default class Cpanel extends React.Component{
         //SE OBTIENE ROL DEL INPUTDATA
         let nameStart = str.indexOf('%');
         let rol= str.slice(indx+2 ,nameStart);
-        console.log(rol)
+
    
 
         const clientData = {
@@ -290,6 +290,7 @@ render(){
                         <select id="tipoDocumento" ref={this.tipoDocumento} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  tipo documento'>
                             <option value="" style={{color: "gray"}}>-Tipo de Documento-</option>
                             <option value="Sentencia">Sentencia</option>
+                            <option value="Avenimiento">Avenimiento</option>
                             <option value="Medio de prueba">Medio de prueba</option>
                             <option value="Escritura Pública">Escritura Pública</option>
                             <option value="Escritura Privada">Escritura Privada</option>
