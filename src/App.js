@@ -44,7 +44,7 @@ export class App extends React.Component {
     let data = event.target.value;
     whatCaseWasClickedFunction(data);
   }
-  componentDidMount(){
+  componentDidMount(){ 
  
 
     //this.player.current.play()

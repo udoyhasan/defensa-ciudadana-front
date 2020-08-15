@@ -55,7 +55,7 @@ export default class Cpanel extends React.Component{
         .then(response => {return response.json();})
         .then(data => {
             this.setState({dataList: data.resp})
-
+            
             })  
     }
 

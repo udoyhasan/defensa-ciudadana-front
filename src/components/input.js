@@ -31,6 +31,8 @@ export default class Input extends React.Component{
            return response.json();})
        .then(data => {(!data.ok)?loaderShowerDispatcher('d-none'): console.log("")
            injectFetchedData(data);
+           console.log(data);
+           console.log(store.getState().fetchedData)
            this.setState({notFound: "none"})
         })
         .catch(() =>{

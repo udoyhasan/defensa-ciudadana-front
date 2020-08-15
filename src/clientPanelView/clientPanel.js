@@ -46,7 +46,7 @@ export class ClientPanel extends React.Component {
 
   }
 
-  componentDidMount() {
+  componentDidMount() { 
 //LOTTIE FILES ANIMATIONS SETUP
     lottie.loadAnimation({
       container: this.container.current,
@@ -76,9 +76,7 @@ lottie.loadAnimation({
 
         changeEndpoint("clientes/")
 
-        //console.log(fetchedDataResp)
-
-        fetchedDataResp.forEach(ele =>{
+        fetchedDataResp.forEach(ele =>{ 
 
           let date = ele.cases_updateDate ;//SE TRANSFORMA A FECHA CORTA
           
@@ -107,9 +105,6 @@ lottie.loadAnimation({
             localStorage.setItem("date", date.toString())
           }
             localStorage.setItem("savedEle", JSON.stringify(ele));
-           
-            
-            //console.clear()
            } 
           
         })
@@ -118,8 +113,10 @@ lottie.loadAnimation({
         
         fetch(store.getState().fetchBase + store.getState().fetchEndPoint + this.state.cases_client_rut)
        .then(response => {return response.json();})
-       .then(data => {
-           this.setState({documentsIdArr: data});
+       .then(data => { 
+           this.setState({documentsIdArr: data}, ()=> {console.log(this.state)
+            localStorage.setItem("savedClientData", JSON.stringify(this.state.documentsIdArr))
+          });
           })
         //FETCH A DOCUMENTS PARA OBTENER DATOS DE LOS DOCUMENTOS ASOCIADOS AL ACASO
         changeEndpoint("documentos/")
@@ -141,13 +138,15 @@ lottie.loadAnimation({
         })
 
 
-
-    let jsonSavedEle = JSON.parse(localStorage.getItem("savedEle"));
+        
+    let jsonSavedEle = JSON.parse(localStorage.getItem("savedEle")); 
+    let jsonClientSavedEle = JSON.parse(localStorage.getItem("savedClientData"));
+    console.log(jsonClientSavedEle)
     this.setState({cases_updateDate: localStorage.getItem("date")})
     this.setState({
       cases_activeCase: jsonSavedEle.cases_activeCase ,
       cases_client_id:  jsonSavedEle.cases_client_id,
-      cases_client_name: jsonSavedEle.clients_name,
+      cases_client_name: jsonClientSavedEle.resp[0].clients_name,
       cases_deadLine: jsonSavedEle.cases_deadLine ,
       cases_description:  jsonSavedEle.cases_description,
       cases_id: jsonSavedEle.cases_id ,
