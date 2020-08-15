@@ -134,7 +134,7 @@ export default class Cpanel extends React.Component{
             cases_update: this.ActualizacionAvanceCausa.current.value,
             cases_trial_entity: this.modificacion_juzgado_institucion.current.value,
             cases_description: this.modificacion_descripcion.current.value,
-            cases_activeCase: (this.causa_teminada_checkBox.current.checked == false)?true: false
+            cases_activeCase: (this.causa_teminada_checkBox.current.checked == false)?1: 0
     
             };
 

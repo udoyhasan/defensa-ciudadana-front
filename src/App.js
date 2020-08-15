@@ -96,7 +96,7 @@ export class App extends React.Component {
           <LogoGuide bootstrapClass="pt-5 text-center align-items-end center-block "/>{/*dejar espacio al final del class*/}
           {(this.props.boolean)? <div>
                                   <Input > 
-                                    <div ref={this.myRef} className="d-flex  mt-2 flex-column " style={{width: "100%", height: "310px", overflow: "auto"}}>
+                                    <div ref={this.myRef} className="d-flex  mt-2 flex-column " style={{width: "100%", height: "260px", overflow: "auto", zIndex: "2" }}>
                                       <h1 className="badge badge-secondary pt-2 pb-2" style={{fontSize: "100%", backgroundColor: "white", color: "black"}}>
                 {store.getState().fetchedData.resp.map((item, index)=>{return <Link key={index} to="/clientPanel" style={{textDecoration: "none"}}><button className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%"}} key={index} onClick={this.handleClick} value={(item.cases_rol_rit_ruc=='-sin rol-')?item.cases_id:item.cases_rol_rit_ruc}>{(item.cases_rol_rit_ruc=='-sin rol-')?`rol transitorio N°${item.cases_id}`:item.cases_rol_rit_ruc} {item.cases_legalIssue}</button></Link>})}                 
                                       </h1>
@@ -113,7 +113,7 @@ export class App extends React.Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 p-relative p-0 m-0" style={{bottom: "44vh", width: "120vw"}}>
+          <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 p-0 m-0" style={{zIndex: "1" , position: "absolute", bottom: "0px", width: "120vw"}}>
           <div ref={this.lawyerOnBike}></div>
           </div>
         </div>
