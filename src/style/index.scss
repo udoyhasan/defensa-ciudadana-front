@@ -31,6 +31,35 @@ body, #root {
   overflow-y: auto; 
 }
 
+.my-custom-scrollbar {
+  position: relative;
+  height: 200px;
+  overflow: auto;
+  }
+  .table-wrapper-scroll-y {
+  display: block;
+  }
+  .table-wrapper-scroll-y * {font-size: 0.9vw;}
+
+  .table-wrapper-scroll-y button:focus{font-weight: bolder}
+
+  div.scrollmenu {
+    background-color: #333;
+    overflow: auto;
+    white-space: nowrap;
+  }
+  
+  div.scrollmenu a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+  }
+  
+  div.scrollmenu a:hover {
+    background-color: #777;
+  }
 
 @media only screen and (max-width: 3000px) and (min-width: 800px){
 .inputRutContainerPopUp{
