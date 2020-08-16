@@ -1,6 +1,4 @@
 import React from 'react';
-import {panelBtnChanger} from '../redux/dispatchers.js';
-import { connect } from 'react-redux';
 import {store} from '../redux/store.js';
 
 
@@ -35,6 +33,17 @@ export default class Cpanel extends React.Component{
         this.materia = React.createRef();
         this.procedimiento = React.createRef();
         this.objetivo = React.createRef(); 
+        this.one = React.createRef();
+        this.two = React.createRef();
+        this.three = React.createRef();
+        this.four = React.createRef();
+        this.five = React.createRef();
+        this.six = React.createRef();
+        this.seven = React.createRef();
+        this.eight = React.createRef();
+        this.nine = React.createRef();
+        this.ten = React.createRef();
+
 
         //REFERENCIAS DE FORMULARIO ACTUALIZACION CAUSA
         this.dataListInput = React.createRef();
@@ -236,8 +245,51 @@ export default class Cpanel extends React.Component{
             });
     }
 
-    copy(querySelector) {
-    //DON'T WORK JS COPYCLIP BOARD ON REACT JS
+    copy = (ref) => {
+
+        let reference= ref.toString()
+        switch (reference){
+            case "one":
+                this.one.current.select();
+                document.execCommand('copy');
+                break;
+            case "two":
+                this.two.current.select();
+                document.execCommand('copy');
+                break;
+            case "three":
+                this.three.current.select();
+                document.execCommand('copy');
+                break;
+            case "four":
+                this.four.current.select();
+                document.execCommand('copy');
+                break;
+            case "five":
+                this.five.current.select();
+                document.execCommand('copy');
+                break;
+            case "six":
+                this.six.current.select();
+                document.execCommand('copy');
+                break;
+            case "seven":
+                this.seven.current.select();
+                document.execCommand('copy');
+                break;
+            case "eight":
+                this.eight.current.select();
+                document.execCommand('copy');
+                break;
+            case "nine":
+                this.nine.current.select();
+                document.execCommand('copy');
+                break;
+            case "ten":
+                this.ten.current.select();
+                document.execCommand('copy');
+                break;
+        }
       }
 
 render(){
@@ -313,16 +365,17 @@ render(){
                             RECEPTORES CONFIANZA 
                         </a>
                         <div class="scrollmenu">
-                            <a>FRANCISCO VARGAS HERRERA<br/><input  type="button" value="fvargash25@gmail.com" className="btn btn-success" onClick={()=>this.copy('FRANCISCO_VARGAS_HERRERA')}/><br/>9-79090562/SAN FELIPE</a>
-                            <a>MARCELO BASCUÑAN BAROSSO<br/><input id="MARCELO BASCUÑAN BAROSSO" type="button" value="receptorbascunan@gmail.com" className="btn btn-success" onClick={(e)=>{e.target.select()}}/><br/>22-32249021/SANTIAGO</a>
-                            <a>MYRIAM GONZALEZ JOFRE<br/><input id="MYRIAM GONZALEZ JOFRE" type="button" value="receptorcolina@gmail.com" className="btn btn-success" onClick={(e)=>{e.target.select()}}/><br/>9-93924548, 9-58776056/COLINA</a>
-                            <a>GERARDO VERA MORALES<br/><input id="GERARDO VERA MORALES" type="button" value="gvera.receptor@gmail.com" className="btn btn-success" onClick={(e)=>{e.target.select()}}/><br/>22 932 0456/SAN MIGUEL</a>
-                            <a>DANIEL MARCELO MORALES ALEGRIA<br/><input id="MARCELO MORALES ALEGRIA" type="button" value="danielmorales.receptor@gmail.com" className="btn btn-success" onClick={(e)=>{e.target.select()}}/><br/>22-8590024, 9-61425281/SAN BERNARDO</a>
-                            <a>MARIA TERESA SOTO<br/><input id="MARIA TERESA SOTO" type="button" value="mtreceptor@gmail.com" className="btn btn-success" onClick={(e)=>{e.target.select()}}/><br/>SANTIAGO</a>  
-                            <a>ALEJANDRO GUZMAN VALDIVIA<br/><input id="ALEJANDRO GUZMAN VALDIVIA" type="button" value="receptor.alejandroguzman@gmail.com" className="btn btn-success" onClick={(e)=>{e.target.select()}}/><br/>SANTIAGO</a>
-                            <a>LUCIA OLIVAS RIOS<br/><input id="LUCIA OLIVAS RIOS" type="button" value="receptorcolina@gmail.com" className="btn btn-success" onClick={(e)=>{e.target.select()}}/><br/>9-58776056/COLINA</a>
-                            <a>JUANA SANCHEZ G.<br/><input iJUANA SANCHEZ Gd="" type="button" value="juanasanchez.pj@gmail.com" className="btn btn-success" onClick={(e)=>{e.target.select()}}/><br/>9-92209813, 9-92497149/SANTIAGO</a>  
-                            <a>LEONARDO OLGUIN PINO<br/><input id="LEONARDO OLGUIN PINO" type="button" value="leonardoolguin@gmail.com" className="btn btn-success" onClick={(e)=>{e.target.select()}}/><br/>22-6967081/SANTIAGO</a>                                                 
+                        
+                            <a>FRANCISCO VARGAS HERRERA<br/><textarea style={{width: "1px", height: "1px"}} ref={this.one} value='fvargash25@gmail.com' /><input  type="button" value="fvargash25@gmail.com" className="btn btn-success" onClick={()=> this.copy("one")}/><br/>9-79090562/SAN FELIPE</a>
+                            <a>MARCELO BASCUÑAN BAROSSO<br/><textarea style={{width: "1px", height: "1px"}} ref={this.two} value='receptorbascunan@gmail.com' /><input type="button" value="receptorbascunan@gmail.com" className="btn btn-success" onClick={()=> this.copy("two")}/><br/>22-32249021/SANTIAGO</a>
+                            <a>MYRIAM GONZALEZ JOFRE<br/><textarea style={{width: "1px", height: "1px"}} ref={this.three} value="receptorcolina@gmail.com" /><input id="MYRIAM GONZALEZ JOFRE" type="button" value="receptorcolina@gmail.com" className="btn btn-success" onClick={()=> this.copy("three")}/><br/>9-93924548, 9-58776056/COLINA</a>
+                            <a>GERARDO VERA MORALES<br/><textarea style={{width: "1px", height: "1px"}} ref={this.four} value="gvera.receptor@gmail.com" /><input id="GERARDO VERA MORALES" type="button" value="gvera.receptor@gmail.com" className="btn btn-success" onClick={()=> this.copy("four")}/><br/>22 932 0456/SAN MIGUEL</a>
+                            <a>DANIEL MARCELO MORALES ALEGRIA<br/><textarea style={{width: "1px", height: "1px"}} ref={this.five} value="danielmorales.receptor@gmail.com" /><input id="MARCELO MORALES ALEGRIA" type="button" value="danielmorales.receptor@gmail.com" className="btn btn-success" onClick={()=> this.copy("five")}/><br/>22-8590024, 9-61425281/SAN BERNARDO</a>
+                            <a>MARIA TERESA SOTO<br/><textarea style={{width: "1px", height: "1px"}} ref={this.six} value="mtreceptor@gmail.com" /><input id="MARIA TERESA SOTO" type="button" value="mtreceptor@gmail.com" className="btn btn-success" onClick={()=> this.copy("six")}/><br/>SANTIAGO</a>  
+                            <a>ALEJANDRO GUZMAN VALDIVIA<br/><textarea style={{width: "1px", height: "1px"}} ref={this.seven} value="receptor.alejandroguzman@gmail.com" /><input id="ALEJANDRO GUZMAN VALDIVIA" type="button" value="receptor.alejandroguzman@gmail.com" className="btn btn-success" onClick={()=> this.copy("seven")}/><br/>SANTIAGO</a>
+                            <a>LUCIA OLIVAS RIOS<br/><textarea style={{width: "1px", height: "1px"}} ref={this.eight} value="receptorcolina@gmail.com" /><input id="LUCIA OLIVAS RIOS" type="button" value="receptorcolina@gmail.com" className="btn btn-success" onClick={()=> this.copy("eight")}/><br/>9-58776056/COLINA</a>
+                            <a>JUANA SANCHEZ G.<br/><textarea style={{width: "1px", height: "1px"}} ref={this.nine} value="juanasanchez.pj@gmail.com" /><input iJUANA SANCHEZ Gd="" type="button" value="juanasanchez.pj@gmail.com" className="btn btn-success" onClick={()=> this.copy("nine")}/><br/>9-92209813, 9-92497149/SANTIAGO</a>  
+                            <a>LEONARDO OLGUIN PINO<br/><textarea style={{width: "1px", height: "1px"}} ref={this.ten} value="leonardoolguin@gmail.com" /><input id="LEONARDO OLGUIN PINO" type="button" value="leonardoolguin@gmail.com" className="btn btn-success" onClick={()=> this.copy("ten")}/><br/>22-6967081/SANTIAGO</a>                                                 
                         </div>                                          
                     </div>
 

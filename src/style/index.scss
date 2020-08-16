@@ -56,6 +56,10 @@ body, #root {
     padding: 14px;
     text-decoration: none;
   }
+
+  .scrollmenu textarea{
+    opacity: 0!important;
+  }
   
   div.scrollmenu a:hover {
     background-color: #777;

@@ -146,7 +146,7 @@ lottie.loadAnimation({
     this.setState({
       cases_activeCase: jsonSavedEle.cases_activeCase ,
       cases_client_id:  jsonSavedEle.cases_client_id,
-      cases_client_name: jsonClientSavedEle.resp[0].clients_name,
+      cases_client_name: "",//jsonClientSavedEle.resp[0].clients_name,
       cases_deadLine: jsonSavedEle.cases_deadLine ,
       cases_description:  jsonSavedEle.cases_description,
       cases_id: jsonSavedEle.cases_id ,
