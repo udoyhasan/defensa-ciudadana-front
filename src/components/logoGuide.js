@@ -2,6 +2,8 @@ import 'react-tippy/dist/tippy.css';
 import {Tooltip} from 'react-tippy';
 import React from 'react';
 import logo from '../assets/logo.png';
+import instagramLogo from '../assets/instagram.png';
+import facebookLogo from '../assets/facebook.png';
 import textBubble from '../assets/textBubble2.png';
 import textBubble2 from '../assets/textBubble3.png';
 import imagen1 from '../assets/dfPeople1.png';
@@ -81,7 +83,20 @@ export class LogoGuide extends React.Component{
         return (
             <>
             <div style={{width: store.getState().whyUsImagesDisplayedOnAnimatiton.zise,position: store.getState().whyUsImagesDisplayedOnAnimatiton.position}} className={this.props.bootstrapClass + store.getState().logoAnimation} onClick={(window.screen.width<=800)?this.panelBtnChanger:console.log(" ")} onMouseOver={(window.screen.width>=800)?this.panelBtnChanger:console.log(" ")} ref={this.logoContainer}>
-            <i onClick={this.onclickAnimationFunction} className={'pt-4 fas fa-angle-left text-left ' + store.getState().backArrowAnimation} style={{zIndex: 5 , left: '30%', top: '10%', position: 'absolute', fontSize:'2vw'}}></i>
+
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                            <i onClick={this.onclickAnimationFunction} className={'pt-4 fas fa-angle-left text-left ' + store.getState().backArrowAnimation} style={{ zIndex: 5 , position: 'absolute', fontSize:'2vw'}}></i>
+                        </div>
+                        <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                            <a style={{zIndex: "5"}} className={"ml-3 position-absolute "+ store.getState().backArrowAnimation} href="https://www.instagram.com/defensorciudadanacl/"><img className="social-media" src={instagramLogo} /></a>
+                        </div>
+                        <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                            <a style={{zIndex: "5"}} className={" position-absolute " + store.getState().backArrowAnimation} href="https://www.facebook.com/Defensor-Ciudadana-102004724631467"><img className="social-media" src={facebookLogo}/></a>
+                        </div>
+                    </div>
+                </div>
             </div>
             </>
             

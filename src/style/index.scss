@@ -71,6 +71,9 @@ body, #root {
   animation: inputRutContainerPopUpPC 1s forwards;
 
   }
+  .social-media{
+    width: 100%;
+  }
  
 }
 /*
@@ -85,6 +88,10 @@ $top: 1cm;
 
 /*COMPONENTS's ANIMATIONS ACCORDING DEVICE VIEWPORT */
 @media all and (max-width: 3000px) {
+  .social-media{
+    width: 100%;
+  }
+ 
 
   .shadow-lg-custom{
    box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
@@ -113,6 +120,10 @@ $top: 1cm;
     }
 
   @media only all and (min-width: 800px){
+    .social-media{
+      width: 100%;
+    }
+   
     .floatUp{
       animation: floatUpPC 2s forwards;
     }
@@ -131,6 +142,10 @@ $top: 1cm;
     .turnHorizontalAdvisor{
       visibility: visible!important;
     }
+    .social-media{
+      width: 100%;
+    }
+   
   }
 
   @media only all and (max-width: 1000px) and (orientation: landscape){
@@ -227,6 +242,10 @@ $top: 1cm;
   
 }
 @media all and (max-width: 800px) and (orientation: portrait){
+  .social-media{
+    width: 100%;
+  }
+ 
   .shadow-lg-custom{
     box-shadow: 0 0 0 0;
    }
