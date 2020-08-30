@@ -18,6 +18,8 @@ export default class Cpanel extends React.Component{
         this.updateCase=this.updateCase.bind(this);
         this.docSubmit=this.docSubmit.bind(this); 
         this.copy=this.copy.bind(this);
+        this.NormaliceAccents=this.NormaliceAccents.bind(this);
+        
 
         //REFERENCIAS DE FORMULARIO PARA CREAR NUEVO CLIENTE
         this.nombre = React.createRef();
@@ -292,6 +294,27 @@ export default class Cpanel extends React.Component{
         }
       }
 
+NormaliceAccents (str) {
+        var map = {
+            '-' : ' ',
+            '-' : '_',
+            'a' : 'á|à|ã|â|À|Á|Ã|Â',
+            'e' : 'é|è|ê|É|È|Ê',
+            'i' : 'í|ì|î|Í|Ì|Î',
+            'o' : 'ó|ò|ô|õ|Ó|Ò|Ô|Õ',
+            'u' : 'ú|ù|û|ü|Ú|Ù|Û|Ü',
+            'c' : 'ç|Ç',
+            'n' : 'ñ|Ñ'
+        };
+        
+        for (var pattern in map) {
+            str = str.replace(new RegExp(map[pattern], 'g'), pattern);
+        };
+    
+        return str;
+    };
+
+
 render(){
     return (
         <>
@@ -312,6 +335,7 @@ render(){
                                     <tr>  
                                         <th scope="col" style={{color: 'white', backgroundColor: 'black'}}>CLIENTE</th>
                                         <th scope="col" style={{color: 'white', backgroundColor: 'black'}}>CASO</th>
+                                        <th scope="col" style={{color: 'white', backgroundColor: 'black'}}>ROL</th>
                                         <th scope="col" style={{color: 'white', backgroundColor: 'black'}}>AVANCE</th> 
                                         <th scope="col" style={{color: 'white', backgroundColor: 'black'}}>PENDIENTE</th> 
                                     </tr>
@@ -319,12 +343,16 @@ render(){
                                     <tbody>
                                     {this.state.dataList.map((item, index) => {
                                                                     return (
-                                    <tr>
+                                    <tr className="selectionRow bg-success text-light" id={index.toString()}>
                                         
-                                        <td style={{backgroundColor: "#CEF6D8"}}>{item.clients_name}</td>
-                                        <td style={{backgroundColor: "#CEF6D8"}}>{item.cases_description}</td>
-                                        <td style={{backgroundColor: "#CEF6D8"}}><button className="border-0" style={{backgroundColor: "#CEF6D8"}}>{item.cases_update}</button></td>
-                                        <td style={{backgroundColor: "#CEF6D8"}}>{item.cases_pendingTask}</td>
+                                        <td style={{fontSize: "12px"}}>{item.clients_name}</td>
+                                        <td style={{fontSize: "12px"}}>{item.cases_description}</td>
+                                        <td style={{fontSize: "12px"}}>{item.cases_rol_rit_ruc}</td>
+                                        <td style={{}}><button onClick={()=> {
+                                            document.querySelectorAll(".selectionRow").forEach((item)=>{item.className = "selectionRow bg-success text-light"});
+                                            document.getElementById(index.toString()).className = "selectionRow bg-warning text-light";
+                                            }} className="border-0 text-light btn" style={{backgroundColor: "transparent", fontSize: "12px"}}>{item.cases_update}</button></td>
+                                        <td style={{fontSize: "12px"}}>{item.cases_pendingTask}</td>
                                                                          
                                     </tr>)})}
                                     
@@ -389,7 +417,8 @@ render(){
                         <datalist id="casos" >
                         
                         {this.state.dataList.map((item, index) => {
-                                return <option value={`${item.clients_rut} / ${item.cases_rol_rit_ruc}% ${item.clients_name}`} />
+                                let normalizedName = this.NormaliceAccents(item.clients_name);
+                                return <option value={`${item.clients_rut} / ${item.cases_rol_rit_ruc}% ${normalizedName}`} />
                             })
                         }
 

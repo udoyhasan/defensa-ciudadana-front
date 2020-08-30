@@ -5,17 +5,12 @@ import './style/index.scss';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux'
 import {store} from './redux/store.js'
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
+import { Route, BrowserRouter as Router } from 'react-router-dom'
 
 import App from './App';
 import ClientPanel from './clientPanelView/clientPanel.js';
 import Cpanel from './components/cpanel';
-import docInputView from './views/docInputView/docInputView.js';
 import {JobExchange} from './lawyerView/jobExchange.js';
-
-import {HookdeEfecto} from './components/hook';
-
-
 
 const routing = (
   <Router>

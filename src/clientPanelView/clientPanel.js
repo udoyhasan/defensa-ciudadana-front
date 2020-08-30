@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {store} from '../redux/store.js';
 import { connect } from 'react-redux';
 import {injectFetchedData} from '../redux/dispatchers.js';
-import tippy from 'tippy.js';
+//import tippy from 'tippy.js';
 import lottie from 'lottie-web';
 import 'tippy.js/dist/tippy.css';
 import {changeEndpoint} from '../redux/dispatchers.js';

@@ -10,7 +10,11 @@ body {
 html, body {
   overflow: hidden;
 }
-
+.btn:focus,.btn:active:focus,.btn.active:focus,
+.btn.focus,.btn:active.focus,.btn.active.focus {
+    outline: none!important;
+    box-shadow: none!important;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
@@ -41,14 +45,11 @@ body, #root {
   }
   .table-wrapper-scroll-y * {font-size: 0.9vw;}
 
-  .table-wrapper-scroll-y button:focus{font-weight: bolder}
-
   div.scrollmenu {
     background-color: #333;
     overflow: auto;
     white-space: nowrap;
   }
-  
   div.scrollmenu a {
     display: inline-block;
     color: white;
