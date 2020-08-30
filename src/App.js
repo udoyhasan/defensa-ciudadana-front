@@ -45,6 +45,19 @@ export class App extends React.Component {
     whatCaseWasClickedFunction(data);
   }
   componentDidMount(){ 
+
+  // GET CURRENT DATE FOR LOTTIE FILE DISPLAY
+  let today = new Date();
+  let month = today.getMonth() + 1;
+  let day = today.getDate();
+  let lottieFile;
+  switch (month){
+    case 9:
+      lottieFile = "september18";
+      break;
+    default:
+      lottieFile = "lawyerOnBike";
+  }
  
 
     //this.player.current.play()
@@ -65,14 +78,18 @@ export class App extends React.Component {
     autoplay: true,
     animationData: require('./assets/11330-rotate-phone.json')
   })
-
+  setTimeout(()=> {
   lottie.loadAnimation({
     container: this.lawyerOnBike.current,
     render: 'svg',
     loop: true,
     autoplay: true,
-    animationData: require('./assets/lawyerOnBike.json')
+    animationData: require(`./assets/${lottieFile}.json`)
   })
+    this.lawyerOnBike.current.className += " opacityPopUpLottieAnimationIntro "
+}, 1700)
+
+  
 
     console.warn = function() {}// SE DESABILITARON TODOS LOS CONSOLE.WARN()
     console.log("%cDefensa Ciudadana©" , "color: green; font-weight: bold; font-size:18px; font-family:Comic Sans MS")
@@ -113,7 +130,7 @@ export class App extends React.Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 p-0 m-0" style={{zIndex: "1" , position: "absolute", bottom: "0px", width: "120vw"}}>
+          <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 p-0 m-0" style={{zIndex: "-3" , position: "absolute", bottom: "0px", width: "120vw"}}>
           <div ref={this.lawyerOnBike}></div>
           </div>
         </div>
