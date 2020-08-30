@@ -87,7 +87,7 @@ export class App extends React.Component {
     animationData: require(`./assets/${lottieFile}.json`)
   })
     this.lawyerOnBike.current.className += " opacityPopUpLottieAnimationIntro "
-}, 1700)
+}, 2200)
 
   
 
