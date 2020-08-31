@@ -325,7 +325,7 @@ render(){
 
                     <div  style={{backgroundColor: "#32D782", borderRadius: "10px", padding: "2%"}}>
                         <div className="h5" style={{color: "white",  fontWeight: "500", marginTop: "3%", textAlign: "center"}}>
-                            -PLANILLA CAUSAS-
+                            -PLANILLA CAUSAS ({this.state.dataList.length})-
 
 
                             <div class="table-wrapper-scroll-y my-custom-scrollbar" style={{height: '90vh'}}>
