@@ -23,7 +23,8 @@ export default class Input extends React.Component{
 
       }
 
-    fetchingData(){
+    fetchingData(){this.setState({
+        notFound: "none"})
         loaderShowerDispatcher("")
        rutSaverDispatcher(this.inputRut.current.value)
        fetch(store.getState().fetchBase + store.getState().fetchEndPoint + this.state.inputValue)
