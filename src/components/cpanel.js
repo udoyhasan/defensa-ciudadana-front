@@ -173,9 +173,14 @@ export default class Cpanel extends React.Component{
                 
             }) 
             });
-        
-        
-        
+        // WE CLEAN THE INPUTS
+        this.modificacion_rol_rit_ruc.current.value = "";
+        this.ActualizacionAvanceCausa.current.value = "";
+        this.ActualizacionTareaPendiente.current.value = "";
+        this.modificacion_juzgado_institucion.current.value = "";
+        this.modificacion_descripcion.current.value = "";
+        this.causa_teminada_checkBox.current.checked = false;
+   
     }
 
     docSubmit(){
@@ -441,6 +446,7 @@ render(){
                                 <option value="" style={{color: "gray"}}>-Tipo de Documento-</option>
                                 <option value="Sentencia">Sentencia</option>
                                 <option value="Avenimiento">Avenimiento</option>
+                                <option value="Conciliación">Conciliación</option>
                                 <option value="Medio de prueba">Medio de prueba</option>
                                 <option value="Escritura Pública">Escritura Pública</option>
                                 <option value="Escritura Privada">Escritura Privada</option>
