@@ -1,5 +1,6 @@
 import React from 'react';
 import {store} from '../redux/store.js';
+import lottie from 'lottie-web';
 
 
 
@@ -9,7 +10,12 @@ export default class Cpanel extends React.Component{
         this.state = {
             dataList:[],
             cases_client_id: "",
-            documentLastRowInserted: ""
+            documentLastRowInserted: "",
+            xTouch: 0,
+            whereTo: "",
+            panelArr: ["left", "middle", "right"],
+            activeCol: 0
+
 
         }
 
@@ -19,7 +25,8 @@ export default class Cpanel extends React.Component{
         this.docSubmit=this.docSubmit.bind(this); 
         this.copy=this.copy.bind(this);
         this.NormaliceAccents=this.NormaliceAccents.bind(this);
-        
+        this.moveGesture=this.moveGesture.bind(this);
+        this.endGesture=this.endGesture.bind(this);
 
         //REFERENCIAS DE FORMULARIO PARA CREAR NUEVO CLIENTE
         this.nombre = React.createRef();
@@ -46,6 +53,13 @@ export default class Cpanel extends React.Component{
         this.nine = React.createRef();
         this.ten = React.createRef();
 
+        //REFERENCE OF THE CASES TABLE
+        this.cPanelLoader = React.createRef();
+        this.cPanelError = React.createRef();
+        this.left = React.createRef();
+        this.middle = React.createRef();
+        this.right = React.createRef();
+
 
         //REFERENCIAS DE FORMULARIO ACTUALIZACION CAUSA
         this.dataListInput = React.createRef();
@@ -61,15 +75,43 @@ export default class Cpanel extends React.Component{
         this.tipoDocumento = React.createRef();
     }
 
-    componentDidMount(){
-    
+    componentDidMount(){ 
         
-        fetch(store.getState().fetchBase + 'casos/17.402.744-7')//SE CARGA LOS DATOS DEL DATALIST
-        .then(response => {return response.json();})
+        document.addEventListener("touchmove", this.moveGesture, false);
+        document.addEventListener("touchend", this.endGesture, false);
+    
+        let loaderlottieArray = ["28278-water-loader", "25162-brush-loader", "23321-corona-loader", "14466-loader-loading-progress-progress-bar-done", "703-navis-loader"];
+        let loaderlottieError =["11233-505-error", "3648-no-internet-connection"]
+        let loaderRandomLottie = Math.floor(Math.random()*5);
+        let errorRandomLottie = Math.floor(Math.random()*2);
+
+        lottie.loadAnimation({
+            container: this.cPanelLoader.current,
+            render: 'svg',
+            loop: true,
+            autoplay: true,
+            animationData: require(`../assets/${loaderlottieArray[loaderRandomLottie]}.json`)
+          })
+          lottie.loadAnimation({
+            container: this.cPanelError.current,
+            render: 'svg',
+            loop: true,
+            autoplay: true,
+            animationData: require(`../assets/${loaderlottieError[errorRandomLottie]}.json`)
+          })
+        fetch(store.getState().fetchBase + 'casos/17.402.744-7')//LOADING DATALIST DATA
+        .then(response => {
+            return response.json();})
         .then(data => {
+            this.cPanelLoader.current.className += "invisible"
+            
             this.setState({dataList: data.resp})
             
             })  
+            .catch(()=> {
+                this.cPanelLoader.current.className = "invisible d-none"
+                this.cPanelError.current.className = "border-0 visible"
+            })
     }
 
     postNewClient()
@@ -130,11 +172,11 @@ export default class Cpanel extends React.Component{
 
         const urlClients = store.getState().fetchBase +'casos/no_rut'//FETCH CON POST A CLIENTES
 
-        //SE OBTIENE NOMBRE DEL INPUTDATA
+        //GETTING THE NAME OF INPUTDATA
         let str = this.dataListInput.current.value;
         let indx = str.indexOf("/");
         let nombre= str.slice(0,indx-1);
-        //SE OBTIENE ROL DEL INPUTDATA
+        //GETTING ROL OF INPUTDATA
         let nameStart = str.indexOf('%');
         let rol= str.slice(indx+2 ,nameStart);
 
@@ -319,23 +361,58 @@ NormaliceAccents (str) {
         return str;
     };
 
+    moveGesture(e){
+        let x = e.touches[0].clientX; //GESTURE DETECTOR     
+        (this.state.xTouch<x)? this.setState({whereTo: "right"}): this.setState({whereTo: "left"})
+  
+        this.setState({xTouch: x})
+       }
+    
+    endGesture(){
+
+        if(this.state.whereTo=="left"){
+            if(this.state.activeCol>0){this.setState({activeCol: this.state.activeCol - 1})}
+            this.setState({whereTo: "", xTouch: 0});
+            console.log(this.state.panelArr[this.state.activeCol]);
+            let selectedCol = this.state.panelArr[this.state.activeCol];
+            this.left.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3"
+            this.middle.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3"
+            this.right.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3"
+            this[selectedCol].current.className = "col-10 col-sm-10 col-md-3 col-lg-3 col-xl-3"
+        } 
+        else if(this.state.whereTo=="right"){
+            if(this.state.activeCol<2){this.setState({activeCol: this.state.activeCol + 1})}
+            this.setState({whereTo: "", xTouch: 0});
+            console.log(this.state.panelArr[this.state.activeCol]);
+            let selectedCol = this.state.panelArr[this.state.activeCol];
+            this.left.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3"
+            this.middle.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3"
+            this.right.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3"
+            this[selectedCol].current.className = "col-10 col-sm-10 col-md-3 col-lg-3 col-xl-3"
+
+
+        }
+        
+    }
+
+
 
 render(){
     return (
         <>
-        <div className="container-fluid">
+        <div className="container-fluid" >
             <div className="row">
-                
-                <div className="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5 ">
+            
+                <div className={`col-md-5 col-lg-5 col-xl-5 `} ref={this.left}>
 
                     <div  style={{backgroundColor: "#32D782", borderRadius: "10px", padding: "2%"}}>
                         <div className="h5" style={{color: "white",  fontWeight: "500", marginTop: "3%", textAlign: "center"}}>
                             -PLANILLA CAUSAS ({this.state.dataList.length})-
 
 
-                            <div class="table-wrapper-scroll-y my-custom-scrollbar" style={{height: '90vh'}}>
+                            <div className="table-wrapper-scroll-y my-custom-scrollbar" style={{height: '90vh'}}>
 
-                                <table class="table table-bordered table-striped mb-0">
+                                <table className="table table-bordered table-striped mb-0">
                                     <thead >
                                     <tr>  
                                         <th scope="col" style={{color: 'white', backgroundColor: 'black'}}>CLIENTE</th>
@@ -346,6 +423,7 @@ render(){
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    
                                     {this.state.dataList.map((item, index) => {
                                                                     return (
                                     <tr className="selectionRow bg-success text-light" id={index.toString()}>
@@ -362,7 +440,11 @@ render(){
                                     </tr>)})}
                                     
                                     </tbody>
+                                    
                                 </table>
+
+                            <div ref={this.cPanelLoader} className="border-0"></div>
+                            <div ref={this.cPanelError} className="border-0 invisible"></div>
 
                             </div>
                                   
@@ -371,7 +453,7 @@ render(){
                     </div>
                 </div>
 
-                <div className="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 " style={{backgroundColor: "#32D782", borderRadius: "10px"}}>
+                <div className={` col-md-3 col-lg-3 col-xl-3 `} ref={this.middle} style={{backgroundColor: "#32D782", borderRadius: "10px"}}>
                     <form>
                         <div className="h5" style={{color: "white",  fontWeight: "500", textAlign: "center"}}>-ANTECEDENTES CASO Y CLIENTE-</div>
                         <input style={{width: "100%", borderColor: "#4DF79F"}} id='1' ref={this.nombre} placeholder='  nombre'/><br />
@@ -393,11 +475,11 @@ render(){
                         <input style={{width: "100%", marginTop:"3px",  marginBottom: "3%", height: "50px", backgroundColor: "#6c757d", color: "white", fontWeight: "bold"}} id='crear_nuevo_cliente' type='button' value='NUEVO CLIENTE' onClick={this.postNewClient}/>
 
                     </form>
-                    <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action active text-center">
+                    <div className="list-group">
+                        <a href="#" className="list-group-item list-group-item-action active text-center">
                             RECEPTORES CONFIANZA 
                         </a>
-                        <div class="scrollmenu">
+                        <div className="scrollmenu">
                         
                             <a>FRANCISCO VARGAS HERRERA<br/><textarea style={{width: "1px", height: "1px"}} ref={this.one} value='fvargash25@gmail.com' /><input  type="button" value="fvargash25@gmail.com" className="btn btn-success" onClick={()=> this.copy("one")}/><br/>9-79090562/SAN FELIPE</a>
                             <a>MARCELO BASCUÑAN BAROSSO<br/><textarea style={{width: "1px", height: "1px"}} ref={this.two} value='receptorbascunan@gmail.com' /><input type="button" value="receptorbascunan@gmail.com" className="btn btn-success" onClick={()=> this.copy("two")}/><br/>22-32249021/SANTIAGO</a>
@@ -414,7 +496,7 @@ render(){
 
                 </div>
 
-                <div className="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 ">
+                <div className=" col-md-3 col-lg-3 col-xl-3 " ref={this.right}>
             
                     <div  style={{backgroundColor: "#32D782", borderRadius: "10px", padding: "2%"}}>
                     <div className="h5" style={{color: "white",  fontWeight: "500", marginTop: "3%", textAlign: "center"}}>-ACTUALIZACIÓN CAUSA-</div>
