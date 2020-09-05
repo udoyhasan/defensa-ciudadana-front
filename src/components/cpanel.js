@@ -60,6 +60,13 @@ export default class Cpanel extends React.Component{
         this.middle = React.createRef();
         this.right = React.createRef();
 
+        //REFERENCES OF GESTURE INTERACTIVITY
+        this.rightArrow = React.createRef();
+        this.leftArrow = React.createRef();
+        this.middleLeftArrow = React.createRef();
+        this.middleRightArrow = React.createRef();
+     
+
 
         //REFERENCIAS DE FORMULARIO ACTUALIZACION CAUSA
         this.dataListInput = React.createRef();
@@ -84,6 +91,21 @@ export default class Cpanel extends React.Component{
         let loaderlottieError =["11233-505-error", "3648-no-internet-connection"]
         let loaderRandomLottie = Math.floor(Math.random()*5);
         let errorRandomLottie = Math.floor(Math.random()*2);
+
+        lottie.loadAnimation({
+            container: this.leftArrow.current,
+            render: 'svg',
+            loop: true,
+            autoplay: true,
+            animationData: require(`../assets/arrowAdvisor.json`)
+          })      
+        lottie.loadAnimation({
+            container: this.rightArrow.current,
+            render: 'svg',
+            loop: true,
+            autoplay: true,
+            animationData: require(`../assets/arrowAdvisor.json`)
+          })
 
         lottie.loadAnimation({
             container: this.cPanelLoader.current,
@@ -368,30 +390,37 @@ NormaliceAccents (str) {
         this.setState({xTouch: x})
        }
     
-    endGesture(){
+    endGesture(){ console.log(this.state.panelArr[this.state.activeCol])
 
-        if(this.state.whereTo=="left"){
+
+        if(this.state.whereTo=="right"){
             if(this.state.activeCol>0){this.setState({activeCol: this.state.activeCol - 1})}
             this.setState({whereTo: "", xTouch: 0});
-            console.log(this.state.panelArr[this.state.activeCol]);
             let selectedCol = this.state.panelArr[this.state.activeCol];
-            this.left.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3"
-            this.middle.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3"
-            this.right.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3"
-            this[selectedCol].current.className = "col-10 col-sm-10 col-md-3 col-lg-3 col-xl-3"
+            this.left.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 invisible"
+            this.middle.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 invisible"
+            this.right.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 invisible"
+            this[selectedCol].current.className = "col-10 col-sm-10 col-md-3 col-lg-3 col-xl-3 visible"
         } 
-        else if(this.state.whereTo=="right"){
+        else if(this.state.whereTo=="left"){
             if(this.state.activeCol<2){this.setState({activeCol: this.state.activeCol + 1})}
             this.setState({whereTo: "", xTouch: 0});
-            console.log(this.state.panelArr[this.state.activeCol]);
             let selectedCol = this.state.panelArr[this.state.activeCol];
-            this.left.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3"
-            this.middle.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3"
-            this.right.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3"
-            this[selectedCol].current.className = "col-10 col-sm-10 col-md-3 col-lg-3 col-xl-3"
-
-
+            this.left.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 invisible";
+            this.middle.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 invisible";
+            this.right.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 invisible";
+            this[selectedCol].current.className = "col-10 col-sm-10 col-md-3 col-lg-3 col-xl-3 visible";
         }
+        if(this.state.panelArr[this.state.activeCol]=="left")
+        {this.leftArrow.current.className = "border-0 position-fixed invisible";
+        this.rightArrow.current.className = "border-0 position-fixed";
+        }
+        else if(this.state.panelArr[this.state.activeCol]=="right")
+        {
+            this.rightArrow.current.className = "border-0 position-fixed invisible";
+            this.leftArrow.current.className = "border-0 position-fixed";
+        }
+
         
     }
 
@@ -400,6 +429,9 @@ NormaliceAccents (str) {
 render(){
     return (
         <>
+        
+        <div ref={this.leftArrow} className="border-0 position-fixed invisible" style={{width: "15vw",transform: "rotate(90deg)", top: "40vh", zIndex:5 }}></div>
+
         <div className="container-fluid" >
             <div className="row">
             
@@ -451,9 +483,11 @@ render(){
                         </div>
                             
                     </div>
+
                 </div>
 
                 <div className={` col-md-3 col-lg-3 col-xl-3 `} ref={this.middle} style={{backgroundColor: "#32D782", borderRadius: "10px"}}>
+
                     <form>
                         <div className="h5" style={{color: "white",  fontWeight: "500", textAlign: "center"}}>-ANTECEDENTES CASO Y CLIENTE-</div>
                         <input style={{width: "100%", borderColor: "#4DF79F"}} id='1' ref={this.nombre} placeholder='  nombre'/><br />
@@ -497,7 +531,7 @@ render(){
                 </div>
 
                 <div className=" col-md-3 col-lg-3 col-xl-3 " ref={this.right}>
-            
+                        
                     <div  style={{backgroundColor: "#32D782", borderRadius: "10px", padding: "2%"}}>
                     <div className="h5" style={{color: "white",  fontWeight: "500", marginTop: "3%", textAlign: "center"}}>-ACTUALIZACIÓN CAUSA-</div>
                         <input list="casos" id="dataListInput" style={{width: "100%", borderColor: "#4DF79F"}} ref={this.dataListInput}/>
@@ -553,7 +587,8 @@ render(){
                 </div>
                 
             </div>  
-        </div>  
+        </div>  <div ref={this.rightArrow} className="border-0 position-fixed" style={{width: "15vw",transform: "rotate(-90deg)", top: "40vh", left: "85vw", zIndex:5 }}></div>
+
         </>
         
     );
