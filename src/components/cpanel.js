@@ -14,7 +14,8 @@ export default class Cpanel extends React.Component{
             xTouch: 0,
             whereTo: "",
             panelArr: ["left", "middle", "right"],
-            activeCol: 0
+            activeCol: 0,
+            errorOrSucces: "11014-accepted"
 
 
         }
@@ -76,6 +77,10 @@ export default class Cpanel extends React.Component{
         this.modificacion_juzgado_institucion = React.createRef();
         this.modificacion_descripcion = React.createRef();
         this.causa_teminada_checkBox = React.createRef(); 
+        this.queryLoader = React.createRef(); 
+        this.queryLoaderResult = React.createRef(); 
+        
+        
 
         //REFERENCIAS DOCUMENTO CARGADO
         this.PDFfile = React.createRef();
@@ -98,6 +103,20 @@ export default class Cpanel extends React.Component{
             loop: true,
             autoplay: true,
             animationData: require(`../assets/arrowAdvisor.json`)
+          })  
+          lottie.loadAnimation({
+            container: this.queryLoader.current,
+            render: 'svg',
+            loop: true,
+            autoplay: true,
+            animationData: require(`../assets/query-loader.json`)
+          })   
+          lottie.loadAnimation({
+            container: this.queryLoaderResult.current,
+            render: 'svg',
+            loop: false,
+            autoplay: true,
+            animationData: require(`../assets/${this.state.errorOrSucces}.json`)
           })      
         lottie.loadAnimation({
             container: this.rightArrow.current,
@@ -229,14 +248,22 @@ export default class Cpanel extends React.Component{
         fetch(urlClients, options) 
             .then(res => {return res.json()})
             .then(data => {
+                this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 visible"
                 console.log(JSON.stringify(data))
                 fetch(store.getState().fetchBase + 'casos/17.402.744-7')//RELOAD THE DATA WITH UPDATE
                 .then(response => {return response.json();})
                 .then(data => {
                     this.setState({dataList: data.resp})
-                
-            }) 
-            });
+                    this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"
+                    this.setState({errorOrSucces: "11014-accepted"}, ()=>
+                    this.queryLoaderResult.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 visible")
+                    setTimeout(()=> {this.queryLoaderResult.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"}, 3000)
+                    })
+                .catch((error)=>{})
+            })
+            .catch((error)=>{})
+            
+            
         // WE CLEAN THE INPUTS
         this.modificacion_rol_rit_ruc.current.value = "";
         this.ActualizacionAvanceCausa.current.value = "";
@@ -553,7 +580,14 @@ render(){
                         <input ref={this.modificacion_rol_rit_ruc} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  modificar rol/rit/ruc causa'/><br />
                         <input ref={this.modificacion_juzgado_institucion} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  modificar Juzgado/Institución'/><br />
                         <textarea ref={this.modificacion_descripcion} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  modificar descripcion caso'/><br />
-                        <label className="checkbox-inline text-white font-weight-bold">Causa Terminada   <input ref={this.causa_teminada_checkBox} type="checkbox" style={{width: "20px", height: "20px"}}/></label>
+                        <label className="checkbox-inline text-white font-weight-bold">
+                             
+                            <div class="row">
+                                <div class="col-md-7 col-sm-7 col-7 col-lg-7">Causa Terminada   <input ref={this.causa_teminada_checkBox} type="checkbox" style={{width: "20px", height: "20px"}}/></div>
+                                <div class="col-md-2 col-sm-2 col-2 col-lg-2 invisible" ref={this.queryLoader} style={{width: "12vw"}}></div>
+                                <div class="col-md-2 col-sm-2 col-2 col-lg-2 invisible" ref={this.queryLoaderResult} style={{width: "12vw"}}></div>
+                            </div>
+                        </label>
 
                         <input  style={{width: "100%", marginTop:"3px",  marginBottom: "3%", height: "50px", backgroundColor: "#6c757d", color: "white", fontWeight: "bold"}} id='actiualizar_causa' type='button' value='ACTUALIZAR CAUSA' onClick={this.updateCase}/>
                         
