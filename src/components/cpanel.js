@@ -420,6 +420,10 @@ NormaliceAccents (str) {
             this.rightArrow.current.className = "border-0 position-fixed invisible";
             this.leftArrow.current.className = "border-0 position-fixed";
         }
+        else if(this.state.panelArr[this.state.activeCol]=="middle"){
+            this.rightArrow.current.className = "border-0 position-fixed";
+            this.leftArrow.current.className = "border-0 position-fixed";
+        }
 
         
     }
