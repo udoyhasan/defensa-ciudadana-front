@@ -152,14 +152,14 @@ export default class Cpanel extends React.Component{
         .then(response => {
             return response.json();})
         .then(data => {
-            this.cPanelLoader.current.className += "invisible"
+            //this.cPanelLoader.current.className += "invisible"
             
             this.setState({dataList: data.resp})
             
             })  
             .catch(()=> {
-                this.cPanelLoader.current.className = "invisible d-none"
-                this.cPanelError.current.className = "border-0 visible"
+               // this.cPanelLoader.current.className = "invisible d-none"
+                //this.cPanelError.current.className = "border-0 visible"
             })
     }
 
@@ -219,7 +219,7 @@ export default class Cpanel extends React.Component{
 
     updateCase(){//FETCH WITH PUT METHOD TO UPDATE THE TABLE
 
-        this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 visible"
+       {/*} this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 visible"
 
         const urlClients = store.getState().fetchBase +'casos/no_rut'//FETCH CON POST A CLIENTES
 
@@ -291,7 +291,7 @@ export default class Cpanel extends React.Component{
         this.ActualizacionTareaPendiente.current.value = "";
         this.modificacion_juzgado_institucion.current.value = "";
         this.modificacion_descripcion.current.value = "";
-        this.causa_teminada_checkBox.current.checked = false;
+        this.causa_teminada_checkBox.current.checked = false;*/}
    
     }
 
@@ -437,23 +437,23 @@ NormaliceAccents (str) {
     
     endGesture(){ 
 
-        if(this.state.whereTo=="right"){
+        /*if(this.state.whereTo=="right"){
             if(this.state.activeCol>0){this.setState({activeCol: this.state.activeCol - 1})}
             this.setState({whereTo: "", xTouch: 0});
             let selectedCol = this.state.panelArr[this.state.activeCol];
-            this.left.current.className = " col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 d-none"
-            this.middle.current.className = " col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 d-none"
-            this.right.current.className = " col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 d-none"
+            this.left.current.className = "m-0 p-0 col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 d-none"
+            this.middle.current.className = "m-0 col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 d-none"
+            this.right.current.className = "m-0 p-0 col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 d-none"
             this[selectedCol].current.className = " col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 visible"
         } 
         else if(this.state.whereTo=="left"){
             if(this.state.activeCol<2){this.setState({activeCol: this.state.activeCol + 1})}
             this.setState({whereTo: "", xTouch: 0});
             let selectedCol = this.state.panelArr[this.state.activeCol];
-            this.left.current.className = " col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 d-none";
-            this.middle.current.className = " col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 d-none";
-            this.right.current.className = " col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 d-none";
-            this[selectedCol].current.className = " col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 visible";
+            this.left.current.className = "m-0 p-0 col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 d-none";
+            this.middle.current.className = "m-0 col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 d-none";
+            this.right.current.className = "m-0 p-0 col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 d-none";
+            this[selectedCol].current.className = "m-0 p-1 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 visible";
         }
         if(this.state.panelArr[this.state.activeCol]=="left")
         {this.leftArrow.current.className = "border-0 position-fixed d-none";
@@ -468,7 +468,7 @@ NormaliceAccents (str) {
             this.rightArrow.current.className = "border-0 position-fixed";
             this.leftArrow.current.className = "border-0 position-fixed";
         }
-
+*/
         
     }
 
@@ -477,13 +477,191 @@ NormaliceAccents (str) {
 render(){
     return (
         <>
-        
-        <div ref={this.leftArrow} className="border-0 position-fixed invisible" style={{width: "15vw",transform: "rotate(90deg)", top: "40vh", zIndex:5 }}></div>
+    
+        <div id="carousel1" class="carousel slide carousel-fade" data-ride="carousel">
+            <div class="carousel-inner">
+            <div class="carousel-item active">
+            <div  style={{backgroundColor: "#32D782", borderRadius: "10px", padding: "2%"}}>
+                        <div className="h5" style={{color: "white",  fontWeight: "500", marginTop: "3%", textAlign: "center"}}>
+                            -PLANILLA CAUSAS ({this.state.dataList.length})-
+
+
+                            <div className="table-wrapper-scroll-y my-custom-scrollbar" style={{height: '90vh'}}>
+
+                                <table className="table table-bordered table-striped mb-0">
+                                    <thead >
+                                    <tr>  
+                                        <th scope="col" style={{color: 'white', backgroundColor: 'black'}}>CLIENTE</th>
+                                        <th scope="col" style={{color: 'white', backgroundColor: 'black'}}>CASO</th>
+                                        <th scope="col" style={{color: 'white', backgroundColor: 'black'}}>ROL</th>
+                                        <th scope="col" style={{color: 'white', backgroundColor: 'black'}}>AVANCE</th> 
+                                        <th scope="col" style={{color: 'white', backgroundColor: 'black'}}>PENDIENTE</th> 
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    
+                                    {this.state.dataList.map((item, index) => {
+                                                                    return (
+                                    <tr key={index*1000} className="selectionRow bg-success text-light" id={index.toString()}>
+                                        
+                                        <td style={{fontSize: "12px"}}>{item.clients_name}</td>
+                                        <td  style={{fontSize: "12px"}}>{item.cases_description}</td>
+                                        <td  style={{fontSize: "12px"}}>{item.cases_rol_rit_ruc}</td>
+                                        <td style={{}}><button onClick={()=> {
+                                            document.querySelectorAll(".selectionRow").forEach((item)=>{item.className = "selectionRow bg-success text-light"});
+                                            document.getElementById(index.toString()).className = "selectionRow bg-warning text-light";
+                                            }} className="border-0 text-light btn" style={{backgroundColor: "transparent", fontSize: "12px"}}>{item.cases_update}</button></td>
+                                        <td  style={{fontSize: "12px"}}>{item.cases_pendingTask}</td>
+                                                                         
+                                    </tr>)})}
+                                    
+                                    </tbody>
+                                    
+                                </table>
+
+                            <div ref={this.cPanelLoader} className="border-0"></div>
+                            <div ref={this.cPanelError} className="border-0 invisible"></div>
+
+                            </div>
+                                  
+                        </div>
+                            
+                    </div>
+            </div>
+            <div class="carousel-item">
+            <div className={`m-0 col-md-12 col-lg-12 col-xl-12 `} ref={this.middle} style={{backgroundColor: "#32D782", borderRadius: "10px"}}>
+
+            <form>
+                <div className="h5" style={{color: "white",  fontWeight: "500", textAlign: "center"}}>-ANTECEDENTES CASO Y CLIENTE-</div>
+                <input style={{width: "100%", borderColor: "#4DF79F"}} id='1' ref={this.nombre} placeholder='  nombre'/><br />
+                <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='2' ref={this.rut} placeholder='  rut'/><br />
+                <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='3' ref={this.nacionalidad} placeholder='  nacionalidad'/><br />
+                <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='4' ref={this.estado_Civil} placeholder='  estado Civil'/><br />
+                <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='5' ref={this.profesion} placeholder='  profesión'/><br />
+                <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='6' ref={this.domicilio} placeholder='  domicilio'/><br />
+                <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='' ref={this.contacto} placeholder='  teléfono/m@il'/>
+
+
+                <div className="h5" style={{color: "white",  fontWeight: "500", textAlign: "center"}}></div>
+                <textarea style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='7' ref={this.descripcion}  placeholder='  descripcion' /><br />
+                <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='8' ref={this.juzgado_institucion} placeholder='  juzgado/institucion'/><br />
+                <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='9' ref={this.rol_rit_ruc} placeholder='  rol/rit/ruc'/><br />
+                <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='10' ref={this.materia} placeholder='  materia'/><br />
+                <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='11' ref={this.procedimiento} placeholder='  procedimiento'/><br />
+                <input style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} id='12' ref={this.objetivo} placeholder='  objetivo'/>
+                <input style={{width: "100%", marginTop:"3px",  marginBottom: "3%", height: "50px", backgroundColor: "#6c757d", color: "white", fontWeight: "bold"}} id='crear_nuevo_cliente' type='button' value='NUEVO CLIENTE' onClick={this.postNewClient}/>
+
+            </form>
+            <div className="list-group">
+                <a href="#" className="list-group-item list-group-item-action active text-center">
+                    RECEPTORES CONFIANZA 
+                </a>
+                <div className="scrollmenu">
+                
+                    <a>FRANCISCO VARGAS HERRERA<br/><textarea  style={{width: "1px", height: "1px"}} ref={this.one} defaultValue='fvargash25@gmail.com' /><input  type="button" value="fvargash25@gmail.com" className="btn btn-success" onClick={()=> this.copy("one")}/><br/>9-79090562/SAN FELIPE</a>
+                    <a>MARCELO BASCUÑAN BAROSSO<br/><textarea style={{width: "1px", height: "1px"}} ref={this.two} defaultValue='receptorbascunan@gmail.com' /><input type="button" value="receptorbascunan@gmail.com" className="btn btn-success" onClick={()=> this.copy("two")}/><br/>22-32249021/SANTIAGO</a>
+                    <a>MYRIAM GONZALEZ JOFRE<br/><textarea style={{width: "1px", height: "1px"}} ref={this.three} defaultValue="receptorcolina@gmail.com" /><input id="MYRIAM GONZALEZ JOFRE" type="button" value="receptorcolina@gmail.com" className="btn btn-success" onClick={()=> this.copy("three")}/><br/>9-93924548, 9-58776056/COLINA</a>
+                    <a>GERARDO VERA MORALES<br/><textarea style={{width: "1px", height: "1px"}} ref={this.four} defaultValue="gvera.receptor@gmail.com" /><input id="GERARDO VERA MORALES" type="button" value="gvera.receptor@gmail.com" className="btn btn-success" onClick={()=> this.copy("four")}/><br/>22 932 0456/SAN MIGUEL</a>
+                    <a>DANIEL MARCELO MORALES ALEGRIA<br/><textarea style={{width: "1px", height: "1px"}} ref={this.five} defaultValue="danielmorales.receptor@gmail.com" /><input id="MARCELO MORALES ALEGRIA" type="button" value="danielmorales.receptor@gmail.com" className="btn btn-success" onClick={()=> this.copy("five")}/><br/>22-8590024, 9-61425281/SAN BERNARDO</a>
+                    <a>MARIA TERESA SOTO<br/><textarea style={{width: "1px", height: "1px"}} ref={this.six} defaultValue="mtreceptor@gmail.com" /><input id="MARIA TERESA SOTO" type="button" value="mtreceptor@gmail.com" className="btn btn-success" onClick={()=> this.copy("six")}/><br/>SANTIAGO</a>  
+                    <a>ALEJANDRO GUZMAN VALDIVIA<br/><textarea style={{width: "1px", height: "1px"}} ref={this.seven} defaultValue="receptor.alejandroguzman@gmail.com" /><input id="ALEJANDRO GUZMAN VALDIVIA" type="button" value="receptor.alejandroguzman@gmail.com" className="btn btn-success" onClick={()=> this.copy("seven")}/><br/>SANTIAGO</a>
+                    <a>LUCIA OLIVAS RIOS<br/><textarea style={{width: "1px", height: "1px"}} ref={this.eight} defaultValue="receptorcolina@gmail.com" /><input id="LUCIA OLIVAS RIOS" type="button" value="receptorcolina@gmail.com" className="btn btn-success" onClick={()=> this.copy("eight")}/><br/>9-58776056/COLINA</a>
+                    <a>JUANA SANCHEZ G.<br/><textarea style={{width: "1px", height: "1px"}} ref={this.nine} defaultValue="juanasanchez.pj@gmail.com" /><input id="JUANA SANCHEZ G" type="button" value="juanasanchez.pj@gmail.com" className="btn btn-success" onClick={()=> this.copy("nine")}/><br/>9-92209813, 9-92497149/SANTIAGO</a>  
+                    <a>LEONARDO OLGUIN PINO<br/><textarea style={{width: "1px", height: "1px"}} ref={this.ten} defaultValue="leonardoolguin@gmail.com" /><input id="LEONARDO OLGUIN PINO" type="button" value="leonardoolguin@gmail.com" className="btn btn-success" onClick={()=> this.copy("ten")}/><br/>22-6967081/SANTIAGO</a>                                                 
+                </div>                                          
+            </div>
+
+            </div>
+
+            </div>
+            <div class="carousel-item">
+            <div className="m-0 p-0 col-md-12 col-lg-12 col-xl-12 " ref={this.right}>
+                        
+                        <div  style={{backgroundColor: "#32D782", borderRadius: "10px", padding: "2%"}}>
+                        <div className="h5" style={{color: "white",  fontWeight: "500", marginTop: "3%", textAlign: "center"}}>-ACTUALIZACIÓN CAUSA-</div>
+                            <input list="casos" id="dataListInput" style={{width: "100%", borderColor: "#4DF79F"}} ref={this.dataListInput}/>
+                            <datalist id="casos" >
+                            
+                            {this.state.dataList.map((item, index) => {
+                                    let normalizedName = this.NormaliceAccents(item.clients_name);
+                                    return <option key={index} value={`${item.clients_rut} / ${item.cases_rol_rit_ruc}% ${normalizedName}`} />
+                                })
+                            }
+    
+                            </datalist><br />
+                            <textarea ref={this.ActualizacionAvanceCausa} className="mt-3" style={{width: "100%", borderColor: "#4DF79F"}} placeholder='  actualizar avance de la causa'/><br />
+                            <textarea ref={this.ActualizacionTareaPendiente} className="mt-3" style={{width: "100%", borderColor: "#4DF79F"}} placeholder='  actualizar tarea pendiente'/><br />
+                            <input ref={this.modificacion_rol_rit_ruc} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  modificar rol/rit/ruc causa'/><br />
+                            <input ref={this.modificacion_juzgado_institucion} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  modificar Juzgado/Institución'/><br />
+                            <textarea ref={this.modificacion_descripcion} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  modificar descripcion caso'/><br />
+                            <label className="checkbox-inline text-white font-weight-bold">
+                                 
+                                <div className="row">
+                                    <div className="col-md-6 col-sm-6 col-6 col-lg-6">CERRAR  <input ref={this.causa_teminada_checkBox} type="checkbox" style={{width: "20px", height: "20px"}}/></div>
+                                    <div className=" col-md-1 col-sm-1 col-1 col-lg-1 invisible" ref={this.queryLoader} style={{width: "12vw"}}></div>
+                                    <div className=" loader col-md-1 col-sm-1 col-1 col-lg-1 invisible" ref={this.queryLoaderSucces} style={{width: "12vw"}}></div>
+                                    <div className=" loader col-md-1 col-sm-1 col-1 col-lg-1 invisible" ref={this.queryLoaderError} style={{width: "12vw"}}></div>
+                                </div>
+                            </label>
+    
+                            <input  style={{width: "100%", marginTop:"3px",  marginBottom: "3%", height: "50px", backgroundColor: "#6c757d", color: "white", fontWeight: "bold"}} id='actiualizar_causa' type='button' value='ACTUALIZAR CAUSA' onClick={this.updateCase}/>
+                            
+                        </div>
+    
+                        <div  style={{backgroundColor: "#32D782", borderRadius: "10px", padding: "2%"}}>
+                            <form>
+                                <input ref={this.PDFfile} type="file" accept=".pdf"/> 
+                                <select id="tipoDocumento" ref={this.tipoDocumento} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  tipo documento'>
+                                    <option value="" style={{color: "gray"}}>-Tipo de Documento-</option>
+                                    <option value="Sentencia">Sentencia</option>
+                                    <option value="Avenimiento">Avenimiento</option>
+                                    <option value="Conciliación">Conciliación</option>
+                                    <option value="Medio de prueba">Medio de prueba</option>
+                                    <option value="Escritura Pública">Escritura Pública</option>
+                                    <option value="Escritura Privada">Escritura Privada</option>
+                                    <option value="Inscripción">Inscripción</option>
+                                    <option value="Comprobante Ingreso Administrativo">Comprobante Ingreso Administrativo</option>
+                                    <option value="Certificado">Certificado</option>
+                                    <option value="Comprobante Ingreso Judicial">Comprobante Ingreso Judicial</option>
+                                    <option value="Boleta Gasto">Boleta Gasto</option>
+                                    <option value="Notificación Receptor">Notificación Receptor</option>
+                                    <option value="Demanda">Demanda</option>
+                                    <option value="Recurso">Recurso</option>
+                                    <option value="Informe">Informe</option>
+                                    <option value="Publicación">Publicación</option>
+                                    <option value="Resolucion fija Audiencia">Resolución (fija Audiencia)</option>
+                                    <option value="Resolucion Relevante">Resolución Relevante</option>
+                                    <option value="Documento Otros">Documento Otros</option>
+                                </select><br />   
+                                <input  onClick={this.docSubmit} value='GUARDAR DATOS'  type='button' style={{width: "100%", marginTop:"3px",  marginBottom: "3%", height: "50px", backgroundColor: "#6c757d", color: "white", fontWeight: "bold"}}/>
+                            </form>
+                        </div>
+                        
+                    </div>
+            </div>
+            </div>
+            
+            {/* NEXT AND PREV */}
+            <a ref={this.leftArrow} style={{width: "15vw",transform: "rotate(90deg)", top: "40vh", zIndex:5 }} class="carousel-control-prev" href="#carousel1" role="button" data-slide="prev">
+           
+            </a>
+            <a ref={this.rightArrow} style={{width: "15vw",transform: "rotate(-90deg)", top: "40vh", left: "85vw", zIndex:5 }} className="carousel-control-next" href="#carousel1" role="button" data-slide="next">
+                
+            </a>
+            {/* CARROUSEL INDICATORS */}
+            <ol class="carousel-indicators">
+                <li data-target="#carousel1" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel1" data-slide-to="1"></li>
+                <li data-target="#carousel1" data-slide-to="2"></li>
+            </ol>
+            
+        </div>
+        {/*<div ref={this.leftArrow} className="border-0 position-fixed invisible" style={{width: "15vw",transform: "rotate(90deg)", top: "40vh", zIndex:5 }}></div>
 
         <div className="container-fluid" >
             <div className="row">
             
-                <div className={`col-md-5 col-lg-5 col-xl-5 `} ref={this.left}>
+                <div className={`m-0 p-0 col-md-5 col-lg-5 col-xl-5 `} ref={this.left}>
 
                     <div  style={{backgroundColor: "#32D782", borderRadius: "10px", padding: "2%"}}>
                         <div className="h5" style={{color: "white",  fontWeight: "500", marginTop: "3%", textAlign: "center"}}>
@@ -506,16 +684,16 @@ render(){
                                     
                                     {this.state.dataList.map((item, index) => {
                                                                     return (
-                                    <tr className="selectionRow bg-success text-light" id={index.toString()}>
+                                    <tr key={index*1000} className="selectionRow bg-success text-light" id={index.toString()}>
                                         
                                         <td style={{fontSize: "12px"}}>{item.clients_name}</td>
-                                        <td style={{fontSize: "12px"}}>{item.cases_description}</td>
-                                        <td style={{fontSize: "12px"}}>{item.cases_rol_rit_ruc}</td>
+                                        <td  style={{fontSize: "12px"}}>{item.cases_description}</td>
+                                        <td  style={{fontSize: "12px"}}>{item.cases_rol_rit_ruc}</td>
                                         <td style={{}}><button onClick={()=> {
                                             document.querySelectorAll(".selectionRow").forEach((item)=>{item.className = "selectionRow bg-success text-light"});
                                             document.getElementById(index.toString()).className = "selectionRow bg-warning text-light";
                                             }} className="border-0 text-light btn" style={{backgroundColor: "transparent", fontSize: "12px"}}>{item.cases_update}</button></td>
-                                        <td style={{fontSize: "12px"}}>{item.cases_pendingTask}</td>
+                                        <td  style={{fontSize: "12px"}}>{item.cases_pendingTask}</td>
                                                                          
                                     </tr>)})}
                                     
@@ -534,7 +712,7 @@ render(){
 
                 </div>
 
-                <div className={` col-md-3 col-lg-3 col-xl-3 `} ref={this.middle} style={{backgroundColor: "#32D782", borderRadius: "10px"}}>
+                <div className={`m-0 col-md-3 col-lg-3 col-xl-3 `} ref={this.middle} style={{backgroundColor: "#32D782", borderRadius: "10px"}}>
 
                     <form>
                         <div className="h5" style={{color: "white",  fontWeight: "500", textAlign: "center"}}>-ANTECEDENTES CASO Y CLIENTE-</div>
@@ -563,22 +741,22 @@ render(){
                         </a>
                         <div className="scrollmenu">
                         
-                            <a>FRANCISCO VARGAS HERRERA<br/><textarea style={{width: "1px", height: "1px"}} ref={this.one} value='fvargash25@gmail.com' /><input  type="button" value="fvargash25@gmail.com" className="btn btn-success" onClick={()=> this.copy("one")}/><br/>9-79090562/SAN FELIPE</a>
-                            <a>MARCELO BASCUÑAN BAROSSO<br/><textarea style={{width: "1px", height: "1px"}} ref={this.two} value='receptorbascunan@gmail.com' /><input type="button" value="receptorbascunan@gmail.com" className="btn btn-success" onClick={()=> this.copy("two")}/><br/>22-32249021/SANTIAGO</a>
-                            <a>MYRIAM GONZALEZ JOFRE<br/><textarea style={{width: "1px", height: "1px"}} ref={this.three} value="receptorcolina@gmail.com" /><input id="MYRIAM GONZALEZ JOFRE" type="button" value="receptorcolina@gmail.com" className="btn btn-success" onClick={()=> this.copy("three")}/><br/>9-93924548, 9-58776056/COLINA</a>
-                            <a>GERARDO VERA MORALES<br/><textarea style={{width: "1px", height: "1px"}} ref={this.four} value="gvera.receptor@gmail.com" /><input id="GERARDO VERA MORALES" type="button" value="gvera.receptor@gmail.com" className="btn btn-success" onClick={()=> this.copy("four")}/><br/>22 932 0456/SAN MIGUEL</a>
-                            <a>DANIEL MARCELO MORALES ALEGRIA<br/><textarea style={{width: "1px", height: "1px"}} ref={this.five} value="danielmorales.receptor@gmail.com" /><input id="MARCELO MORALES ALEGRIA" type="button" value="danielmorales.receptor@gmail.com" className="btn btn-success" onClick={()=> this.copy("five")}/><br/>22-8590024, 9-61425281/SAN BERNARDO</a>
-                            <a>MARIA TERESA SOTO<br/><textarea style={{width: "1px", height: "1px"}} ref={this.six} value="mtreceptor@gmail.com" /><input id="MARIA TERESA SOTO" type="button" value="mtreceptor@gmail.com" className="btn btn-success" onClick={()=> this.copy("six")}/><br/>SANTIAGO</a>  
-                            <a>ALEJANDRO GUZMAN VALDIVIA<br/><textarea style={{width: "1px", height: "1px"}} ref={this.seven} value="receptor.alejandroguzman@gmail.com" /><input id="ALEJANDRO GUZMAN VALDIVIA" type="button" value="receptor.alejandroguzman@gmail.com" className="btn btn-success" onClick={()=> this.copy("seven")}/><br/>SANTIAGO</a>
-                            <a>LUCIA OLIVAS RIOS<br/><textarea style={{width: "1px", height: "1px"}} ref={this.eight} value="receptorcolina@gmail.com" /><input id="LUCIA OLIVAS RIOS" type="button" value="receptorcolina@gmail.com" className="btn btn-success" onClick={()=> this.copy("eight")}/><br/>9-58776056/COLINA</a>
-                            <a>JUANA SANCHEZ G.<br/><textarea style={{width: "1px", height: "1px"}} ref={this.nine} value="juanasanchez.pj@gmail.com" /><input iJUANA SANCHEZ Gd="" type="button" value="juanasanchez.pj@gmail.com" className="btn btn-success" onClick={()=> this.copy("nine")}/><br/>9-92209813, 9-92497149/SANTIAGO</a>  
-                            <a>LEONARDO OLGUIN PINO<br/><textarea style={{width: "1px", height: "1px"}} ref={this.ten} value="leonardoolguin@gmail.com" /><input id="LEONARDO OLGUIN PINO" type="button" value="leonardoolguin@gmail.com" className="btn btn-success" onClick={()=> this.copy("ten")}/><br/>22-6967081/SANTIAGO</a>                                                 
+                            <a>FRANCISCO VARGAS HERRERA<br/><textarea  style={{width: "1px", height: "1px"}} ref={this.one} defaultValue='fvargash25@gmail.com' /><input  type="button" value="fvargash25@gmail.com" className="btn btn-success" onClick={()=> this.copy("one")}/><br/>9-79090562/SAN FELIPE</a>
+                            <a>MARCELO BASCUÑAN BAROSSO<br/><textarea style={{width: "1px", height: "1px"}} ref={this.two} defaultValue='receptorbascunan@gmail.com' /><input type="button" value="receptorbascunan@gmail.com" className="btn btn-success" onClick={()=> this.copy("two")}/><br/>22-32249021/SANTIAGO</a>
+                            <a>MYRIAM GONZALEZ JOFRE<br/><textarea style={{width: "1px", height: "1px"}} ref={this.three} defaultValue="receptorcolina@gmail.com" /><input id="MYRIAM GONZALEZ JOFRE" type="button" value="receptorcolina@gmail.com" className="btn btn-success" onClick={()=> this.copy("three")}/><br/>9-93924548, 9-58776056/COLINA</a>
+                            <a>GERARDO VERA MORALES<br/><textarea style={{width: "1px", height: "1px"}} ref={this.four} defaultValue="gvera.receptor@gmail.com" /><input id="GERARDO VERA MORALES" type="button" value="gvera.receptor@gmail.com" className="btn btn-success" onClick={()=> this.copy("four")}/><br/>22 932 0456/SAN MIGUEL</a>
+                            <a>DANIEL MARCELO MORALES ALEGRIA<br/><textarea style={{width: "1px", height: "1px"}} ref={this.five} defaultValue="danielmorales.receptor@gmail.com" /><input id="MARCELO MORALES ALEGRIA" type="button" value="danielmorales.receptor@gmail.com" className="btn btn-success" onClick={()=> this.copy("five")}/><br/>22-8590024, 9-61425281/SAN BERNARDO</a>
+                            <a>MARIA TERESA SOTO<br/><textarea style={{width: "1px", height: "1px"}} ref={this.six} defaultValue="mtreceptor@gmail.com" /><input id="MARIA TERESA SOTO" type="button" value="mtreceptor@gmail.com" className="btn btn-success" onClick={()=> this.copy("six")}/><br/>SANTIAGO</a>  
+                            <a>ALEJANDRO GUZMAN VALDIVIA<br/><textarea style={{width: "1px", height: "1px"}} ref={this.seven} defaultValue="receptor.alejandroguzman@gmail.com" /><input id="ALEJANDRO GUZMAN VALDIVIA" type="button" value="receptor.alejandroguzman@gmail.com" className="btn btn-success" onClick={()=> this.copy("seven")}/><br/>SANTIAGO</a>
+                            <a>LUCIA OLIVAS RIOS<br/><textarea style={{width: "1px", height: "1px"}} ref={this.eight} defaultValue="receptorcolina@gmail.com" /><input id="LUCIA OLIVAS RIOS" type="button" value="receptorcolina@gmail.com" className="btn btn-success" onClick={()=> this.copy("eight")}/><br/>9-58776056/COLINA</a>
+                            <a>JUANA SANCHEZ G.<br/><textarea style={{width: "1px", height: "1px"}} ref={this.nine} defaultValue="juanasanchez.pj@gmail.com" /><input id="JUANA SANCHEZ G" type="button" value="juanasanchez.pj@gmail.com" className="btn btn-success" onClick={()=> this.copy("nine")}/><br/>9-92209813, 9-92497149/SANTIAGO</a>  
+                            <a>LEONARDO OLGUIN PINO<br/><textarea style={{width: "1px", height: "1px"}} ref={this.ten} defaultValue="leonardoolguin@gmail.com" /><input id="LEONARDO OLGUIN PINO" type="button" value="leonardoolguin@gmail.com" className="btn btn-success" onClick={()=> this.copy("ten")}/><br/>22-6967081/SANTIAGO</a>                                                 
                         </div>                                          
                     </div>
 
                 </div>
 
-                <div className=" col-md-3 col-lg-3 col-xl-3 " ref={this.right}>
+                <div className="m-0 p-0 col-md-3 col-lg-3 col-xl-3 " ref={this.right}>
                         
                     <div  style={{backgroundColor: "#32D782", borderRadius: "10px", padding: "2%"}}>
                     <div className="h5" style={{color: "white",  fontWeight: "500", marginTop: "3%", textAlign: "center"}}>-ACTUALIZACIÓN CAUSA-</div>
@@ -587,7 +765,7 @@ render(){
                         
                         {this.state.dataList.map((item, index) => {
                                 let normalizedName = this.NormaliceAccents(item.clients_name);
-                                return <option value={`${item.clients_rut} / ${item.cases_rol_rit_ruc}% ${normalizedName}`} />
+                                return <option key={index} value={`${item.clients_rut} / ${item.cases_rol_rit_ruc}% ${normalizedName}`} />
                             })
                         }
 
@@ -599,11 +777,11 @@ render(){
                         <textarea ref={this.modificacion_descripcion} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  modificar descripcion caso'/><br />
                         <label className="checkbox-inline text-white font-weight-bold">
                              
-                            <div class="row">
-                                <div class="col-md-6 col-sm-6 col-6 col-lg-6">CERRAR  <input ref={this.causa_teminada_checkBox} type="checkbox" style={{width: "20px", height: "20px"}}/></div>
-                                <div class=" col-md-1 col-sm-1 col-1 col-lg-1 invisible" ref={this.queryLoader} style={{width: "12vw"}}></div>
-                                <div class=" loader col-md-1 col-sm-1 col-1 col-lg-1 invisible" ref={this.queryLoaderSucces} style={{width: "12vw"}}></div>
-                                <div class=" loader col-md-1 col-sm-1 col-1 col-lg-1 invisible" ref={this.queryLoaderError} style={{width: "12vw"}}></div>
+                            <div className="row">
+                                <div className="col-md-6 col-sm-6 col-6 col-lg-6">CERRAR  <input ref={this.causa_teminada_checkBox} type="checkbox" style={{width: "20px", height: "20px"}}/></div>
+                                <div className=" col-md-1 col-sm-1 col-1 col-lg-1 invisible" ref={this.queryLoader} style={{width: "12vw"}}></div>
+                                <div className=" loader col-md-1 col-sm-1 col-1 col-lg-1 invisible" ref={this.queryLoaderSucces} style={{width: "12vw"}}></div>
+                                <div className=" loader col-md-1 col-sm-1 col-1 col-lg-1 invisible" ref={this.queryLoaderError} style={{width: "12vw"}}></div>
                             </div>
                         </label>
 
@@ -644,7 +822,7 @@ render(){
                 
             </div>  
         </div>  <div ref={this.rightArrow} className="border-0 position-fixed" style={{width: "15vw",transform: "rotate(-90deg)", top: "40vh", left: "85vw", zIndex:5 }}></div>
-
+                    */}
         </>
         
     );
