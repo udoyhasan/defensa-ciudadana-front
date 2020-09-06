@@ -78,7 +78,8 @@ export default class Cpanel extends React.Component{
         this.modificacion_descripcion = React.createRef();
         this.causa_teminada_checkBox = React.createRef(); 
         this.queryLoader = React.createRef(); 
-        this.queryLoaderResult = React.createRef(); 
+        this.queryLoaderSucces = React.createRef(); 
+        this.queryLoaderError = React.createRef(); 
         
         
 
@@ -112,12 +113,19 @@ export default class Cpanel extends React.Component{
             animationData: require(`../assets/query-loader.json`)
           })   
           lottie.loadAnimation({
-            container: this.queryLoaderResult.current,
+            container: this.queryLoaderSucces.current,
             render: 'svg',
             loop: false,
             autoplay: true,
-            animationData: require(`../assets/${this.state.errorOrSucces}.json`)
+            animationData: require(`../assets/11014-accepted.json`)
           })      
+          lottie.loadAnimation({
+            container: this.queryLoaderError.current,
+            render: 'svg',
+            loop: false,
+            autoplay: true,
+            animationData: require(`../assets/11015-error.json`)
+          })   
         lottie.loadAnimation({
             container: this.rightArrow.current,
             render: 'svg',
@@ -202,7 +210,7 @@ export default class Cpanel extends React.Component{
                 
                     fetch(urlCasos, options2)
                     .then(res => {return res.json()})
-                    .then(data => console.log("JSON.stringify(data)"));
+                    .then(data => {});
                             
                 }
                 
@@ -210,6 +218,8 @@ export default class Cpanel extends React.Component{
     }
 
     updateCase(){//FETCH WITH PUT METHOD TO UPDATE THE TABLE
+
+        this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 visible"
 
         const urlClients = store.getState().fetchBase +'casos/no_rut'//FETCH CON POST A CLIENTES
 
@@ -234,8 +244,6 @@ export default class Cpanel extends React.Component{
     
             };
 
-            console.log(clientData.cases_activeCase)
-
         // request options
         const options = {
             method: 'PUT',
@@ -246,22 +254,35 @@ export default class Cpanel extends React.Component{
         }
 
         fetch(urlClients, options) 
-            .then(res => {return res.json()})
+            .then(res => {
+                
+                return res.json()})
             .then(data => {
-                this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 visible"
-                console.log(JSON.stringify(data))
+                
+                this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"
+                this.setState({errorOrSucces: "11014-accepted"}, ()=>
+                this.queryLoaderSucces.current.className = "loader col-md-2 col-sm-2 col-2 col-lg-2 visible")
+                setTimeout(()=> {this.queryLoaderSucces.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"}, 3000)
+
                 fetch(store.getState().fetchBase + 'casos/17.402.744-7')//RELOAD THE DATA WITH UPDATE
                 .then(response => {return response.json();})
                 .then(data => {
                     this.setState({dataList: data.resp})
                     this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"
-                    this.setState({errorOrSucces: "11014-accepted"}, ()=>
-                    this.queryLoaderResult.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 visible")
-                    setTimeout(()=> {this.queryLoaderResult.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"}, 3000)
                     })
-                .catch((error)=>{})
+                .catch((error)=>{
+                    this.setState({errorOrSucces: "11015-error"}, ()=> {this.queryLoaderError.current.className = "loader col-md-2 col-sm-2 col-2 col-lg-2 visible"})
+                    this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible";
+                    setTimeout(()=> {this.queryLoaderError.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"}, 3000)
+
+                })    
             })
-            .catch((error)=>{})
+            .catch((error)=>{
+                this.setState({errorOrSucces: "11015-error"}, ()=> {this.queryLoaderError.current.className = "loader col-md-2 col-sm-2 col-2 col-lg-2 visible"})
+                this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible";
+                setTimeout(()=> {this.queryLoaderError.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"}, 3000)
+
+            })  
             
             
         // WE CLEAN THE INPUTS
@@ -281,11 +302,9 @@ export default class Cpanel extends React.Component{
         let str = this.dataListInput.current.value;
         let indx = str.indexOf("/");
         let rut= str.slice(0,indx-1);
-        console.log(rut)
         //SE OBTIENE ROL DEL INPUTDATA
         let nameStart = str.indexOf('%');
         let rol= str.slice(indx+2 ,nameStart);
-        console.log(rol)
         
         fetch(casesEndpoint + rut)
         .then(res => {return res.json()})
@@ -334,7 +353,6 @@ export default class Cpanel extends React.Component{
         .then(res => {return res.json()})
         .then(data => {
             
-            console.log(JSON.stringify(data.resp))
         });
 
                 }
@@ -417,29 +435,28 @@ NormaliceAccents (str) {
         this.setState({xTouch: x})
        }
     
-    endGesture(){ console.log(this.state.panelArr[this.state.activeCol])
-
+    endGesture(){ 
 
         if(this.state.whereTo=="right"){
             if(this.state.activeCol>0){this.setState({activeCol: this.state.activeCol - 1})}
             this.setState({whereTo: "", xTouch: 0});
             let selectedCol = this.state.panelArr[this.state.activeCol];
-            this.left.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 invisible"
-            this.middle.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 invisible"
-            this.right.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 invisible"
-            this[selectedCol].current.className = "col-10 col-sm-10 col-md-3 col-lg-3 col-xl-3 visible"
+            this.left.current.className = " col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 d-none"
+            this.middle.current.className = " col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 d-none"
+            this.right.current.className = " col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 d-none"
+            this[selectedCol].current.className = " col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 visible"
         } 
         else if(this.state.whereTo=="left"){
             if(this.state.activeCol<2){this.setState({activeCol: this.state.activeCol + 1})}
             this.setState({whereTo: "", xTouch: 0});
             let selectedCol = this.state.panelArr[this.state.activeCol];
-            this.left.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 invisible";
-            this.middle.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 invisible";
-            this.right.current.className = "col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 invisible";
-            this[selectedCol].current.className = "col-10 col-sm-10 col-md-3 col-lg-3 col-xl-3 visible";
+            this.left.current.className = " col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 d-none";
+            this.middle.current.className = " col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 d-none";
+            this.right.current.className = " col-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 d-none";
+            this[selectedCol].current.className = " col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 visible";
         }
         if(this.state.panelArr[this.state.activeCol]=="left")
-        {this.leftArrow.current.className = "border-0 position-fixed invisible";
+        {this.leftArrow.current.className = "border-0 position-fixed d-none";
         this.rightArrow.current.className = "border-0 position-fixed";
         }
         else if(this.state.panelArr[this.state.activeCol]=="right")
@@ -583,9 +600,10 @@ render(){
                         <label className="checkbox-inline text-white font-weight-bold">
                              
                             <div class="row">
-                                <div class="col-md-7 col-sm-7 col-7 col-lg-7">Causa Terminada   <input ref={this.causa_teminada_checkBox} type="checkbox" style={{width: "20px", height: "20px"}}/></div>
-                                <div class="col-md-2 col-sm-2 col-2 col-lg-2 invisible" ref={this.queryLoader} style={{width: "12vw"}}></div>
-                                <div class="col-md-2 col-sm-2 col-2 col-lg-2 invisible" ref={this.queryLoaderResult} style={{width: "12vw"}}></div>
+                                <div class="col-md-6 col-sm-6 col-6 col-lg-6">CERRAR  <input ref={this.causa_teminada_checkBox} type="checkbox" style={{width: "20px", height: "20px"}}/></div>
+                                <div class=" col-md-1 col-sm-1 col-1 col-lg-1 invisible" ref={this.queryLoader} style={{width: "12vw"}}></div>
+                                <div class=" loader col-md-1 col-sm-1 col-1 col-lg-1 invisible" ref={this.queryLoaderSucces} style={{width: "12vw"}}></div>
+                                <div class=" loader col-md-1 col-sm-1 col-1 col-lg-1 invisible" ref={this.queryLoaderError} style={{width: "12vw"}}></div>
                             </div>
                         </label>
 
