@@ -127,8 +127,7 @@ $top: 1cm;
   @media only all and (min-width: 800px){
     .social-media{
       width: 100%;
-    }
-   
+    }   
     .floatUp{
       animation: floatUpPC 2s forwards;
     }
@@ -252,6 +251,9 @@ $top: 1cm;
   .social-media{
     width: 100%;
   }
+  .table-wrapper-scroll-y * {
+    font-size: 3vw!important;
+}
  
   .shadow-lg-custom{
     box-shadow: 0 0 0 0;
