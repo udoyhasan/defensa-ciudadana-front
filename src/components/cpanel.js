@@ -435,8 +435,8 @@ NormaliceAccents (str) {
         this.setState({xTouch: x})
        }
     
-    endGesture(e){ console.log(e.target.tagName)
-        if(e.target.tagName != "A" && e.target.tagName != "INPUT" && e.target.tagName != "BUTTON" && e.target.tagName != "TEXTAREA" && e.target.type != "button")
+    endGesture(e){
+        if(e.target.tagName != "SELECT" && e.target.tagName != "A" && e.target.tagName != "INPUT" && e.target.tagName != "BUTTON" && e.target.tagName != "TEXTAREA" && e.target.type != "button")
         {
             if(this.state.whereTo==="right"){
                 this. rightArrow.current.click();
@@ -457,36 +457,36 @@ render(){
         <div id="carousel1" class="carousel slide" data-ride="" data-interval="false" style={{height: "90vh"}}>
             <div class="carousel-inner">
             <div class="carousel-item active">
-            <div  style={{backgroundColor: "#32D782", borderRadius: "10px", padding: "2%"}}>
-                        <div className="h5" style={{color: "white",  fontWeight: "500", marginTop: "3%", textAlign: "center"}}>
-                            -PLANILLA CAUSAS ({this.state.dataList.length})-
+            <div  style={{backgroundColor: "#c7c7c7", borderRadius: "10px", padding: "2%"}}>
+                        <div style={{color: "black",  textAlign: "center"}}>
+                           <h5 style={{ fontWeight: "bold", letterSpacing: "10px", fontFamily: "Courier New"}}> PLANILLA DE CASOS ({this.state.dataList.length})</h5>
 
 
                             <div className="table-wrapper-scroll-y my-custom-scrollbar" style={{height: '90vh'}}>
 
-                                <table className="table table-bordered table-striped mb-0">
-                                    <thead >
-                                    <tr>  
-                                        <th scope="col" style={{color: 'white', backgroundColor: 'black'}}>CLIENTE</th>
-                                        <th scope="col" style={{color: 'white', backgroundColor: 'black'}}>CASO</th>
-                                        <th scope="col" style={{color: 'white', backgroundColor: 'black'}}>ROL</th>
-                                        <th scope="col" style={{color: 'white', backgroundColor: 'black'}}>AVANCE</th> 
-                                        <th scope="col" style={{color: 'white', backgroundColor: 'black'}}>PENDIENTE</th> 
+                                <table className="table table-bordered table-striped mb-0" style={{backgroundColor: "#fafafa"}}>
+                                    <thead>
+                                    <tr style={{backgroundColor: "#32cb00", color:"white"}}>  
+                                        <th style={{width: "20%"}} scope="col">CLIENTE</th>
+                                        <th style={{width: "10%"}} scope="col">CASO</th>
+                                        <th style={{width: "10%"}} scope="col">ROL</th>
+                                        <th style={{width: "40%"}} scope="col">AVANCE</th> 
+                                        <th style={{width: "20%"}} scope="col">PENDIENTE</th> 
                                     </tr>
                                     </thead>
                                     <tbody>
                                     
                                     {this.state.dataList.map((item, index) => {
                                                                     return (
-                                    <tr key={index*1000} className="selectionRow bg-success text-light" id={index.toString()}>
+                                    <tr key={index*1000} className="selectionRow bg-no-selected text-dark" id={index.toString()}>
                                         
                                         <td style={{fontSize: "12px"}}>{item.clients_name}</td>
                                         <td  style={{fontSize: "12px"}}>{item.cases_description}</td>
                                         <td  style={{fontSize: "12px"}}>{item.cases_rol_rit_ruc}</td>
                                         <td style={{}}><button onClick={()=> {
-                                            document.querySelectorAll(".selectionRow").forEach((item)=>{item.className = "selectionRow bg-success text-light"});
-                                            document.getElementById(index.toString()).className = "selectionRow bg-warning text-light";
-                                            }} className="border-0 text-light btn" style={{backgroundColor: "transparent", fontSize: "12px"}}>{item.cases_update}</button></td>
+                                            document.querySelectorAll(".selectionRow").forEach((item)=>{item.className = "selectionRow bg-no-selected text-dark"});
+                                            document.getElementById(index.toString()).className = "selectionRow bg-selected text-dark";
+                                            }} className="border-0 text-dark btn" style={{backgroundColor: "transparent", fontSize: "12px"}}>{item.cases_update}</button></td>
                                         <td  style={{fontSize: "12px"}}>{item.cases_pendingTask}</td>
                                                                          
                                     </tr>)})}
@@ -495,8 +495,8 @@ render(){
                                     
                                 </table>
 
-                            <div ref={this.cPanelLoader} className="border-0"></div>
-                            <div ref={this.cPanelError} className="border-0 invisible d-none"></div>
+                            <div ref={this.cPanelLoader} className="border-0 w-50 "></div>
+                            <div ref={this.cPanelError} className="border-0 invisible d-none w-50 "></div>
 
                             </div>
                                   
@@ -505,7 +505,7 @@ render(){
                     </div>
             </div>
             <div class="carousel-item">
-            <div className={`m-0 col-12 cl-sm-12 col-md-12 col-lg-12 col-xl-12 `} ref={this.middle} style={{backgroundColor: "#32D782", borderRadius: "10px"}}>
+            <div className={`m-0 col-12 cl-sm-12 col-md-12 col-lg-12 col-xl-12 `} ref={this.middle} style={{backgroundColor: "#32cb00", borderRadius: "10px"}}>
 
             <form>
                 <div className="h5" style={{color: "white",  fontWeight: "500", textAlign: "center"}}>-ANTECEDENTES CASO Y CLIENTE-</div>
@@ -553,8 +553,8 @@ render(){
             <div class="carousel-item">
             <div className="m-0 p-0 col-md-12 col-lg-12 col-xl-12 " ref={this.right}>
                         
-                        <div  style={{backgroundColor: "#32D782", borderRadius: "10px", padding: "2%"}}>
-                        <div className="h5" style={{color: "white",  fontWeight: "500", marginTop: "3%", textAlign: "center"}}>-ACTUALIZACIÓN CAUSA-</div>
+                        <div className=" p-3 pb-0 pt-0 mb-0"  style={{backgroundColor: "#32cb00"}}>
+                        <div className="h5" style={{color: "white",  fontWeight: "500", textAlign: "center"}}>-ACTUALIZACIÓN CAUSA-</div>
                             <input list="casos" id="dataListInput" style={{width: "100%", borderColor: "#4DF79F"}} ref={this.dataListInput}/>
                             <datalist id="casos" >
                             
@@ -580,14 +580,14 @@ render(){
                                 </div>
                             </label>
     
-                            <input  style={{width: "100%", marginTop:"3px",  marginBottom: "3%", height: "50px", backgroundColor: "#6c757d", color: "white", fontWeight: "bold"}} id='actiualizar_causa' type='button' value='ACTUALIZAR CAUSA' onClick={this.updateCase}/>
+                            <input  style={{width: "100%", height: "50px", backgroundColor: "#6c757d", color: "white", fontWeight: "bold"}} id='actiualizar_causa' type='button' value='ACTUALIZAR CAUSA' onClick={this.updateCase}/>
                             
                         </div>
     
-                        <div  style={{backgroundColor: "#32D782", borderRadius: "10px", padding: "2%"}}>
+                        <div className="p-3 pt-0 mt-0" style={{backgroundColor: "#32cb00"}}>
                             <form>
                                 <input ref={this.PDFfile} type="file" accept=".pdf"/> 
-                                <select id="tipoDocumento" ref={this.tipoDocumento} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  tipo documento'>
+                                <select id="tipoDocumento" ref={this.tipoDocumento} style={{width: "100%", borderColor: "#4DF79F"}} placeholder='  tipo documento'>
                                     <option value="" style={{color: "gray"}}>-Tipo de Documento-</option>
                                     <option value="Sentencia">Sentencia</option>
                                     <option value="Avenimiento">Avenimiento</option>
@@ -609,7 +609,7 @@ render(){
                                     <option value="Resolucion Relevante">Resolución Relevante</option>
                                     <option value="Documento Otros">Documento Otros</option>
                                 </select><br />   
-                                <input  onClick={this.docSubmit} value='GUARDAR DATOS'  type='button' style={{width: "100%", marginTop:"3px",  marginBottom: "3%", height: "50px", backgroundColor: "#6c757d", color: "white", fontWeight: "bold"}}/>
+                                <input  onClick={this.docSubmit} value='GUARDAR DATOS'  type='button' style={{width: "100%", marginTop:"3px", height: "50px", backgroundColor: "#6c757d", color: "white", fontWeight: "bold"}}/>
                             </form>
                         </div>
                         
@@ -618,10 +618,10 @@ render(){
             </div>
             
             {/* NEXT AND PREV */}
-            <a ref={this.rightArrow} style={{width: "5vw",transform: "rotate(90deg)", top: "50vh", left: "0vw" , zIndex:5, position: "fixed"}} class="carousel-control-prev" href="#carousel1" role="button" data-slide="prev">
+            <a ref={this.rightArrow} style={{height: "15%",width: "5vw",transform: "rotate(90deg)", top: "70vh", left: "0vw" , zIndex:5, position: "fixed"}} class="carousel-control-prev" href="#carousel1" role="button" data-slide="prev">
            
             </a>
-            <a ref={this.leftArrow} style={{width: "5vw",transform: "rotate(-90deg)", top: "50vh", left: "95vw" , zIndex:5, position: "fixed" }} className="carousel-control-next" href="#carousel1" role="button" data-slide="next">
+            <a ref={this.leftArrow} style={{height: "15%",width: "5vw",transform: "rotate(-90deg)", top: "70vh", left: "95vw" , zIndex:5, position: "fixed" }} className="carousel-control-next" href="#carousel1" role="button" data-slide="next">
                 
             </a>
             
