@@ -618,10 +618,10 @@ render(){
             </div>
             
             {/* NEXT AND PREV */}
-            <a ref={this.rightArrow} style={{width: "15vw",transform: "rotate(90deg)", top: "70vh", left: "0vw" , zIndex:5, position: "fixed"}} class="carousel-control-prev" href="#carousel1" role="button" data-slide="prev">
+            <a ref={this.rightArrow} style={{width: "5vw",transform: "rotate(90deg)", top: "50vh", left: "0vw" , zIndex:5, position: "fixed"}} class="carousel-control-prev" href="#carousel1" role="button" data-slide="prev">
            
             </a>
-            <a ref={this.leftArrow} style={{width: "15vw",transform: "rotate(-90deg)", top: "70vh", left: "85vw" , zIndex:5, position: "fixed" }} className="carousel-control-next" href="#carousel1" role="button" data-slide="next">
+            <a ref={this.leftArrow} style={{width: "5vw",transform: "rotate(-90deg)", top: "50vh", left: "95vw" , zIndex:5, position: "fixed" }} className="carousel-control-next" href="#carousel1" role="button" data-slide="next">
                 
             </a>
             
