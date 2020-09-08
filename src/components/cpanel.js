@@ -435,15 +435,14 @@ NormaliceAccents (str) {
         this.setState({xTouch: x})
        }
     
-    endGesture(){ 
-
-        if(this.state.whereTo==="right"){
-            console.log("right");
-            this. rightArrow.current.click();
-        }
-        else if(this.state.whereTo==="left"){
-            console.log("left")
-            this.leftArrow.current.click();
+    endGesture(e){ 
+        if(e.target.tagName != "A" && e.target.type != "button"){
+            if(this.state.whereTo==="right"){
+                this. rightArrow.current.click();
+            }
+            else if(this.state.whereTo==="left"){
+                this.leftArrow.current.click();
+            }
         }
         
     }
@@ -618,10 +617,10 @@ render(){
             </div>
             
             {/* NEXT AND PREV */}
-            <a ref={this.rightArrow} style={{width: "15vw",transform: "rotate(-90deg)", top: "70vh", left: "85vw", zIndex:5, position: "fixed"}} class="carousel-control-prev" href="#carousel1" role="button" data-slide="prev">
+            <a ref={this.rightArrow} style={{width: "15vw",transform: "rotate(90deg)", top: "70vh", left: "0vw" , zIndex:5, position: "fixed"}} class="carousel-control-prev" href="#carousel1" role="button" data-slide="prev">
            
             </a>
-            <a ref={this.leftArrow} style={{width: "15vw",transform: "rotate(90deg)", top: "70vh", left: "0vw", zIndex:5, position: "fixed" }} className="carousel-control-next" href="#carousel1" role="button" data-slide="next">
+            <a ref={this.leftArrow} style={{width: "15vw",transform: "rotate(-90deg)", top: "70vh", left: "85vw" , zIndex:5, position: "fixed" }} className="carousel-control-next" href="#carousel1" role="button" data-slide="next">
                 
             </a>
             
