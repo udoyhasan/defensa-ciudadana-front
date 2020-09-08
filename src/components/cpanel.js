@@ -437,7 +437,14 @@ NormaliceAccents (str) {
     
     endGesture(){ 
 
-
+        if(this.state.whereTo==="right"){
+            console.log("right");
+            this. rightArrow.current.click();
+        }
+        else if(this.state.whereTo==="left"){
+            console.log("left")
+            this.leftArrow.current.click();
+        }
         
     }
 
@@ -447,7 +454,7 @@ render(){
     return (
         <>
     
-        <div id="carousel1" class="carousel slide" data-ride="">
+        <div id="carousel1" class="carousel slide" data-ride="" data-interval="false" style={{height: "90vh"}}>
             <div class="carousel-inner">
             <div class="carousel-item active">
             <div  style={{backgroundColor: "#32D782", borderRadius: "10px", padding: "2%"}}>
@@ -611,10 +618,10 @@ render(){
             </div>
             
             {/* NEXT AND PREV */}
-            <a ref={this.leftArrow} style={{width: "15vw",transform: "rotate(90deg)", top: "70vh", zIndex:5, position: "fixed" }} class="carousel-control-prev" href="#carousel1" role="button" data-slide="prev">
+            <a ref={this.rightArrow} style={{width: "15vw",transform: "rotate(-90deg)", top: "70vh", left: "85vw", zIndex:5, position: "fixed"}} class="carousel-control-prev" href="#carousel1" role="button" data-slide="prev">
            
             </a>
-            <a ref={this.rightArrow} style={{width: "15vw",transform: "rotate(-90deg)", top: "70vh", left: "85vw", zIndex:5, position: "fixed"  }} className="carousel-control-next" href="#carousel1" role="button" data-slide="next">
+            <a ref={this.leftArrow} style={{width: "15vw",transform: "rotate(90deg)", top: "70vh", left: "0vw", zIndex:5, position: "fixed" }} className="carousel-control-next" href="#carousel1" role="button" data-slide="next">
                 
             </a>
             
