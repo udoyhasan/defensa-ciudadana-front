@@ -435,8 +435,9 @@ NormaliceAccents (str) {
         this.setState({xTouch: x})
        }
     
-    endGesture(e){ 
-        if(e.target.tagName != "A" && e.target.type != "button"){
+    endGesture(e){ console.log(e.target.tagName)
+        if(e.target.tagName != "A" && e.target.tagName != "INPUT" && e.target.tagName != "BUTTON" && e.target.tagName != "TEXTAREA" && e.target.type != "button")
+        {
             if(this.state.whereTo==="right"){
                 this. rightArrow.current.click();
             }
@@ -504,7 +505,7 @@ render(){
                     </div>
             </div>
             <div class="carousel-item">
-            <div className={`m-0 col-md-12 col-lg-12 col-xl-12 `} ref={this.middle} style={{backgroundColor: "#32D782", borderRadius: "10px"}}>
+            <div className={`m-0 col-12 cl-sm-12 col-md-12 col-lg-12 col-xl-12 `} ref={this.middle} style={{backgroundColor: "#32D782", borderRadius: "10px"}}>
 
             <form>
                 <div className="h5" style={{color: "white",  fontWeight: "500", textAlign: "center"}}>-ANTECEDENTES CASO Y CLIENTE-</div>
@@ -626,7 +627,7 @@ render(){
             
         </div>
         
-        </>
+        </> 
         
     );
 
