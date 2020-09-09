@@ -20,6 +20,8 @@ code {
     monospace;
 }
 .bg-selected{background-color: #76ff03!important;}
+.tableFixHead          { overflow-y: auto; height: 100px; }
+.tableFixHead thead th { position: sticky; top: 0; background-color: #32cb00 ; }
 html {
   height: 100%;
 }

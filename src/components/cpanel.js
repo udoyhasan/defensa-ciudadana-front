@@ -1,6 +1,8 @@
 import React from 'react';
 import {store} from '../redux/store.js';
 import lottie from 'lottie-web';
+import tippy from 'tippy.js';
+import 'tippy.js/dist/tippy.css';
 
 
 
@@ -15,7 +17,9 @@ export default class Cpanel extends React.Component{
             whereTo: "",
             panelArr: ["left", "middle", "right"],
             activeCol: 0,
-            errorOrSucces: "11014-accepted"
+            errorOrSucces: "11014-accepted",
+            updateCaseTextAreaCharacterCounter: 0,
+            todoCaseTextAreaCharacterCounter: 0
 
 
         }
@@ -269,6 +273,12 @@ export default class Cpanel extends React.Component{
                 .then(data => {
                     this.setState({dataList: data.resp})
                     this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"
+                    this.modificacion_rol_rit_ruc.current.value = "";
+                    this.ActualizacionAvanceCausa.current.value = "";
+                    this.ActualizacionTareaPendiente.current.value = "";
+                    this.modificacion_juzgado_institucion.current.value = "";
+                    this.modificacion_descripcion.current.value = "";
+                    this.causa_teminada_checkBox.current.checked = false;
                     })
                 .catch((error)=>{
                     this.setState({errorOrSucces: "11015-error"}, ()=> {this.queryLoaderError.current.className = "loader col-md-2 col-sm-2 col-2 col-lg-2 visible"})
@@ -286,12 +296,7 @@ export default class Cpanel extends React.Component{
             
             
         // WE CLEAN THE INPUTS
-        this.modificacion_rol_rit_ruc.current.value = "";
-        this.ActualizacionAvanceCausa.current.value = "";
-        this.ActualizacionTareaPendiente.current.value = "";
-        this.modificacion_juzgado_institucion.current.value = "";
-        this.modificacion_descripcion.current.value = "";
-        this.causa_teminada_checkBox.current.checked = false;
+        
    
     }
 
@@ -462,7 +467,7 @@ render(){
                            <h5 style={{ fontWeight: "bold", letterSpacing: "10px", fontFamily: "Courier New"}}> PLANILLA DE CASOS ({this.state.dataList.length})</h5>
 
 
-                            <div className="table-wrapper-scroll-y my-custom-scrollbar" style={{height: '90vh'}}>
+                            <div className="table-wrapper-scroll-y my-custom-scrollbar tableFixHead" style={{height: '90vh',backgroundColor: "#32cb00"}}>
 
                                 <table className="table table-bordered table-striped mb-0" style={{backgroundColor: "#fafafa"}}>
                                     <thead>
@@ -565,8 +570,23 @@ render(){
                             }
     
                             </datalist><br />
-                            <textarea ref={this.ActualizacionAvanceCausa} className="mt-3" style={{width: "100%", borderColor: "#4DF79F"}} placeholder='  actualizar avance de la causa'/><br />
-                            <textarea ref={this.ActualizacionTareaPendiente} className="mt-3" style={{width: "100%", borderColor: "#4DF79F"}} placeholder='  actualizar tarea pendiente'/><br />
+                            <textarea onChange={(e)=>{ this.setState({ updateCaseTextAreaCharacterCounter: 300-e.target.value.length},
+                                ()=> { tippy(this.ActualizacionAvanceCausa.current, {
+                                    content: this.state.updateCaseTextAreaCharacterCounter,
+                                    trigger: 'mouseenter focus',
+                                    arrow: false,
+                                  });}
+                                )}} maxlength="300" ref={this.ActualizacionAvanceCausa} className="mt-3" style={{width: "100%", borderColor: "#4DF79F"}} placeholder='  actualizar avance de la causa'/><br />
+                            
+                            <textarea onChange={(e)=>{ this.setState({ TodoCaseTextAreaCharacterCounter: 300-e.target.value.length},
+                                ()=> { tippy(this.ActualizacionTareaPendiente.current, {
+                                    content: this.state.todoCaseTextAreaCharacterCounter,
+                                    trigger: 'mouseenter focus',
+                                    arrow: false,
+                                  });}
+                                )}}
+                            
+                            maxlength="300" ref={this.ActualizacionTareaPendiente} className="mt-3" style={{width: "100%", borderColor: "#4DF79F"}} placeholder='  actualizar tarea pendiente'/><br />
                             <input ref={this.modificacion_rol_rit_ruc} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  modificar rol/rit/ruc causa'/><br />
                             <input ref={this.modificacion_juzgado_institucion} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  modificar Juzgado/Institución'/><br />
                             <textarea ref={this.modificacion_descripcion} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  modificar descripcion caso'/><br />
