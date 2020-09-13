@@ -17,11 +17,7 @@ export default class Cpanel extends React.Component{
             whereTo: "",
             panelArr: ["left", "middle", "right"],
             activeCol: 0,
-            errorOrSucces: "11014-accepted",
-            updateCaseTextAreaCharacterCounter: 0,
-            todoCaseTextAreaCharacterCounter: 0
-
-
+            errorOrSucces: "11014-accepted"
         }
 
         //FUNCIONES ENLAZADAS CON CLASE DE COMPONENTE
@@ -32,6 +28,8 @@ export default class Cpanel extends React.Component{
         this.NormaliceAccents=this.NormaliceAccents.bind(this);
         this.moveGesture=this.moveGesture.bind(this);
         this.endGesture=this.endGesture.bind(this);
+        this.SetContentTippy=this.SetContentTippy.bind(this);
+        
 
         //REFERENCIAS DE FORMULARIO PARA CREAR NUEVO CLIENTE
         this.nombre = React.createRef();
@@ -101,6 +99,19 @@ export default class Cpanel extends React.Component{
         let loaderlottieError =["11233-505-error", "3648-no-internet-connection"]
         let loaderRandomLottie = Math.floor(Math.random()*5);
         let errorRandomLottie = Math.floor(Math.random()*2);
+
+        tippy(this.ActualizacionAvanceCausa.current, {
+            arrow: false,
+            content: "<b id='tippyContent'>300</b>",
+            trigger: 'mouseenter focus',
+            allowHTML: true,
+          });
+          tippy(this.ActualizacionTareaPendiente.current, {
+            arrow: false,
+            content: "<b id='tippyContent2'>300</b>",
+            trigger: 'mouseenter focus',
+            allowHTML: true,
+          });
 
         lottie.loadAnimation({
             container: this.leftArrow.current,
@@ -453,6 +464,13 @@ NormaliceAccents (str) {
         
     }
 
+    SetContentTippy(id, ref){ console.log(id)
+        if(document.getElementById(id)!= null){
+        document.getElementById(id).innerHTML = 300- this[ref].current.value.length;
+        }
+        
+    }
+
 
 
 render(){
@@ -570,23 +588,9 @@ render(){
                             }
     
                             </datalist><br />
-                            <textarea onChange={(e)=>{ this.setState({ updateCaseTextAreaCharacterCounter: 300-e.target.value.length},
-                                ()=> { tippy(this.ActualizacionAvanceCausa.current, {
-                                    content: this.state.updateCaseTextAreaCharacterCounter,
-                                    trigger: 'mouseenter focus',
-                                    arrow: false,
-                                  });}
-                                )}} maxlength="300" ref={this.ActualizacionAvanceCausa} className="mt-3" style={{width: "100%", borderColor: "#4DF79F"}} placeholder='  actualizar avance de la causa'/><br />
+                            <textarea onChange={()=> this.SetContentTippy("tippyContent", "ActualizacionAvanceCausa")} maxlength="300" ref={this.ActualizacionAvanceCausa} className="mt-3" style={{width: "100%", borderColor: "#4DF79F"}} placeholder='  actualizar avance de la causa'/><br />
                             
-                            <textarea onChange={(e)=>{ this.setState({ TodoCaseTextAreaCharacterCounter: 300-e.target.value.length},
-                                ()=> { tippy(this.ActualizacionTareaPendiente.current, {
-                                    content: this.state.todoCaseTextAreaCharacterCounter,
-                                    trigger: 'mouseenter focus',
-                                    arrow: false,
-                                  });}
-                                )}}
-                            
-                            maxlength="300" ref={this.ActualizacionTareaPendiente} className="mt-3" style={{width: "100%", borderColor: "#4DF79F"}} placeholder='  actualizar tarea pendiente'/><br />
+                            <textarea onChange={()=> this.SetContentTippy("tippyContent2", "ActualizacionTareaPendiente")} maxlength="300" ref={this.ActualizacionTareaPendiente} className="mt-3" style={{width: "100%", borderColor: "#4DF79F"}} placeholder='  actualizar tarea pendiente'/><br />
                             <input ref={this.modificacion_rol_rit_ruc} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  modificar rol/rit/ruc causa'/><br />
                             <input ref={this.modificacion_juzgado_institucion} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  modificar Juzgado/Institución'/><br />
                             <textarea ref={this.modificacion_descripcion} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  modificar descripcion caso'/><br />
