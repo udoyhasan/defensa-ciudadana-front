@@ -13,6 +13,7 @@ export default class Cpanel extends React.Component{
             dataList:[],
             cases_client_id: "",
             documentLastRowInserted: "",
+            startxTouch: 0,
             xTouch: 0,
             whereTo: "",
             panelArr: ["left", "middle", "right"],
@@ -26,6 +27,7 @@ export default class Cpanel extends React.Component{
         this.docSubmit=this.docSubmit.bind(this); 
         this.copy=this.copy.bind(this);
         this.NormaliceAccents=this.NormaliceAccents.bind(this);
+        this.startGesture=this.startGesture.bind(this);
         this.moveGesture=this.moveGesture.bind(this);
         this.endGesture=this.endGesture.bind(this);
         this.SetContentTippy=this.SetContentTippy.bind(this);
@@ -91,7 +93,7 @@ export default class Cpanel extends React.Component{
     }
 
     componentDidMount(){ 
-        
+        document.addEventListener("touchstart", this.startGesture, false);
         document.addEventListener("touchmove", this.moveGesture, false);
         document.addEventListener("touchend", this.endGesture, false);
     
@@ -444,24 +446,28 @@ NormaliceAccents (str) {
         return str;
     };
 
+    startGesture(e){
+        this.setState({startxTouch: e.touches[0].clientX})
+    }
     moveGesture(e){
-        let x = e.touches[0].clientX; //GESTURE DETECTOR     
+        let x = e.touches[0].clientX; //GESTURE DETECTOR
         (this.state.xTouch<x)? this.setState({whereTo: "right"}): this.setState({whereTo: "left"})
   
         this.setState({xTouch: x})
        }
     
     endGesture(e){
-        if(e.target.tagName != "SELECT" && e.target.tagName != "A" && e.target.tagName != "INPUT" && e.target.tagName != "BUTTON" && e.target.tagName != "TEXTAREA" && e.target.type != "button")
-        {
-            if(this.state.whereTo==="right"){
-                this. rightArrow.current.click();
-            }
-            else if(this.state.whereTo==="left"){
-                this.leftArrow.current.click();
+        if(Math.abs(this.state.startxTouch-this.state.xTouch)>200){
+            if(e.target.tagName != "SELECT" && e.target.tagName != "A" && e.target.tagName != "INPUT" && e.target.tagName != "BUTTON" && e.target.tagName != "TEXTAREA" && e.target.type != "button")
+            {
+                if(this.state.whereTo==="right"){
+                    this. rightArrow.current.click();
+                }
+                else if(this.state.whereTo==="left"){
+                    this.leftArrow.current.click();
+                }
             }
         }
-        
     }
 
     SetContentTippy(id, ref){ console.log(id)
