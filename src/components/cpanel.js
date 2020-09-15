@@ -274,16 +274,16 @@ export default class Cpanel extends React.Component{
             .then(res => {
                 
                 return res.json()})
-            .then(data => {
-                
-                this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"
-                this.setState({errorOrSucces: "11014-accepted"}, ()=>
-                this.queryLoaderSucces.current.className = "loader col-md-2 col-sm-2 col-2 col-lg-2 visible")
-                setTimeout(()=> {this.queryLoaderSucces.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"}, 3000)
+            .then(data => {//AQUI EL PROBLEMA
+                console.log("entro al primer then")
+                //this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"
+                //this.setState({errorOrSucces: "11014-accepted"}, ()=>
+                //this.queryLoaderSucces.current.className = "loader col-md-2 col-sm-2 col-2 col-lg-2 visible")
+                //setTimeout(()=> {this.queryLoaderSucces.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"}, 3000)
 
                 fetch(store.getState().fetchBase + 'casos/17.402.744-7')//RELOAD THE DATA WITH UPDATE
                 .then(response => {return response.json();})
-                .then(data => {
+                .then(data => { console.log("entro al segundo then")
                     this.setState({dataList: data.resp})
                     this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"
                     this.modificacion_rol_rit_ruc.current.value = "";
@@ -292,15 +292,21 @@ export default class Cpanel extends React.Component{
                     this.modificacion_juzgado_institucion.current.value = "";
                     this.modificacion_descripcion.current.value = "";
                     this.causa_teminada_checkBox.current.checked = false;
+
+                    this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"
+                    this.setState({errorOrSucces: "11014-accepted"}, ()=>
+                    this.queryLoaderSucces.current.className = "loader col-md-2 col-sm-2 col-2 col-lg-2 visible")
+                    setTimeout(()=> {this.queryLoaderSucces.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"}, 3000)
+
                     })
-                .catch((error)=>{
+                .catch((error)=>{  console.log("entro al segundo error")
                     this.setState({errorOrSucces: "11015-error"}, ()=> {this.queryLoaderError.current.className = "loader col-md-2 col-sm-2 col-2 col-lg-2 visible"})
                     this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible";
                     setTimeout(()=> {this.queryLoaderError.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"}, 3000)
 
                 })    
             })
-            .catch((error)=>{
+            .catch((error)=>{  console.log("entro al primer error")
                 this.setState({errorOrSucces: "11015-error"}, ()=> {this.queryLoaderError.current.className = "loader col-md-2 col-sm-2 col-2 col-lg-2 visible"})
                 this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible";
                 setTimeout(()=> {this.queryLoaderError.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"}, 3000)
@@ -470,7 +476,7 @@ NormaliceAccents (str) {
         }
     }
 
-    SetContentTippy(id, ref){ console.log(id)
+    SetContentTippy(id, ref){
         if(document.getElementById(id)!= null){
         document.getElementById(id).innerHTML = 300- this[ref].current.value.length;
         }
