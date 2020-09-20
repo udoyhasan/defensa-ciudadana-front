@@ -15,6 +15,15 @@ html, body {
     outline: none!important;
     box-shadow: none!important;
 }
+input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+input[type=file]{
+  background-color: #007bff;
+  color: white;
+  font-size: bold;
+ 
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
@@ -169,8 +178,6 @@ $top: 1cm;
       font-size: 3vw;
     }
     .border-0.position-fixed{visibility: visible;}
-    .loader{width: 50vw!important;}
-    
     .container-size{
       height: 40vh!important;
    

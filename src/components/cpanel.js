@@ -84,6 +84,9 @@ export default class Cpanel extends React.Component{
         this.queryLoader = React.createRef(); 
         this.queryLoaderSucces = React.createRef(); 
         this.queryLoaderError = React.createRef(); 
+        this.queryLoader2 = React.createRef(); 
+        this.queryLoaderSucces2 = React.createRef(); 
+        this.queryLoaderError2 = React.createRef(); 
         
         
 
@@ -123,7 +126,14 @@ export default class Cpanel extends React.Component{
             animationData: require(`../assets/arrowAdvisor.json`)
           })  
           lottie.loadAnimation({
-            container: this.queryLoader.current,
+            container:  this.queryLoader.current,
+            render: 'svg',
+            loop: true,
+            autoplay: true,
+            animationData: require(`../assets/query-loader.json`)
+          })   
+          lottie.loadAnimation({
+            container:  this.queryLoader2.current,
             render: 'svg',
             loop: true,
             autoplay: true,
@@ -137,12 +147,26 @@ export default class Cpanel extends React.Component{
             animationData: require(`../assets/11014-accepted.json`)
           })      
           lottie.loadAnimation({
+            container: this.queryLoaderSucces2.current,
+            render: 'svg',
+            loop: false,
+            autoplay: true,
+            animationData: require(`../assets/11014-accepted.json`)
+          }) 
+          lottie.loadAnimation({
             container: this.queryLoaderError.current,
             render: 'svg',
             loop: false,
             autoplay: true,
             animationData: require(`../assets/11015-error.json`)
           })   
+          lottie.loadAnimation({
+            container: this.queryLoaderError2.current,
+            render: 'svg',
+            loop: false,
+            autoplay: true,
+            animationData: require(`../assets/11015-error.json`)
+          }) 
         lottie.loadAnimation({
             container: this.rightArrow.current,
             render: 'svg',
@@ -275,15 +299,10 @@ export default class Cpanel extends React.Component{
                 
                 return res.json()})
             .then(data => {//AQUI EL PROBLEMA
-                console.log("entro al primer then")
-                //this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"
-                //this.setState({errorOrSucces: "11014-accepted"}, ()=>
-                //this.queryLoaderSucces.current.className = "loader col-md-2 col-sm-2 col-2 col-lg-2 visible")
-                //setTimeout(()=> {this.queryLoaderSucces.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"}, 3000)
 
                 fetch(store.getState().fetchBase + 'casos/17.402.744-7')//RELOAD THE DATA WITH UPDATE
                 .then(response => {return response.json();})
-                .then(data => { console.log("entro al segundo then")
+                .then(data => { 
                     this.setState({dataList: data.resp})
                     this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"
                     this.modificacion_rol_rit_ruc.current.value = "";
@@ -299,29 +318,25 @@ export default class Cpanel extends React.Component{
                     setTimeout(()=> {this.queryLoaderSucces.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"}, 3000)
 
                     })
-                .catch((error)=>{  console.log("entro al segundo error")
+                .catch((error)=>{  
                     this.setState({errorOrSucces: "11015-error"}, ()=> {this.queryLoaderError.current.className = "loader col-md-2 col-sm-2 col-2 col-lg-2 visible"})
                     this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible";
                     setTimeout(()=> {this.queryLoaderError.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"}, 3000)
 
                 })    
             })
-            .catch((error)=>{  console.log("entro al primer error")
+            .catch((error)=>{ 
                 this.setState({errorOrSucces: "11015-error"}, ()=> {this.queryLoaderError.current.className = "loader col-md-2 col-sm-2 col-2 col-lg-2 visible"})
                 this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible";
                 setTimeout(()=> {this.queryLoaderError.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"}, 3000)
 
-            })  
-            
-            
-        // WE CLEAN THE INPUTS
-        
+            })        
    
     }
 
     docSubmit(){
         const casesEndpoint = store.getState().fetchBase + "casos/";//PRIMERO SE HACE GET A CASOS PARA TRAER TODOS LOS CASOS DEL CLIENTE
-
+        this.queryLoader2.current.className = " col-md-1 col-sm-1 col-1 col-lg-1 visible"
         //SE OBTIENE RUT DEL INPUTDATA
         let str = this.dataListInput.current.value;
         let indx = str.indexOf("/");
@@ -331,58 +346,83 @@ export default class Cpanel extends React.Component{
         let rol= str.slice(indx+2 ,nameStart);
         
         fetch(casesEndpoint + rut)
-        .then(res => {return res.json()})
-        .then(data => {
-            let resp = data.resp;
-            let chosenItem
-            resp.forEach((item) => {
-                (item.cases_rol_rit_ruc==rol)? chosenItem= item: console.log("")
-                console.log(chosenItem)
-                return chosenItem//SE OBITENE TODA LA INFORMACIÓN DE EL CASO SELECCIONADO, EN ESPECIAL EL ID DEL CASO
-            });
+            .then(res => {return res.json()})
+            .then(data => { 
+                        let resp = data.resp;
+                        let chosenItem
+                        resp.forEach((item) => {
+                            (item.cases_rol_rit_ruc==rol)? chosenItem= item: console.log("")
+                            return chosenItem//SE OBITENE TODA LA INFORMACIÓN DE EL CASO SELECCIONADO, EN ESPECIAL EL ID DEL CASO
+                        });
 
-            // SE INSERTAN DATOS DEL DOCUMENTO EN LA TABLA DOCUMENTS, CON ID DEL CASO
-        const docsEndpoint = store.getState().fetchBase + "documentos/no_rol";; 
-        const docData = {
-                documents_type: document.getElementById('tipoDocumento').value,
-                documents_cases_id: chosenItem.cases_id
-            };
-            
-        // request options
-        const docOptions = {
-            method: 'POST',
-            body: JSON.stringify(docData),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }
+                        // SE INSERTAN DATOS DEL DOCUMENTO EN LA TABLA DOCUMENTS, CON ID DEL CASO
+                    const docsEndpoint = store.getState().fetchBase + "documentos/no_rol";; 
+                    const docData = {
+                            documents_type: document.getElementById('tipoDocumento').value,
+                            documents_cases_id: chosenItem.cases_id
+                        };
+                        
+                    // request options
+                    const docOptions = {
+                        method: 'POST',
+                        body: JSON.stringify(docData),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }
 
-        fetch(docsEndpoint, docOptions)
-                .then(res => {return res.json()})
-                .then(data => this.setState({documentLastRowInserted: JSON.stringify(data.resp)},
-                ()=> {
+                    fetch(docsEndpoint, docOptions)
+                            .then(res => {return res.json()})
+                            .then(data => { 
+                                            this.setState({documentLastRowInserted: JSON.stringify(data.resp)},
+                                            ()=> {
 
-                    //SE  ENVIA ARCHIVO AL BACKEND
-        const pdf = this.PDFfile.current.files;
-        const formData = new FormData();
+                                                                //SE  ENVIA ARCHIVO AL BACKEND
+                                                    const pdf = this.PDFfile.current.files;
+                                                    const formData = new FormData();
 
-        formData.append('pdf', pdf[0]);
+                                                    formData.append('pdf', pdf[0]);
 
-        const docsEndpoint = store.getState().fetchBase + "documentos/upload/" + this.state.documentLastRowInserted;
-        fetch(docsEndpoint,{
+                                                    const docsEndpoint = store.getState().fetchBase + "documentos/upload/" + this.state.documentLastRowInserted;
+                                                    fetch(docsEndpoint,{
 
-            method: "POST",
-            body: formData
-        })
-        .then(res => {return res.json()})
-        .then(data => {
-            
-        });
+                                                        method: "POST",
+                                                        body: formData
+                                                    })
+                                                    .then(res => {return res.json()})
+                                                    .then(data => { 
+                                                        this.queryLoader2.current.className = " col-md-1 col-sm-1 col-1 col-lg-1 invisible"
+                                                        this.setState({errorOrSucces: "11014-accepted"}, ()=>
+                                                        this.queryLoaderSucces2.current.className = "loader ccol-md-1 col-sm-1 col-1 col-lg-1 visible")
+                                                        setTimeout(()=> {this.queryLoaderSucces2.current.className = " col-md-1 col-sm-1 col-1 col-lg-1 invisible"}, 3000)
+                                                    })
+                                                    .catch(error=> { 
+                                                        this.setState({errorOrSucces: "11015-error"}, ()=> {this.queryLoaderError2.current.className = "loader col-md-1 col-sm-1 col-1 col-lg-1 visible"})
+                                                        this.queryLoader2.current.className = " col-md-1 col-sm-1 col-1 col-lg-1 invisible";
+                                                        setTimeout(()=> {this.queryLoaderError2.current.className = " col-md-1 col-sm-1 col-1 col-lg-1 invisible"}, 3000)
 
-                }
-                ));
+                                                    })
 
-            });
+                                                }
+                                            )
+                                    })
+                                    .catch(error=>{ 
+                                        this.setState({errorOrSucces: "11015-error"}, ()=> {
+                                        this.queryLoaderError2.current.className = "loader col-md-1 col-sm-1 col-1 col-lg-1 visible"})
+                                        this.queryLoader2.current.className = " col-md-1 col-sm-1 col-1 col-lg-1 invisible";
+                                        setTimeout(()=> {this.queryLoaderError2.current.className = " col-md-1 col-sm-1 col-1 col-lg-1 invisible"}, 3000)
+
+                                    })
+
+                })
+            .catch(error=>{
+                this.setState({errorOrSucces: "11015-error"}, ()=> {
+                this.queryLoaderError2.current.className = "loader col-md-1 col-sm-1 col-1 col-lg-1 visible"})
+                this.queryLoader2.current.className = " col-md-1 col-sm-1 col-1 col-lg-1 invisible";
+                setTimeout(()=> {this.queryLoaderError2.current.className = " col-md-1 col-sm-1 col-1 col-lg-1 invisible"}, 3000)
+
+
+            })
     }
 
     copy = (ref) => {
@@ -606,13 +646,13 @@ render(){
                             <input ref={this.modificacion_rol_rit_ruc} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  modificar rol/rit/ruc causa'/><br />
                             <input ref={this.modificacion_juzgado_institucion} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  modificar Juzgado/Institución'/><br />
                             <textarea ref={this.modificacion_descripcion} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  modificar descripcion caso'/><br />
-                            <label className="checkbox-inline text-white font-weight-bold">
+                            <label className="checkbox-inline text-white font-weight-bold" style={{ height: "10vh"}}>
                                  
                                 <div className="row">
-                                    <div className="col-md-6 col-sm-6 col-6 col-lg-6">CERRAR  <input ref={this.causa_teminada_checkBox} type="checkbox" style={{width: "20px", height: "20px"}}/></div>
-                                    <div className=" col-md-1 col-sm-1 col-1 col-lg-1 invisible" ref={this.queryLoader} style={{width: "12vw"}}></div>
-                                    <div className=" loader col-md-1 col-sm-1 col-1 col-lg-1 invisible" ref={this.queryLoaderSucces} style={{width: "12vw"}}></div>
-                                    <div className=" loader col-md-1 col-sm-1 col-1 col-lg-1 invisible" ref={this.queryLoaderError} style={{width: "12vw"}}></div>
+                                    <div className="col-md-3 col-sm-3 col-3 col-lg-3">CERRAR  <input ref={this.causa_teminada_checkBox} type="checkbox" style={{width: "20px", height: "20px"}}/></div>
+                                    <div className=" col-md-3 col-sm-3 col-3 col-lg-3 invisible" ref={this.queryLoader} style={{height: "8vh"}}></div>
+                                    <div className=" loader col-md-3 col-sm-3 col-3 col-lg-3 invisible" ref={this.queryLoaderSucces} style={{height: "8vh"}}></div>
+                                    <div className=" loader col-md-3 col-sm-3 col-3 col-lg-3 invisible" ref={this.queryLoaderError} style={{height: "8vh"}}></div>
                                 </div>
                             </label>
     
@@ -622,7 +662,13 @@ render(){
     
                         <div className="p-3 pt-0 mt-0" style={{backgroundColor: "#32cb00"}}>
                             <form>
-                                <input ref={this.PDFfile} type="file" accept=".pdf"/> 
+                            <div className="row">
+                                    <div className="col-12 col-sm-12 col-md-5 col-12 col-lg-5 d-inline"> <i class="fas fa-upload fa-lg text-light bg-primary w-100 d-inline rounded p-2"></i> <input className="d-inline" ref={this.PDFfile} id="file" type="file"accept=".pdf"/></div>
+                                    <div className=" col-1 col-sm-1 col-md-1 col-1 col-lg-1 p-3 invisible" ref={this.queryLoader2} style={{height: "5vw", minHeight: "50px",  minWidth: "70px"}}></div>
+                                    <div className=" loader col-1 col-md-1 col-sm-1 col-1 col-lg-1 p-3 invisible" ref={this.queryLoaderSucces2} style={{height: "5vw", minHeight: "50px",  minWidth: "70px"}}></div>
+                                    <div className=" loader col-1 col-md-1 col-sm-1 col-1 col-lg-1 p-3 invisible" ref={this.queryLoaderError2} style={{height: "5vw", minHeight: "50px",  minWidth: "70px"}}></div>
+                            </div>
+                            <div className="row">
                                 <select id="tipoDocumento" ref={this.tipoDocumento} style={{width: "100%", borderColor: "#4DF79F"}} placeholder='  tipo documento'>
                                     <option value="" style={{color: "gray"}}>-Tipo de Documento-</option>
                                     <option value="Sentencia">Sentencia</option>
@@ -644,8 +690,11 @@ render(){
                                     <option value="Resolucion fija Audiencia">Resolución (fija Audiencia)</option>
                                     <option value="Resolucion Relevante">Resolución Relevante</option>
                                     <option value="Documento Otros">Documento Otros</option>
-                                </select><br />   
-                                <input  onClick={this.docSubmit} value='GUARDAR DATOS'  type='button' style={{width: "100%", marginTop:"3px", height: "50px", backgroundColor: "#6c757d", color: "white", fontWeight: "bold"}}/>
+                                    </select>
+                                </div>
+                                
+                                    <input  onClick={this.docSubmit} value='GUARDAR DATOS' type='button' style={{width: "100%", marginTop:"3px", height: "50px", backgroundColor: "#6c757d", color: "white", fontWeight: "bold"}}/>
+                                
                             </form>
                         </div>
                         
