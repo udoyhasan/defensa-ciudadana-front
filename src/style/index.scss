@@ -81,7 +81,7 @@ body, #root {
     animation: opacityPopUpLottieAnimationIntro 1s forwards;
   }
 
-@media only screen and (max-width: 3000px) and (min-width: 800px){
+@media only screen and (max-width: 3000px) and (min-width: 1000px){
 .inputRutContainerPopUp{
 
   animation: inputRutContainerPopUpPC 1s forwards;
@@ -135,7 +135,7 @@ $top: 1cm;
       animation: floatDownPC 1.5s forwards;
     }
 
-  @media only all and (min-width: 800px){
+  @media only all and (min-width: 1000px){
     .social-media{
       width: 100%;
     }   
@@ -153,7 +153,7 @@ $top: 1cm;
       bottom: 85vh;
     }
   }
-  @media only all and (max-width: 800px) and (orientation: portrait){
+  @media only all and (max-width: 1000px) and (orientation: portrait){
     .turnHorizontalAdvisor{
       visibility: visible!important;
     }
@@ -173,7 +173,7 @@ $top: 1cm;
     }
     .pt-5.text-center.align-items-end.center-block  svg, .input-group.mb-3.p-relative , .pt-4.fas.fa-angle-left.text-left{visibility: hidden!important;}
   }
-  @media only all and (max-width: 800px){
+  @media only all and (max-width: 1000px){
     .container-client-panel span{
       font-size: 3vw;
     }
@@ -256,7 +256,7 @@ $top: 1cm;
   }
   
 }
-@media all and (max-width: 800px) and (orientation: portrait){
+@media all and (max-width: 1000px) and (orientation: portrait){
   .social-media{
     width: 100%;
   }

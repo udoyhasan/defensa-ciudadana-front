@@ -189,7 +189,7 @@ export default class Cpanel extends React.Component{
             autoplay: true,
             animationData: require(`../assets/${loaderlottieError[errorRandomLottie]}.json`)
           })
-        fetch(store.getState().fetchBase + 'casos/17.402.744-7')//LOADING DATALIST DATA
+        fetch(store.getState().fetchBase + 'casos/getAllActive')//LOADING DATALIST DATA
         .then(response => {
             return response.json();})
         .then(data => {
@@ -300,7 +300,7 @@ export default class Cpanel extends React.Component{
                 return res.json()})
             .then(data => {//AQUI EL PROBLEMA
 
-                fetch(store.getState().fetchBase + 'casos/17.402.744-7')//RELOAD THE DATA WITH UPDATE
+                fetch(store.getState().fetchBase + 'casos/getAllActive')//RELOAD THE DATA WITH UPDATE
                 .then(response => {return response.json();})
                 .then(data => { 
                     this.setState({dataList: data.resp})
