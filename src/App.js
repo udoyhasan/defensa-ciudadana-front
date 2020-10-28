@@ -61,7 +61,7 @@ export class App extends React.Component {
  
 
     //this.player.current.play()
-    setTimeout(()=>{this.player.current.pause()}, 7000)
+    //setTimeout(()=>{this.player.current.pause()}, 7000)
 //LOTTIE FILES ANIMATIONS
     lottie.loadAnimation({
       container: this.loader.current,
@@ -107,7 +107,7 @@ export class App extends React.Component {
 
       <div className="container-fluid pt-5 ifPhoneDeviceTurnGreen">
         <div className="row">
-          <div className="col-2 col-sm-2 col-md-2 col-lg-4 col-xl-4 " ><audio src={introSound}  ref={this.player} autoPlay/></div>
+          <div className="col-2 col-sm-2 col-md-2 col-lg-4 col-xl-4 " ><audio /*src={introSound}*/  ref={this.player} autoPlay/></div>
           <div className="col-8 col-sm-8 col-md-8 col-lg-4 col-xl-4">  
           <div  ref={this.turnVerticalAdvisor} className='turnVerticalAdvisor' style={{paddingBottom: "30%",visibility: "hidden", transform: "rotate(90deg)", height: "70vh", width: "40vw" ,zIndex: '9', position: 'absolute', backgroundColor: "#1FBF2A"}}></div>
           <LogoGuide bootstrapClass="pt-5 text-center align-items-end center-block "/>{/*dejar espacio al final del class*/}
