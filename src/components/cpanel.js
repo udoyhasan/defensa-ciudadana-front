@@ -298,7 +298,7 @@ export default class Cpanel extends React.Component{
             .then(res => {
                 
                 return res.json()})
-            .then(data => {//AQUI EL PROBLEMA
+            .then(data => {
 
                 fetch(store.getState().fetchBase + 'casos/getAllActive')//RELOAD THE DATA WITH UPDATE
                 .then(response => {return response.json();})

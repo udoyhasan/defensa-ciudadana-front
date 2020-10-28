@@ -36,11 +36,36 @@ export default class Input extends React.Component{
            console.log(store.getState().fetchedData)
            this.setState({notFound: "none"})
         })
-        .catch(() =>{
-            loaderShowerDispatcher('d-none'); 
-            this.setState({notFound: "inline"})
-            this.errorMsg.current.className += " position-absolute mt-5 ml-1"
+        .catch((error) =>{ 
             
+
+            //----------------- HERE ARE A LOOP TO ENSURE THAT THE REQUEST ARRIVE WELL, TRY 5 TIMES
+            let fecthFails;
+            for(let i=0; i<5; i++){
+             let fecthFails= true;
+             setTimeout( ()=>{
+                  
+                fetch(store.getState().fetchBase + store.getState().fetchEndPoint + this.state.inputValue)
+                .then(response => { 
+                    return response.json();})
+                .then(data => {(!data.ok)?loaderShowerDispatcher('d-none'): console.log("")
+                    injectFetchedData(data);
+                    console.log(data);
+                    console.log(store.getState().fetchedData)
+                    this.setState({notFound: "none"})
+                    fecthFails= false;
+                })
+                .catch((error) =>{})
+
+             },2000)
+             if (!fecthFails) { break; }
+            }
+            if(fecthFails)
+            {
+                loaderShowerDispatcher('d-none'); 
+                this.setState({notFound: "inline"})
+                this.errorMsg.current.className += " position-absolute mt-5 ml-1"
+            }
         })
            
     }
