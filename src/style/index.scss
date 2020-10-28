@@ -163,7 +163,7 @@ $top: 1cm;
    
   }
 
-  @media only all and (max-width: 1000px) and (orientation: landscape){
+  @media only all and (max-width: 1000px) and (min-height: 350px) and (orientation: landscape){
     .social-media, .btn.btn-secondary{opacity: 0;}
     .turnVerticalAdvisor{
       visibility: visible!important;  
