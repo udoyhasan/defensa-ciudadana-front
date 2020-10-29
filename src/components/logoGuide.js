@@ -59,7 +59,6 @@ export class LogoGuide extends React.Component{
 
 
     onclickAnimationFunction(){
-        console.log(store.getState().inputIsDisplayed);
         if(store.getState().eventIhibitor==true)
         {      
             backArrowAnimationDispatcher(" backArrowReverse ");

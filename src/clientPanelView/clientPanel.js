@@ -141,7 +141,7 @@ lottie.loadAnimation({
         
     let jsonSavedEle = JSON.parse(localStorage.getItem("savedEle")); 
     let jsonClientSavedEle = JSON.parse(localStorage.getItem("savedClientData"));
-    console.log(jsonClientSavedEle)
+   
     this.setState({cases_updateDate: localStorage.getItem("date")})
     this.setState({
       cases_activeCase: jsonSavedEle.cases_activeCase ,

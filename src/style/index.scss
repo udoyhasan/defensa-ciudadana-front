@@ -81,17 +81,7 @@ body, #root {
     animation: opacityPopUpLottieAnimationIntro 1s forwards;
   }
 
-@media only screen and (max-width: 3000px) and (min-width: 1000px){
-.inputRutContainerPopUp{
 
-  animation: inputRutContainerPopUpPC 1s forwards;
-
-  }
-  .social-media{
-    width: 100%;
-  }
- 
-}
 /*
 $posicion: absolute;
 $top: 1cm;
@@ -103,10 +93,16 @@ $top: 1cm;
 
 
 /*COMPONENTS's ANIMATIONS ACCORDING DEVICE VIEWPORT */
-@media all and (max-width: 3000px) {
+@media all and (min-width: 1001px) {
   .social-media{
     width: 100%;
   }
+
+  .inputRutContainerPopUp{
+
+    animation: inputRutContainerPopUpPC 1s forwards;
+  
+    }
   .border-0.position-fixed{visibility: hidden;}
 
   .shadow-lg-custom{
@@ -134,46 +130,6 @@ $top: 1cm;
   .floatDown{
       animation: floatDownPC 1.5s forwards;
     }
-
-  @media only all and (min-width: 1000px){
-    .social-media{
-      width: 100%;
-    }   
-    .floatUp{
-      animation: floatUpPC 2s forwards;
-    }
-    .d-flex.mt-2.flex-column {
-      position: relative;
-      left: 48%;
-      bottom: 50vh;
-    
-    }
-    #lottie-file-loader{
-      left: 75%;
-      bottom: 85vh;
-    }
-  }
-  @media only all and (max-width: 1000px) and (orientation: portrait){
-    .turnHorizontalAdvisor{
-      visibility: visible!important;
-    }
-    .social-media{
-      width: 100%;
-    }
-   
-  }
-
-  @media only all and (max-width: 1000px) and (min-height: 350px) and (orientation: landscape){
-    .social-media, .btn.btn-secondary{opacity: 0;}
-    .turnVerticalAdvisor{
-      visibility: visible!important;  
-    }
-    .ifPhoneDeviceTurnGreen{
-      background-color: #1FBF2A!important;
-    }
-    .pt-5.text-center.align-items-end.center-block  svg, .input-group.mb-3.p-relative , .pt-4.fas.fa-angle-left.text-left{visibility: hidden!important;}
-  }
-  @media only all and (max-width: 1000px){
     .container-client-panel span{
       font-size: 3vw;
     }
@@ -192,11 +148,11 @@ $top: 1cm;
       font-size: 10px;
 
     }
+   
     .floatUp{
-      animation: floatUpPhone 2s forwards;
-
+      animation: floatUpPC 2s forwards;
     }
-  }
+  
   .backArrow{
     animation: backArrow 2s forwards;
   }
@@ -207,9 +163,20 @@ $top: 1cm;
   .backArrowReverse{
     animation: backArrowReverse 1s forwards;
   }
+  .d-flex.mt-2.flex-column {
+    position: relative;
+    left: 48%;
+    bottom: 50vh;
+  
+  }
+  #lottie-file-loader{
+    left: 75%;
+    bottom: 85vh;
+  }
 
 }
-@media only screen and (max-width: 1100px) and (orientation: landscape) {
+
+@media only screen and (max-width: 1000px) and (orientation: landscape) {
   .container-size{
     height: 80vh!important;
   }
@@ -257,6 +224,12 @@ $top: 1cm;
   
 }
 @media all and (max-width: 1000px) and (orientation: portrait){
+  .turnHorizontalAdvisor{
+    visibility: visible!important;
+  }
+  .social-media{
+    width: 100%;
+  }
   .social-media{
     width: 100%;
   }
@@ -305,6 +278,9 @@ $top: 1cm;
   .floatDown{
       animation: floatDownPhone 1.5s forwards;
     }
+  .floatUp{
+      animation: floatUpPhone 2s forwards;
+    }
   .input-cases-container{
     position: absolute;
     top: 60%;
@@ -315,6 +291,9 @@ $top: 1cm;
       animation: backArrowReverse 1s forwards;
     }
 }
+
+
+// ANIMATIONS
 
 @keyframes logoDashPC {
   0%{ right: 0%; }

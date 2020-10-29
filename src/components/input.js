@@ -32,8 +32,6 @@ export default class Input extends React.Component{
            return response.json();})
        .then(data => {(!data.ok)?loaderShowerDispatcher('d-none'): console.log("")
            injectFetchedData(data);
-           console.log(data);
-           console.log(store.getState().fetchedData)
            this.setState({notFound: "none"})
         })
         .catch((error) =>{ 
@@ -50,8 +48,7 @@ export default class Input extends React.Component{
                     return response.json();})
                 .then(data => {(!data.ok)?loaderShowerDispatcher('d-none'): console.log("")
                     injectFetchedData(data);
-                    console.log(data);
-                    console.log(store.getState().fetchedData)
+                   
                     this.setState({notFound: "none"})
                     fecthFails= false;
                 })
@@ -111,9 +108,9 @@ export default class Input extends React.Component{
 
         if(userAgent.indexOf("Android") != -1){
             
-            this.inputRutContainer.current.style.position  = "fixed"
-            this.inputRutContainer.current.style.top  = "0px"
-            this.inputRutContainer.current.style.zIndex  = "9"
+            //this.inputRutContainer.current.style.position  = "fixed"
+            //this.inputRutContainer.current.style.top  = "0px"
+            //this.inputRutContainer.current.style.zIndex  = "9"
         }
         else{this.inputRut.current.focus()}
     }
