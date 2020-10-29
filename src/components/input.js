@@ -103,13 +103,24 @@ export default class Input extends React.Component{
     }
 
     componentDidMount(){
-        this.inputRut.current.focus()
+
         this.inputRutContainer.current.className += " inputRutContainerPopUp ";
         inputDisplayedAdvisorDispatcher(true);
+
+        let userAgent = navigator.userAgent;
+
+        if(userAgent.indexOf("Android") != -1){
+            
+            this.inputRutContainer.current.style.position  = "fixed"
+            this.inputRutContainer.current.style.top  = "0px"
+            this.inputRutContainer.current.style.zIndex  = "9"
+        }
+        else{this.inputRut.current.focus()}
     }
 
-    componentWillUnmount(){
+    componentWillUnmount(){ 
         inputDisplayedAdvisorDispatcher(false);
+        
     }
 
     render(){
