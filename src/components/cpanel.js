@@ -31,6 +31,8 @@ export default class Cpanel extends React.Component{
         this.moveGesture=this.moveGesture.bind(this);
         this.endGesture=this.endGesture.bind(this);
         this.SetContentTippy=this.SetContentTippy.bind(this);
+        this.updateOnlyCaseDate=this.updateOnlyCaseDate.bind(this);
+        
         
 
         //REFERENCIAS DE FORMULARIO PARA CREAR NUEVO CLIENTE
@@ -195,12 +197,43 @@ export default class Cpanel extends React.Component{
         .then(data => {
             this.cPanelLoader.current.className += "invisible d-none"
             
-            this.setState({dataList: data.resp})
+            this.setState({dataList: data.resp}, ()=>{
+
+                tippy('.UpdateCase', {// IT IS NECESARY THAT THE TIPPY JS COMES BEFOR THE DATA RENDERING
+                    arrow: true,
+                    content: "actualizar fecha",
+                    trigger: 'mouseenter',
+                    allowHTML: false,
+                    placement: "top-end"
+                  });
+            })
             
             })  
             .catch(()=> {
+                
+            //----------------- HERE ARE A LOOP TO ENSURE THAT THE REQUEST ARRIVE WELL, TRY 5 TIMES
+            let fecthFails;
+            for(let i=0; i<5; i++){
+             let fecthFails= true;
+             setTimeout( ()=>{
+                  
+                fetch(store.getState().fetchBase + 'casos/getAllActive')
+                .then(response => { 
+                    return response.json();})
+                .then(data => {
+                    this.cPanelLoader.current.className += "invisible d-none"
+                    this.setState({dataList: data.resp})
+                })
+                .catch((error) =>{})
+
+             },2000)
+             if (!fecthFails) { break; }
+            }
+            if(fecthFails)
+            {
                 this.cPanelLoader.current.className = "invisible d-none"
                 this.cPanelError.current.className = " border-0 d-inline "
+            }
             })
     }
 
@@ -523,6 +556,64 @@ NormaliceAccents (str) {
         
     }
 
+    updateOnlyCaseDate(e){
+
+        let selectedCase = [];
+        let targetEle = e.target;
+        let childNodes = targetEle.parentNode.parentNode.childNodes;
+        childNodes.forEach((item)=>{
+            let falseCase;
+            (item.className == "cases_rol_rit_ruc")? selectedCase.push(item.innerHTML):falseCase = ""
+            
+        })
+
+        let date = new Date();
+
+        const clientData = {
+            selected: selectedCase[0],
+            cases_updateDate: "the back don't need a date, it do it itself",
+    
+            };
+
+        // request options
+        const options = {
+            method: 'PUT',
+            body: JSON.stringify(clientData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        fetch("http://guillermopiedrabuena.pythonanywhere.com/casos/1", options) 
+            .then(res => {
+                
+                return res.json()})
+            .then(data => {
+
+            console.log(data.updated)
+            console.log(targetEle)
+            const instance = tippy(targetEle, {
+                arrow: true,
+                content: "  fecha actualizada   ",
+                trigger: 'click mouseenter',
+                allowHTML: false,
+                placement: "top-end"
+              });
+            
+              instance.show();
+
+            setTimeout(()=> instance.disable(),5000)
+           
+                    
+                  
+            })
+            .catch((error)=>{ 
+
+            }) 
+
+
+    }
+
 
 
 render(){
@@ -557,12 +648,15 @@ render(){
                                         
                                         <td style={{fontSize: "12px"}}>{item.clients_name}</td>
                                         <td  style={{fontSize: "12px"}}>{item.cases_description}</td>
-                                        <td  style={{fontSize: "12px"}}>{item.cases_rol_rit_ruc}</td>
-                                        <td style={{}}><button onClick={()=> {
-                                            document.querySelectorAll(".selectionRow").forEach((item)=>{item.className = "selectionRow bg-no-selected text-dark"});
+                                        <td className="cases_rol_rit_ruc" style={{fontSize: "12px"}}>{item.cases_rol_rit_ruc}</td>
+                                        <td><button onClick={(e)=> {
+                                            document.querySelectorAll(".selectionRow").forEach((item)=>{
+                                                item.className = "selectionRow bg-no-selected text-dark"
+                                            });
                                             document.getElementById(index.toString()).className = "selectionRow bg-selected text-dark";
-                                            }} className="border-0 text-dark btn" style={{backgroundColor: "transparent", fontSize: "12px"}}>{item.cases_update}</button></td>
-                                        <td  style={{fontSize: "12px"}}>{item.cases_pendingTask}</td>
+                                            this.updateOnlyCaseDate(e);
+                                            }} className="UpdateCase border-0 text-dark btn" style={{backgroundColor: "transparent", fontSize: "12px"}}>{item.cases_update}</button></td>
+                                        <td  style={{fontSize: "12px"}} className=" caseUpdate ">{item.cases_pendingTask}</td>
                                                                          
                                     </tr>)})}
                                     
@@ -570,7 +664,7 @@ render(){
                                     
                                 </table>
 
-                            <div ref={this.cPanelLoader} className="border-0 w-50 "></div>
+                            <div ref={this.cPanelLoader} className="border-0 w-50" style={{position: "absolute", left: "20%", top: "10%"}}></div>
                             <div ref={this.cPanelError} className="border-0 invisible d-none w-50 "></div>
 
                             </div>
@@ -674,6 +768,7 @@ render(){
                                     <option value="Sentencia">Sentencia</option>
                                     <option value="Avenimiento">Avenimiento</option>
                                     <option value="Conciliación">Conciliación</option>
+                                    <option value="Conciliación">Contestación</option>
                                     <option value="Medio de prueba">Medio de prueba</option>
                                     <option value="Escritura Pública">Escritura Pública</option>
                                     <option value="Escritura Privada">Escritura Privada</option>

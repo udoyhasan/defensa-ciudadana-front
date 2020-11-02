@@ -76,7 +76,7 @@ lottie.loadAnimation({
   let refreshDocumentsLocalStored = localStorage.getItem("casesDocumentsList");
   refreshDocumentsLocalStored = JSON.parse(refreshDocumentsLocalStored)
   this.setState({documentsLocalStored: refreshDocumentsLocalStored}, ()=>{
-    this.state.documentsLocalStored.forEach((item)=>{ console.log("va uno")
+    this.state.documentsLocalStored.forEach((item)=>{ 
     var node = document.createElement("A");    
     node.className = 'password list-group-item list-group-item-action border-5 border-gray text-center'
     node.style.cursor = "pointer"
@@ -140,7 +140,7 @@ lottie.loadAnimation({
           // THIS VARIABLE CONTAINS THE DOCS DATA
           let documentsLocalStored = localStorage.getItem("casesDocumentsList");
           documentsLocalStored = JSON.parse(documentsLocalStored)
-          this.setState({documentsLocalStored: documentsLocalStored}, ()=> console.log("sored documents: " + JSON.stringify(this.state.documentsLocalStored)))
+          this.setState({documentsLocalStored: documentsLocalStored})
 
           this.state.documentsLocalStored.forEach((item)=>{
             var node = document.createElement("A");    
