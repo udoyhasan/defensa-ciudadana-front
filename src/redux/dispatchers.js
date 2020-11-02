@@ -12,6 +12,9 @@ import {rutSaver} from '../redux/actionsFunctionCreators.js'
 import {loaderShower} from '../redux/actionsFunctionCreators.js'
 import {backArrowAnimation} from '../redux/actionsFunctionCreators.js'
 import {inputDisplayedAdvisor} from '../redux/actionsFunctionCreators.js'
+import {appContainerClassModifierObjectToPreventSamsungGalaxyKeyboardError} from '../redux/actionsFunctionCreators.js'
+
+
 
 export const backArrowAnimationDispatcher = (criteria1)=>{store.dispatch(backArrowAnimation(criteria1));};
 
@@ -36,3 +39,5 @@ export const rutSaverDispatcher = (str) =>{store.dispatch(rutSaver(str));};
 export const loaderShowerDispatcher = (str) =>{store.dispatch(loaderShower(str));};
 
 export const inputDisplayedAdvisorDispatcher = (boolean) =>{store.dispatch(inputDisplayedAdvisor(boolean));};
+
+export const appContainerClassModifierToPreventSamsungGalaxyKeyboardErrorDispatcher = (arr) =>{store.dispatch(appContainerClassModifierObjectToPreventSamsungGalaxyKeyboardError(arr));};

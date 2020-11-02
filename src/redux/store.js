@@ -26,7 +26,8 @@ export let initialState = {/*ESTADO INICIAL*/
   eventIhibitor: false,
   rutSaver:"",
   showLoader: "d-none",
-  inputIsDisplayed: false
+  inputIsDisplayed: false,
+  appContainerClassModifierToPreventSamsungGalaxyKeyboardError: [" ifPhoneDeviceTurnGreen ", "turnVerticalAdvisor"]
 
 } 
 

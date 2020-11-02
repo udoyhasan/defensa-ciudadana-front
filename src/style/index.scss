@@ -24,6 +24,9 @@ input[type=file]{
   font-size: bold;
  
 }
+.turnVerticalAdvisor{
+  visibility: hidden;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
@@ -93,7 +96,7 @@ $top: 1cm;
 
 
 /*COMPONENTS's ANIMATIONS ACCORDING DEVICE VIEWPORT */
-@media all and (min-width: 1001px) {
+@media all and (min-width: 1001px) { /*DESKTOP DEVICES*/
   .social-media{
     width: 100%;
   }
@@ -131,7 +134,7 @@ $top: 1cm;
       animation: floatDownPC 1.5s forwards;
     }
     .container-client-panel span{
-      font-size: 3vw;
+      font-size: 1vw;
     }
     .border-0.position-fixed{visibility: visible;}
     .container-size{
@@ -139,10 +142,10 @@ $top: 1cm;
    
     }
     .container-client-panel p{
-      font-size: 4vw;
+      font-size: 2vw;
     }
     .container-client-panel h1{
-      font-size: 4vw;
+      font-size: 3vw;
     }
     .client-panel *{
       font-size: 10px;
@@ -176,7 +179,28 @@ $top: 1cm;
 
 }
 
-@media only screen and (max-width: 1000px) and (orientation: landscape) {
+@media only screen and (max-height: 370px) and (orientation: landscape){// THIS MEDIA RULE PREVENT THE SAMSNG GALAXY NOTE 10 + KEYBOARD ERROR
+  /*.turnVerticalAdvisor{
+    visibility: hidden!important; 
+  }
+  .ifPhoneDeviceTurnGreen{
+    background-color: white!important;
+  }*/
+
+}
+
+@media only screen and (max-width: 1000px) and (orientation: landscape) {/*PHONES DEVICES, HORIZONTAL*/
+    .turnVerticalAdvisor{
+      visibility: visible;  
+    }
+    .ifPhoneDeviceTurnGreen{
+      background-color: #1FBF2A;
+    }
+    .pt-5.text-center.align-items-end.center-block  svg, .input-group.mb-3.p-relative , .pt-4.fas.fa-angle-left.text-left{
+      visibility: hidden;
+    }
+
+ 
   .container-size{
     height: 80vh!important;
   }
@@ -223,7 +247,7 @@ $top: 1cm;
   }
   
 }
-@media all and (max-width: 1000px) and (orientation: portrait){
+@media all and (max-width: 1000px) and (orientation: portrait){/*PHONES DEVICES, VERTICAL*/
   .turnHorizontalAdvisor{
     visibility: visible!important;
   }

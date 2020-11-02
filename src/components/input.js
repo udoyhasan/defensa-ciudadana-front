@@ -3,7 +3,10 @@ import {store} from '../redux/store.js';
 import {injectFetchedData} from '../redux/dispatchers.js';
 import {rutSaverDispatcher} from '../redux/dispatchers.js';
 import {loaderShowerDispatcher} from '../redux/dispatchers.js';
-import {inputDisplayedAdvisorDispatcher} from '../redux/dispatchers.js'; 
+import {inputDisplayedAdvisorDispatcher} from '../redux/dispatchers.js';
+import {appContainerClassModifierToPreventSamsungGalaxyKeyboardErrorDispatcher} from '../redux/dispatchers.js';
+
+ 
 
 export default class Input extends React.Component{
     constructor(props) {
@@ -19,7 +22,10 @@ export default class Input extends React.Component{
         }
         this.fetchingData = this.fetchingData.bind(this);
         this.onChange = this.onChange.bind(this); 
-        this.keyPressed = this.keyPressed.bind(this);         
+        this.keyPressed = this.keyPressed.bind(this);  
+        this.preventSamsungGalaxyNote10PlusKeyboardError = this.preventSamsungGalaxyNote10PlusKeyboardError.bind(this);  
+        this.preventSamsungGalaxyNote10PlusKeyboardErrorReverse = this.preventSamsungGalaxyNote10PlusKeyboardErrorReverse.bind(this);  
+    
 
       }
 
@@ -99,6 +105,21 @@ export default class Input extends React.Component{
 
     }
 
+    preventSamsungGalaxyNote10PlusKeyboardError(){
+        let userAgent = navigator.userAgent;
+        if(userAgent.indexOf("Android") != -1){
+            appContainerClassModifierToPreventSamsungGalaxyKeyboardErrorDispatcher([" ", " d-none "]);
+            this.inputRutContainer.current.style.visibility = "visible"    
+        }      
+    }
+    preventSamsungGalaxyNote10PlusKeyboardErrorReverse(){
+        let userAgent = navigator.userAgent;
+        if(userAgent.indexOf("Android") != -1){
+            appContainerClassModifierToPreventSamsungGalaxyKeyboardErrorDispatcher([" ifPhoneDeviceTurnGreen ", " turnVerticalAdvisor "]);
+            this.inputRutContainer.current.style.visibility = "hidden"
+        }       
+    }
+
     componentDidMount(){
 
         this.inputRutContainer.current.className += " inputRutContainerPopUp ";
@@ -106,18 +127,12 @@ export default class Input extends React.Component{
 
         let userAgent = navigator.userAgent;
 
-        if(userAgent.indexOf("Android") != -1){
-            
-            //this.inputRutContainer.current.style.position  = "fixed"
-            //this.inputRutContainer.current.style.top  = "0px"
-            //this.inputRutContainer.current.style.zIndex  = "9"
-        }
-        else{this.inputRut.current.focus()}
+        if(userAgent.indexOf("Android") == -1){
+        this.inputRut.current.focus()}
     }
 
     componentWillUnmount(){ 
-        inputDisplayedAdvisorDispatcher(false);
-        
+        inputDisplayedAdvisorDispatcher(false);        
     }
 
     render(){
@@ -129,7 +144,7 @@ export default class Input extends React.Component{
             <div className="input-group-prepend">
                 <button onClick={this.fetchingData} className="btn btn-outline-secondary" type="button" style={{backgroundColor: "#20be2b", color: "white", fontWeight: "200px", borderStyle: "none"}}>Buscar</button>
             </div>
-            <input placeholder="00.000.000-0" onKeyPress={this.keyPressed} type="text" className="form-control"  onChange={this.onChange} ref={this.inputRut}  aria-label="" aria-describedby="basic-addon1"/>
+            <input onBlur={this.preventSamsungGalaxyNote10PlusKeyboardErrorReverse} onClick={this.preventSamsungGalaxyNote10PlusKeyboardError} placeholder="00.000.000-0" onKeyPress={this.keyPressed} type="text" className="form-control"  onChange={this.onChange} ref={this.inputRut}  aria-label="" aria-describedby="basic-addon1"/>
             <small ref={this.errorMsg}className="text-wrap font-weight-bold text-center pt-2" style={{margin: 'auto', color: "#569951",display: this.state.notFound}}>No se encontraron casos asociados a su rut, intenta nuevamente</small>
         </div> 
         {this.props.children}

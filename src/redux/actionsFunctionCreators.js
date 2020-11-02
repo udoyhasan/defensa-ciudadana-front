@@ -94,3 +94,10 @@ export function changeVisibility(criteria1, criteria2) {
      
     }
   }
+  export function appContainerClassModifierObjectToPreventSamsungGalaxyKeyboardError(criteria) {
+    return {
+      type: "GALAXY_ERROR",
+      doneAction: criteria,
+     
+    }
+  }

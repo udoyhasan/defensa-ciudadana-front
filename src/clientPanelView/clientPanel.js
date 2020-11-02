@@ -16,7 +16,7 @@ export class ClientPanel extends React.Component {
   this.container = React.createRef();
   this.turnHorizontalAdvisor = React.createRef();
   this.fileJSON = React.createRef();
-  this.download = this.download.bind(this)
+  //this.download = this.download.bind(this)
   this.DocsDownloadMapedDiv = React.createRef;
   this.state={cases_activeCase: "",
               cases_client_id: "",
@@ -37,7 +37,9 @@ export class ClientPanel extends React.Component {
               documentDownloadInputTippyPassword: "",
               wholeClickedCase: "",
               documentsIdArr: [],
-              documentsIdArr2: []
+              documentsIdArr2: [],
+              documentsLocalStored: []
+
               }
 
   //REFERENCIAS REACT
@@ -70,19 +72,36 @@ lottie.loadAnimation({
   autoplay: true,
   animationData: require('../assets/11330-rotate-phone.json')
 })
+//------------------------------------------------------------------
+  let refreshDocumentsLocalStored = localStorage.getItem("casesDocumentsList");
+  refreshDocumentsLocalStored = JSON.parse(refreshDocumentsLocalStored)
+  this.setState({documentsLocalStored: refreshDocumentsLocalStored}, ()=>{
+    this.state.documentsLocalStored.forEach((item)=>{ console.log("va uno")
+    var node = document.createElement("A");    
+    node.className = 'password list-group-item list-group-item-action border-5 border-gray text-center'
+    node.style.cursor = "pointer"
+    node.download = true
+    node.dataset.iD = item.documents_cases_id
+    node.addEventListener("click", ()=>{ window.location.href='http://guillermopiedrabuena.pythonanywhere.com/documentos/download/' + item.documents_id});
+    var textnode = document.createTextNode(item.documents_type);         
+    node.appendChild(textnode);                             
+    this.documentListContainer.current.appendChild(node) 
+  })
 
+  })
+  
 
+// GETTING THE CLIENT'S DATA
         let fetchedDataResp = store.getState().fetchedData.resp;
-
         changeEndpoint("clientes/")
 
         fetchedDataResp.forEach(ele =>{ 
 
-          let date = ele.cases_updateDate ;//SE TRANSFORMA A FECHA CORTA
+          let date = ele.cases_updateDate ;//TRANSFORMING ON SHORT DATE FORMAT
           
           date = (date == null)? localStorage.getItem("date"): date.slice(date.indexOf(',')+1)
           
-          // ENCUENTRA TERCER ESPACIO Y SACA HORAS Y MINUTOS
+          // IT FOUND THE THIRD GAP AND GET HR AND MIN
           if(date!=null){
           let dateArr = date.split('')
           let thirdSpaceIndex= 0
@@ -109,44 +128,40 @@ lottie.loadAnimation({
           
         })
 
-        //FETCH A cLIENTS, PARA OBTENER NOMBRE CLIENTE
-        
-        fetch(store.getState().fetchBase + store.getState().fetchEndPoint + this.state.cases_client_rut)
-       .then(response => {return response.json();})
-       .then(data => { 
-           this.setState({documentsIdArr: data}, ()=> {console.log(this.state)
-            localStorage.setItem("savedClientData", JSON.stringify(this.state.documentsIdArr))
-          });
-          })
-        //FETCH A DOCUMENTS PARA OBTENER DATOS DE LOS DOCUMENTOS ASOCIADOS AL ACASO
+        //FETCH TO DOCUMENTS FOR GETTING DOCUMENT'S DATA CORRELATED TO THE CASE
         changeEndpoint("documentos/")
         fetch(store.getState().fetchBase + store.getState().fetchEndPoint + store.getState().whatCaseWasClicked) 
         .then(response => {return response.json();})
-        .then(data => {
-          let sorteData= data.resp.sort((a,b)=>a.documents_cases_id-b.documents_cases_id);
-          sorteData.forEach((item)=>{
+        .then(data => { 
+          
+          let sorteData = data.resp.sort((a,b)=>a.documents_cases_id-b.documents_cases_id);
+          localStorage.setItem("casesDocumentsList", JSON.stringify(sorteData));
+          
+          // THIS VARIABLE CONTAINS THE DOCS DATA
+          let documentsLocalStored = localStorage.getItem("casesDocumentsList");
+          documentsLocalStored = JSON.parse(documentsLocalStored)
+          this.setState({documentsLocalStored: documentsLocalStored}, ()=> console.log("sored documents: " + JSON.stringify(this.state.documentsLocalStored)))
+
+          this.state.documentsLocalStored.forEach((item)=>{
             var node = document.createElement("A");    
             node.className = 'password list-group-item list-group-item-action border-5 border-gray text-center'
             node.style.cursor = "pointer"
             node.download = true
             node.dataset.iD = item.documents_cases_id
-            node.addEventListener("click", this.download);
-            var textnode = document.createTextNode(item.documents_type);        
+            node.addEventListener("click", ()=>{ window.location.href='http://guillermopiedrabuena.pythonanywhere.com/documentos/download/' + item.documents_id});
+            var textnode = document.createTextNode(item.documents_type);         
             node.appendChild(textnode);                             
             this.documentListContainer.current.appendChild(node) 
           })
         })
 
 
-        
     let jsonSavedEle = JSON.parse(localStorage.getItem("savedEle")); 
-    let jsonClientSavedEle = JSON.parse(localStorage.getItem("savedClientData"));
-   
     this.setState({cases_updateDate: localStorage.getItem("date")})
     this.setState({
       cases_activeCase: jsonSavedEle.cases_activeCase ,
       cases_client_id:  jsonSavedEle.cases_client_id,
-      cases_client_name: "",//jsonClientSavedEle.resp[0].clients_name,
+      cases_client_name: jsonSavedEle.clients_name,
       cases_deadLine: jsonSavedEle.cases_deadLine ,
       cases_description:  jsonSavedEle.cases_description,
       cases_id: jsonSavedEle.cases_id ,
@@ -160,42 +175,6 @@ lottie.loadAnimation({
      
         }) 
       }
-
-  download(e){//ARREGLAR
-    
-    //SE OBTIENEN LOS ID DE LOS DOCUMENTOS
-    fetch(store.getState().fetchBase + store.getState().fetchEndPoint + '/' + store.getState().whatCaseWasClicked)
-    .then(response => {return response.json();})
-    .then(data =>{
-    let arr = []
-    data.resp.forEach((item)=>{
-      arr.push({documents_id: item.documents_id, documents_type: item.documents_type})
-    })
-    this.setState({documentsIdArr2: [...arr]},
-      
-      ()=>{ 
-          //EN EL CALLBAKC SE RECORRE CADA ITEM DE documentsIdArr PARA DESCARGAR EL PDF EN ESPECÍFICO
-
-          this.state.documentsIdArr2.forEach((item)=>{
-            
-            
-              
-              fetch(store.getState().fetchBase + store.getState().fetchEndPoint + 'download/' + item.documents_id) 
-              .then(response => {return response.blob();})//SE RECIBE EL PDF COMO BLOB
-              .then(blob =>{
-                let clciked = e.target
-                let objUrl = URL.createObjectURL(blob)
-                if(item.documents_type == e.target.innerText){
-                clciked.setAttribute("href", objUrl)
-                clciked.download = `${clciked.innerText}.pdf`;}
-                        })
-           
-        })}
-     
-      
-      )    
-    })       
-  }
 
   componentWillUnmount() {
 
@@ -248,7 +227,7 @@ lottie.loadAnimation({
 
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 <div className="row">
-                <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center lead" style={{borderBottom: "2px solid rgb(3,104,10)"}}>MI CAUSA</div>
+                <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center lead" style={{fontSize: "10px", borderBottom: "2px solid rgb(3,104,10)"}}>MI CAUSA</div>
                 </div>
                 <div className="row" >
                    <div className="col-8 col-sm-8 col-md-6 col-lg-6 col-xl-6 text-right">

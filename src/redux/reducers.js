@@ -10,6 +10,9 @@ export function reducer(state = initialState, action) {/*REDUCER*/
     else if(action.type==="INJECT_FETCHED_DATA"){
       return {...state, fetchedData: action.doneAction};
     }
+    else if(action.type==="GALAXY_ERROR"){
+      return {...state, appContainerClassModifierToPreventSamsungGalaxyKeyboardError: action.doneAction};
+    }
     else if(action.type==="DISPLAY_ARROW"){
       return {...state, backArrowAnimation: action.doneAction};
     }
