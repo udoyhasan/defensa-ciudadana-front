@@ -18,7 +18,8 @@ export default class Cpanel extends React.Component{
             whereTo: "",
             panelArr: ["left", "middle", "right"],
             activeCol: 0,
-            errorOrSucces: "11014-accepted"
+            errorOrSucces: "11014-accepted",
+            pendingTasksCounter: 0
         }
 
         //FUNCIONES ENLAZADAS CON CLASE DE COMPONENTE
@@ -32,6 +33,9 @@ export default class Cpanel extends React.Component{
         this.endGesture=this.endGesture.bind(this);
         this.SetContentTippy=this.SetContentTippy.bind(this);
         this.updateOnlyCaseDate=this.updateOnlyCaseDate.bind(this);
+        this.setAllRowOnGreen=this.setAllRowOnGreen.bind(this);
+
+        
         
         
 
@@ -206,6 +210,18 @@ export default class Cpanel extends React.Component{
                     allowHTML: false,
                     placement: "top-end"
                   });
+
+                let counter = [];// WE COUNT THE PENDING TASKS ON THE TABLE
+                this.state.dataList.forEach((item)=>{
+                    let task = item.cases_pendingTask;
+                    if(task){ 
+                        if(task.trim().length != 0){
+                            counter.push(1);
+                        }
+                    }
+
+                })
+                this.setState({pendingTasksCounter: counter.length });
             })
             
             })  
@@ -340,7 +356,10 @@ export default class Cpanel extends React.Component{
                     this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"
                     this.modificacion_rol_rit_ruc.current.value = "";
                     this.ActualizacionAvanceCausa.current.value = "";
+                    //WE RELOAD THE PENDING TASK COUNTER
+                    if((this.ActualizacionTareaPendiente.current.value).trim().length == 0){this.setState({pendingTasksCounter: this.state.pendingTasksCounter - 1})}
                     this.ActualizacionTareaPendiente.current.value = "";
+
                     this.modificacion_juzgado_institucion.current.value = "";
                     this.modificacion_descripcion.current.value = "";
                     this.causa_teminada_checkBox.current.checked = false;
@@ -363,7 +382,7 @@ export default class Cpanel extends React.Component{
                 this.queryLoader.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible";
                 setTimeout(()=> {this.queryLoaderError.current.className = " col-md-2 col-sm-2 col-2 col-lg-2 invisible"}, 3000)
 
-            })        
+            })
    
     }
 
@@ -589,9 +608,6 @@ NormaliceAccents (str) {
                 
                 return res.json()})
             .then(data => {
-
-            console.log(data.updated)
-            console.log(targetEle)
             const instance = tippy(targetEle, {
                 arrow: true,
                 content: "  fecha actualizada   ",
@@ -602,7 +618,7 @@ NormaliceAccents (str) {
             
               instance.show();
 
-            setTimeout(()=> instance.disable(),5000)
+            setTimeout(()=> instance.disable(),1000)
            
                     
                   
@@ -613,6 +629,13 @@ NormaliceAccents (str) {
 
 
     }
+    setAllRowOnGreen(index){
+
+       document.querySelectorAll(".selectionRow").forEach((item)=>{
+            item.className = "selectionRow bg-no-selected text-dark"
+        });
+        document.getElementById(index.toString()).className = "selectionRow bg-selected text-dark";
+    }
 
 
 
@@ -620,9 +643,9 @@ render(){
     return (
         <>
     
-        <div id="carousel1" class="carousel slide" data-ride="" data-interval="false" style={{height: "90vh"}}>
-            <div class="carousel-inner">
-            <div class="carousel-item active">
+        <div id="carousel1" className="carousel slide" data-ride="" data-interval="false" style={{height: "90vh"}}>
+            <div className="carousel-inner">
+            <div className="carousel-item active">
             <div  style={{backgroundColor: "#c7c7c7", borderRadius: "10px", padding: "2%"}}>
                         <div style={{color: "black",  textAlign: "center"}}>
                            <h5 style={{ fontWeight: "bold", letterSpacing: "10px", fontFamily: "Courier New"}}> PLANILLA DE CASOS ({this.state.dataList.length})</h5>
@@ -637,7 +660,7 @@ render(){
                                         <th style={{width: "10%"}} scope="col">CASO</th>
                                         <th style={{width: "10%"}} scope="col">ROL</th>
                                         <th style={{width: "40%"}} scope="col">AVANCE</th> 
-                                        <th style={{width: "20%"}} scope="col">PENDIENTE</th> 
+                                        <th style={{width: "20%"}} scope="col">PENDIENTE ({this.state.pendingTasksCounter})</th> 
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -646,16 +669,10 @@ render(){
                                                                     return (
                                     <tr key={index*1000} className="selectionRow bg-no-selected text-dark" id={index.toString()}>
                                         
-                                        <td style={{fontSize: "12px"}}>{item.clients_name}</td>
-                                        <td  style={{fontSize: "12px"}}>{item.cases_description}</td>
-                                        <td className="cases_rol_rit_ruc" style={{fontSize: "12px"}}>{item.cases_rol_rit_ruc}</td>
-                                        <td><button onClick={(e)=> {
-                                            document.querySelectorAll(".selectionRow").forEach((item)=>{
-                                                item.className = "selectionRow bg-no-selected text-dark"
-                                            });
-                                            document.getElementById(index.toString()).className = "selectionRow bg-selected text-dark";
-                                            this.updateOnlyCaseDate(e);
-                                            }} className="UpdateCase border-0 text-dark btn" style={{backgroundColor: "transparent", fontSize: "12px"}}>{item.cases_update}</button></td>
+                                        <td onClick={()=> this.setAllRowOnGreen(index)} style={{fontSize: "12px"}}>{item.clients_name}</td>
+                                        <td onClick={()=> this.setAllRowOnGreen(index)}  style={{fontSize: "12px"}}>{item.cases_description}</td>
+                                        <td onClick={()=> this.setAllRowOnGreen(index)} className="cases_rol_rit_ruc" style={{fontSize: "12px"}}>{item.cases_rol_rit_ruc}</td>
+                                        <td><button onDoubleClick={(e)=> {this.updateOnlyCaseDate(e);}} className="UpdateCase border-0 text-dark btn" style={{backgroundColor: "transparent", fontSize: "12px"}}>{item.cases_update}</button></td>
                                         <td  style={{fontSize: "12px"}} className=" caseUpdate ">{item.cases_pendingTask}</td>
                                                                          
                                     </tr>)})}
@@ -673,7 +690,7 @@ render(){
                             
                     </div>
             </div>
-            <div class="carousel-item">
+            <div className="carousel-item">
             <div className={`m-0 col-12 cl-sm-12 col-md-12 col-lg-12 col-xl-12 `} ref={this.middle} style={{backgroundColor: "#32cb00", borderRadius: "10px"}}>
 
             <form>
@@ -719,7 +736,7 @@ render(){
             </div>
 
             </div>
-            <div class="carousel-item">
+            <div className="carousel-item">
             <div className="m-0 p-0 col-md-12 col-lg-12 col-xl-12 " ref={this.right}>
                         
                         <div className=" p-3 pb-0 pt-0 mb-0"  style={{backgroundColor: "#32cb00"}}>
@@ -734,9 +751,9 @@ render(){
                             }
     
                             </datalist><br />
-                            <textarea onChange={()=> this.SetContentTippy("tippyContent", "ActualizacionAvanceCausa")} maxlength="300" ref={this.ActualizacionAvanceCausa} className="mt-3" style={{width: "100%", borderColor: "#4DF79F"}} placeholder='  actualizar avance de la causa'/><br />
+                            <textarea onChange={()=> this.SetContentTippy("tippyContent", "ActualizacionAvanceCausa")} maxLength="300" ref={this.ActualizacionAvanceCausa} className="mt-3" style={{width: "100%", borderColor: "#4DF79F"}} placeholder='  actualizar avance de la causa'/><br />
                             
-                            <textarea onChange={()=> this.SetContentTippy("tippyContent2", "ActualizacionTareaPendiente")} maxlength="300" ref={this.ActualizacionTareaPendiente} className="mt-3" style={{width: "100%", borderColor: "#4DF79F"}} placeholder='  actualizar tarea pendiente'/><br />
+                            <textarea onChange={()=> this.SetContentTippy("tippyContent2", "ActualizacionTareaPendiente")} maxLength="300" ref={this.ActualizacionTareaPendiente} className="mt-3" style={{width: "100%", borderColor: "#4DF79F"}} placeholder='  actualizar tarea pendiente'/><br />
                             <input ref={this.modificacion_rol_rit_ruc} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  modificar rol/rit/ruc causa'/><br />
                             <input ref={this.modificacion_juzgado_institucion} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  modificar Juzgado/Institución'/><br />
                             <textarea ref={this.modificacion_descripcion} style={{width: "100%", marginTop:"3px", borderColor: "#4DF79F"}} placeholder='  modificar descripcion caso'/><br />
@@ -757,7 +774,7 @@ render(){
                         <div className="p-3 pt-0 mt-0" style={{backgroundColor: "#32cb00"}}>
                             <form>
                             <div className="row">
-                                    <div className="col-12 col-sm-12 col-md-5 col-12 col-lg-5 d-inline"> <i class="fas fa-upload fa-lg text-light bg-primary w-100 d-inline rounded p-2"></i> <input className="d-inline" ref={this.PDFfile} id="file" type="file"accept=".pdf"/></div>
+                                    <div className="col-12 col-sm-12 col-md-5 col-12 col-lg-5 d-inline"> <i className="fas fa-upload fa-lg text-light bg-primary w-100 d-inline rounded p-2"></i> <input className="d-inline" ref={this.PDFfile} id="file" type="file"accept=".pdf"/></div>
                                     <div className=" col-1 col-sm-1 col-md-1 col-1 col-lg-1 p-3 invisible" ref={this.queryLoader2} style={{height: "5vw", minHeight: "50px",  minWidth: "70px"}}></div>
                                     <div className=" loader col-1 col-md-1 col-sm-1 col-1 col-lg-1 p-3 invisible" ref={this.queryLoaderSucces2} style={{height: "5vw", minHeight: "50px",  minWidth: "70px"}}></div>
                                     <div className=" loader col-1 col-md-1 col-sm-1 col-1 col-lg-1 p-3 invisible" ref={this.queryLoaderError2} style={{height: "5vw", minHeight: "50px",  minWidth: "70px"}}></div>
@@ -798,7 +815,7 @@ render(){
             </div>
             
             {/* NEXT AND PREV */}
-            <a ref={this.rightArrow} style={{height: "15%",width: "5vw",transform: "rotate(90deg)", top: "70vh", left: "0vw" , zIndex:5, position: "fixed"}} class="carousel-control-prev" href="#carousel1" role="button" data-slide="prev">
+            <a ref={this.rightArrow} style={{height: "15%",width: "5vw",transform: "rotate(90deg)", top: "70vh", left: "0vw" , zIndex:5, position: "fixed"}} className="carousel-control-prev" href="#carousel1" role="button" data-slide="prev">
            
             </a>
             <a ref={this.leftArrow} style={{height: "15%",width: "5vw",transform: "rotate(-90deg)", top: "70vh", left: "95vw" , zIndex:5, position: "fixed" }} className="carousel-control-next" href="#carousel1" role="button" data-slide="next">
