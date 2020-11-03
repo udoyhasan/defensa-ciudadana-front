@@ -16,7 +16,7 @@ import introSound from './assets/IntroMusic.mp3'
 //CONSTANTES QUE AFECTAN AL COMPONENTE
 const buttonSet= (<Container colOrRow="" >        
   <Button id="whyUs" cursor="not-allowed" btnLabel="¿Es Chile Justo?"/>
-  <Button id="client" btnLabel="Soy Cliente"/>
+  <Button id="client" btnLabel="Clientes"/>
   <Link to='/jobExchange' className='text-white text-decoration-none'><button id="advocate" type="button" className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%", cursor: "pointer"}}>Soy Defensor Ciudadano</button></Link>
   
 </Container>);
@@ -45,6 +45,9 @@ export class App extends React.Component {
     whatCaseWasClickedFunction(data);
   }
   componentDidMount(){ 
+
+  //WE CLEAR THE LOCALSTORAGE IN CASE THE USER TURN BACK FROM THE CLIENT PANEL
+  localStorage.clear();
   // GET CURRENT DATE FOR LOTTIE FILE DISPLAY
   let today = new Date();
   let month = today.getMonth() + 1;

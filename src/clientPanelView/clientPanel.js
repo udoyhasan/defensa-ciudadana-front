@@ -74,21 +74,30 @@ lottie.loadAnimation({
 })
 //------------------------------------------------------------------
   let refreshDocumentsLocalStored = localStorage.getItem("casesDocumentsList");
-  refreshDocumentsLocalStored = JSON.parse(refreshDocumentsLocalStored)
-  this.setState({documentsLocalStored: refreshDocumentsLocalStored}, ()=>{
-    this.state.documentsLocalStored.forEach((item)=>{ 
-    var node = document.createElement("A");    
-    node.className = 'password list-group-item list-group-item-action border-5 border-gray text-center'
-    node.style.cursor = "pointer"
-    node.download = true
-    node.dataset.iD = item.documents_cases_id
-    node.addEventListener("click", ()=>{ window.location.href='http://guillermopiedrabuena.pythonanywhere.com/documentos/download/' + item.documents_id});
-    var textnode = document.createTextNode(item.documents_type);         
-    node.appendChild(textnode);                             
-    this.documentListContainer.current.appendChild(node) 
-  })
+  if(refreshDocumentsLocalStored){
 
-  })
+    refreshDocumentsLocalStored = JSON.parse(refreshDocumentsLocalStored)
+
+    this.setState({documentsLocalStored: refreshDocumentsLocalStored}, ()=>{
+      console.log("actual state: " + JSON.stringify(this.state))
+   
+      this.state.documentsLocalStored.forEach((item)=>{ 
+      var node = document.createElement("A");    
+      node.className = 'password list-group-item list-group-item-action border-5 border-gray text-center'
+      node.style.cursor = "pointer"
+      node.download = true
+      node.dataset.iD = item.documents_cases_id
+      node.addEventListener("click", ()=>{ window.location.href='http://guillermopiedrabuena.pythonanywhere.com/documentos/download/' + item.documents_id});
+      var textnode = document.createTextNode(item.documents_type);         
+      node.appendChild(textnode);                             
+      this.documentListContainer.current.appendChild(node) 
+    })
+  
+    })
+
+
+  }
+  
   
 
 // GETTING THE CLIENT'S DATA
@@ -180,7 +189,7 @@ lottie.loadAnimation({
 
     injectFetchedData({resp:[]})
     changeEndpoint("casos/")
-    console.clear()
+    //console.clear()
 
     
   }
@@ -227,7 +236,7 @@ lottie.loadAnimation({
 
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 <div className="row">
-                <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center lead" style={{fontSize: "10px", borderBottom: "2px solid rgb(3,104,10)"}}>MI CAUSA</div>
+                <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center lead" style={{fontSize: "30px", borderBottom: "2px solid rgb(3,104,10)"}}>MI CAUSA</div>
                 </div>
                 <div className="row" >
                    <div className="col-8 col-sm-8 col-md-6 col-lg-6 col-xl-6 text-right">

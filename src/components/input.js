@@ -37,7 +37,7 @@ export default class Input extends React.Component{
        .then(response => { 
            return response.json();})
        .then(data => {(!data.ok)?loaderShowerDispatcher('d-none'): console.log("")
-           injectFetchedData(data);
+           injectFetchedData(data);// THE CLICKED CASE DATA IS STORED ON THE REDUX STORE
            this.setState({notFound: "none"})
         })
         .catch((error) =>{ 
