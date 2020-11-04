@@ -34,9 +34,8 @@ export default class Cpanel extends React.Component{
         this.SetContentTippy=this.SetContentTippy.bind(this);
         this.updateOnlyCaseDate=this.updateOnlyCaseDate.bind(this);
         this.setAllRowOnGreen=this.setAllRowOnGreen.bind(this);
+        this.caseSearcher=this.caseSearcher.bind(this);
 
-        
-        
         
 
         //REFERENCIAS DE FORMULARIO PARA CREAR NUEVO CLIENTE
@@ -70,6 +69,7 @@ export default class Cpanel extends React.Component{
         this.left = React.createRef();
         this.middle = React.createRef();
         this.right = React.createRef();
+        this.casesTable = React.createRef();
 
         //REFERENCES OF GESTURE INTERACTIVITY
         this.rightArrow = React.createRef();
@@ -637,6 +637,28 @@ NormaliceAccents (str) {
         document.getElementById(index.toString()).className = "selectionRow bg-selected text-dark";
     }
 
+    caseSearcher(e){
+        let searchedValue = e.target.value.toLowerCase();
+        let childrens = this.casesTable.current.childNodes;
+
+        //BEFORE NEW SEARCH WE DISPLAY EVERY CHILDS
+        childrens.forEach((item)=>{item.style.display = "table-row";})
+
+        childrens.forEach((item)=>{
+
+         let rowconten = item.dataset.rowconten.toLowerCase(); //WE GET THE PERSONALIZED ATTRIBUTE DATA-ROWCONTENT, TROUGHT DATASET METHOD
+        
+            if(searchedValue.length != 0){
+                    if(!rowconten.includes(searchedValue)){ //HIDDE
+                        item.style.display = "none";
+                    }
+                } else{}
+        
+        })
+
+
+    }
+
 
 
 render(){
@@ -649,7 +671,7 @@ render(){
             <div  style={{backgroundColor: "#c7c7c7", borderRadius: "10px", padding: "2%"}}>
                         <div style={{color: "black",  textAlign: "center"}}>
                            <h5 style={{ fontWeight: "bold", letterSpacing: "10px", fontFamily: "Courier New"}}> PLANILLA DE CASOS ({this.state.dataList.length})</h5>
-
+                            <div style={{backgroundColor: "#32cb00"}}><input onChange={this.caseSearcher} placeholder="Busca por cliente, materia o rol ... " className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input></div>
 
                             <div className="table-wrapper-scroll-y my-custom-scrollbar tableFixHead" style={{height: '90vh',backgroundColor: "#32cb00"}}>
 
@@ -663,11 +685,11 @@ render(){
                                         <th style={{width: "20%"}} scope="col">PENDIENTE ({this.state.pendingTasksCounter})</th> 
                                     </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody ref={this.casesTable}>
                                     
                                     {this.state.dataList.map((item, index) => {
                                                                     return (
-                                    <tr key={index*1000} className="selectionRow bg-no-selected text-dark" id={index.toString()}>
+                                    <tr data-rowconten={`${item.clients_name}/${item.cases_description}/${item.cases_rol_rit_ruc}`} key={index*1000} className="selectionRow bg-no-selected text-dark" id={index.toString()}>
                                         
                                         <td onClick={()=> this.setAllRowOnGreen(index)} style={{fontSize: "12px"}}>{item.clients_name}</td>
                                         <td onClick={()=> this.setAllRowOnGreen(index)}  style={{fontSize: "12px"}}>{item.cases_description}</td>
