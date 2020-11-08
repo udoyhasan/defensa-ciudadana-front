@@ -19,7 +19,9 @@ export default class Cpanel extends React.Component{
             panelArr: ["left", "middle", "right"],
             activeCol: 0,
             errorOrSucces: "11014-accepted",
-            pendingTasksCounter: 0
+            pendingTasksCounter: 0,
+            ticket: "",
+            searchingResult: 0
         }
 
         //FUNCIONES ENLAZADAS CON CLASE DE COMPONENTE
@@ -35,6 +37,7 @@ export default class Cpanel extends React.Component{
         this.updateOnlyCaseDate=this.updateOnlyCaseDate.bind(this);
         this.setAllRowOnGreen=this.setAllRowOnGreen.bind(this);
         this.caseSearcher=this.caseSearcher.bind(this);
+        this.createTicket = this.createTicket.bind(this);
 
         
 
@@ -62,6 +65,12 @@ export default class Cpanel extends React.Component{
         this.eight = React.createRef();
         this.nine = React.createRef();
         this.ten = React.createRef();
+        this.modalDescription = React.createRef();
+        this.modallegalIssue = React.createRef();
+        this.modalProcedure = React.createRef();
+        this.modalObjetive = React.createRef();
+        this.ticketBadge = React.createRef();
+        
 
         //REFERENCE OF THE CASES TABLE
         this.cPanelLoader = React.createRef();
@@ -70,6 +79,7 @@ export default class Cpanel extends React.Component{
         this.middle = React.createRef();
         this.right = React.createRef();
         this.casesTable = React.createRef();
+        this.serachResult = React.createRef();
 
         //REFERENCES OF GESTURE INTERACTIVITY
         this.rightArrow = React.createRef();
@@ -521,6 +531,12 @@ export default class Cpanel extends React.Component{
                 this.ten.current.select();
                 document.execCommand('copy');
                 break;
+            default:
+                let target = ref.target; 
+                console.log(target) 
+                target.select();
+                document.execCommand('copy');
+
         }
       }
 
@@ -638,9 +654,10 @@ NormaliceAccents (str) {
     }
 
     caseSearcher(e){
+        
         let searchedValue = e.target.value.toLowerCase();
         let childrens = this.casesTable.current.childNodes;
-
+        let noFilteredItem = [];
         //BEFORE NEW SEARCH WE DISPLAY EVERY CHILDS
         childrens.forEach((item)=>{item.style.display = "table-row";})
 
@@ -652,11 +669,53 @@ NormaliceAccents (str) {
                     if(!rowconten.includes(searchedValue)){ //HIDDE
                         item.style.display = "none";
                     }
-                } else{}
+                    else{
+                        noFilteredItem.push(1);
+                    }
+                }
         
         })
+        if(noFilteredItem.length>0){
+            this.setState({searchingResult: noFilteredItem.length }, ()=> {this.serachResult.current.className = "text-white font-weight-bold m-3 h5"})
+
+        } else {this.setState({searchingResult: noFilteredItem.length }, ()=> {this.serachResult.current.className = "text-white font-weight-bold m-3 h5 d-none"})
+    }
 
 
+    }
+
+    createTicket(){
+        let today = new Date();
+        let currentDate = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()
+
+        let json= {
+            cases_description: this.modalDescription.current.value,
+            cases_rol_rit_ruc: "",
+            cases_trial_entity: "",
+            cases_legalIssue: this.modallegalIssue.current.value,
+            cases_procedure: this.modalProcedure.current.value,
+            cases_objetive: this.modalObjetive.current.value,
+            cases_incomeDate: currentDate ,
+            cases_update: currentDate,
+            cases_lawyer_id: 1,
+            cases_activeCase: 1
+        }
+
+        let options = {
+            method: 'POST',
+            body: JSON.stringify(json),
+            headers: {'Content-Type': 'application/json'}}
+
+            fetch( "http://guillermopiedrabuena.pythonanywhere.com/createTicket",options) 
+            .then(response => {return response.json();})
+            .then(data => {
+                let ticket = data.ticket;
+                console.log(ticket)
+                this.setState({ticket: `http://guillermopiedrabuena.pythonanywhere.com/ticket/${ticket}`}, ()=>{ 
+                    this.ticketBadge.current.className = "btn btn-primary ml-5 mb-3 mr-5 h6 "
+                })
+                
+            })
     }
 
 
@@ -671,7 +730,29 @@ render(){
             <div  style={{backgroundColor: "#c7c7c7", borderRadius: "10px", padding: "2%"}}>
                         <div style={{color: "black",  textAlign: "center"}}>
                            <h5 style={{ fontWeight: "bold", letterSpacing: "10px", fontFamily: "Courier New"}}> PLANILLA DE CASOS ({this.state.dataList.length})</h5>
-                            <div style={{backgroundColor: "#32cb00"}}><input onChange={this.caseSearcher} placeholder="Busca por cliente, materia o rol ... " className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input></div>
+                            <div className="d-flex flex-row " style={{backgroundColor: "#32cb00"}}><button className="border-0 rounded text-white bg-primary justify-content-start m-2 font-weight-bold" data-toggle="modal" data-target="#exampleModal">CREAR TICKET</button><input onChange={this.caseSearcher} placeholder="Busca por cliente, materia o rol ... " className="p-absolute m-2 p-2 text-left w-75 rounded border border-success justify-content-center"></input><span ref={this.serachResult} className="text-white font-weight-bold m-3 h5 d-none">RESULTADO ({this.state.searchingResult})</span></div>
+                                        {/*MODAL*/}
+                                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                            <div class="modal-header" style={{backgroundColor: "#32CB00"}}>
+                                                <h5 class="modal-title text-center text-light justify-content-center" id="exampleModalLabel">DATOS DEL CASO</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                            <input ref={this.modalDescription} placeholder="Descripción " className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
+                                            <input ref={this.modallegalIssue} placeholder="Materia" className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
+                                            <input ref={this.modalProcedure} placeholder="Procedimiento" className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
+                                            <input ref={this.modalObjetive} placeholder="Objetivo" className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>                                            </div>
+                                            <input ref={this.ticketBadge} onClick={this.copy} type="text" class="btn btn-primary ml-3 mb-3 mr-3 d-none" value={this.state.ticket}/>
+                                            <div class="modal-footer" style={{backgroundColor: "#32CB00"}}>
+                                                <button type="button" onClick={this.createTicket} class="btn btn-secondary">OBTENER TICKET</button>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        </div>
 
                             <div className="table-wrapper-scroll-y my-custom-scrollbar tableFixHead" style={{height: '90vh',backgroundColor: "#32cb00"}}>
 
@@ -807,7 +888,7 @@ render(){
                                     <option value="Sentencia">Sentencia</option>
                                     <option value="Avenimiento">Avenimiento</option>
                                     <option value="Conciliación">Conciliación</option>
-                                    <option value="Conciliación">Contestación</option>
+                                    <option value="Contestación">Contestación</option>
                                     <option value="Medio de prueba">Medio de prueba</option>
                                     <option value="Escritura Pública">Escritura Pública</option>
                                     <option value="Escritura Privada">Escritura Privada</option>
