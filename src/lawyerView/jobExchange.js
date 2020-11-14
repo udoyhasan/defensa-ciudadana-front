@@ -2,7 +2,7 @@ import React ,{ useState, useEffect} from 'react';
 import {store} from '../redux/store.js';
 
 import {JobsContainer} from './JobsContainer.js'
-import {Button} from './button.js'
+import {Button} from '../components/button.js'
 
 export function JobExchange(){
 

@@ -27,8 +27,8 @@ export let initialState = {/*ESTADO INICIAL*/
   rutSaver:"",
   showLoader: "d-none",
   inputIsDisplayed: false,
-  appContainerClassModifierToPreventSamsungGalaxyKeyboardError: [" ifPhoneDeviceTurnGreen ", "turnVerticalAdvisor"]
-
+  appContainerClassModifierToPreventSamsungGalaxyKeyboardError: [" ifPhoneDeviceTurnGreen ", "turnVerticalAdvisor"],
+  inputComponentValue: ""
 } 
 
 export let store = createStore(reducer)/*SE CREA EL ESTADO ANIDADO EL AL REDUCER*/

@@ -3,6 +3,7 @@ import {store} from '../redux/store.js';
 import lottie from 'lottie-web';
 import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
+import { Alert } from 'bootstrap';
 
 
 
@@ -111,14 +112,17 @@ export default class Cpanel extends React.Component{
         this.tipoDocumento = React.createRef();
     }
 
+    componentWillUnmount(){
+        Alert("¿estas seguro quieres salir?")
+
+    }
+
     componentDidMount(){ 
         document.addEventListener("touchstart", this.startGesture, false);
         document.addEventListener("touchmove", this.moveGesture, false);
         document.addEventListener("touchend", this.endGesture, false);
     
-        let loaderlottieArray = ["28278-water-loader", "25162-brush-loader", "23321-corona-loader", "14466-loader-loading-progress-progress-bar-done", "703-navis-loader"];
         let loaderlottieError =["11233-505-error", "3648-no-internet-connection"]
-        let loaderRandomLottie = Math.floor(Math.random()*5);
         let errorRandomLottie = Math.floor(Math.random()*2);
 
         tippy(this.ActualizacionAvanceCausa.current, {
@@ -196,7 +200,7 @@ export default class Cpanel extends React.Component{
             render: 'svg',
             loop: true,
             autoplay: true,
-            animationData: require(`../assets/${loaderlottieArray[loaderRandomLottie]}.json`)
+            animationData: require(`../assets/6615-loader-animation.json`)
           })
           lottie.loadAnimation({
             container: this.cPanelError.current,
@@ -784,7 +788,7 @@ render(){
                                     
                                 </table>
 
-                            <div ref={this.cPanelLoader} className="border-0 w-50" style={{position: "absolute", left: "20%", top: "10%"}}></div>
+                            <div ref={this.cPanelLoader} className="border-0 w-10" style={{position: "absolute", left: "40%", top: "20%"}}></div>
                             <div ref={this.cPanelError} className="border-0 invisible d-none w-50 "></div>
 
                             </div>

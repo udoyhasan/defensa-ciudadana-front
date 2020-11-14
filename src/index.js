@@ -8,8 +8,9 @@ import {store} from './redux/store.js'
 import { Route, BrowserRouter as Router } from 'react-router-dom'
 
 import App from './App';
-import ClientPanel from './clientPanelView/clientPanel.js';
-import Cpanel from './components/cpanel';
+import ClientPanel from './clientView/clientPanel.js';
+import Cpanel from './clientView/cpanel.js';
+import Login from './lawyerView/login.js';
 import {JobExchange} from './lawyerView/jobExchange.js';
 
 const routing = (
@@ -17,7 +18,8 @@ const routing = (
     <div>
       <Route exact path="/" component={App} />
       <Route path="/clientPanel" component={ClientPanel} />
-      <Route path="/controlPanel" component={Cpanel} />
+      <Route path="/login" component={Login} />
+      <Route path="/rFgTdSvSVFgVFrtvvVgVSFvGDVDFVfgBfhGBgdVdFDVV" component={Cpanel} />
       <Route path="/jobExchange" component={JobExchange} />
     </div>
   </Router>

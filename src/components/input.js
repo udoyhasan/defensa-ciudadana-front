@@ -1,158 +1,72 @@
-import React from 'react';
+import React ,{ useState, useEffect, useRef} from 'react';
 import {store} from '../redux/store.js';
-import {injectFetchedData} from '../redux/dispatchers.js';
-import {rutSaverDispatcher} from '../redux/dispatchers.js';
-import {loaderShowerDispatcher} from '../redux/dispatchers.js';
-import {inputDisplayedAdvisorDispatcher} from '../redux/dispatchers.js';
-import {appContainerClassModifierToPreventSamsungGalaxyKeyboardErrorDispatcher} from '../redux/dispatchers.js';
-
- 
-
-export default class Input extends React.Component{
-    constructor(props) {
-        super(props);
-        this.inputRut = React.createRef();
-        this.inputRutContainer = React.createRef();
-        this.errorMsg = React.createRef();
+import { useHistory } from "react-router-dom";
 
 
-        this.state = {
-            inputValue: "",
-            notFound: "none"
+export default function Input(props){
+    const ref = useRef(null);
+    let history = useHistory();
+    let userValue = props.userValue;
+
+    const sendingToParentComponent = (e) =>{
+        let value = ref.current.value;
+
+        if(ref.current.dataset.customtype == "rut"){
+            let falseCase;
+
+            let split = value.split("");
+
+            split.includes("-")? split.splice(split.indexOf("-"),1): falseCase= null;
+            split.includes(".")? split.splice(split.indexOf("."),1): falseCase= null;
+            split.includes(".")? split.splice(split.indexOf("."),1): falseCase= null;
+            
+            (split.length>=2)?split[split.length-1] = "-" + split[split.length-1]:falseCase= null;
+
+            split.length >5 ? split[split.length-4] = "." + split[split.length-4]: falseCase= null;
+            split.length >7 ? split[split.length-7] = "." + split[split.length-7]: falseCase= null;
+
+            e.target.value = split.join("")
         }
-        this.fetchingData = this.fetchingData.bind(this);
-        this.onChange = this.onChange.bind(this); 
-        this.keyPressed = this.keyPressed.bind(this);  
-        this.preventSamsungGalaxyNote10PlusKeyboardError = this.preventSamsungGalaxyNote10PlusKeyboardError.bind(this);  
-        this.preventSamsungGalaxyNote10PlusKeyboardErrorReverse = this.preventSamsungGalaxyNote10PlusKeyboardErrorReverse.bind(this);  
+
+        props.parentCallback(ref.current.value);
+        e.preventDefault();
+    }
+
+    const fetchQuery = (user, endpoint, ref) => {
     
-
-      }
-
-    fetchingData(){this.setState({
-        notFound: "none"})
-        loaderShowerDispatcher("")
-       rutSaverDispatcher(this.inputRut.current.value)
-       fetch(store.getState().fetchBase + store.getState().fetchEndPoint + this.state.inputValue)
-       .then(response => { 
-           return response.json();})
-       .then(data => {(!data.ok)?loaderShowerDispatcher('d-none'): console.log("")
-           injectFetchedData(data);// THE CLICKED CASE DATA IS STORED ON THE REDUX STORE
-           this.setState({notFound: "none"})
-        })
-        .catch((error) =>{ 
-            
-
-            //----------------- HERE ARE A LOOP TO ENSURE THAT THE REQUEST ARRIVE WELL, TRY 5 TIMES
-            let fecthFails;
-            for(let i=0; i<5; i++){
-             let fecthFails= true;
-             setTimeout( ()=>{
-                  
-                fetch(store.getState().fetchBase + store.getState().fetchEndPoint + this.state.inputValue)
-                .then(response => { 
-                    return response.json();})
-                .then(data => {(!data.ok)?loaderShowerDispatcher('d-none'): console.log("")
-                    injectFetchedData(data);
-                   
-                    this.setState({notFound: "none"})
-                    fecthFails= false;
-                })
-                .catch((error) =>{})
-
-             },2000)
-             if (!fecthFails) { break; }
-            }
-            if(fecthFails)
-            {
-                loaderShowerDispatcher('d-none'); 
-                this.setState({notFound: "inline"})
-                this.errorMsg.current.className += " position-absolute mt-5 ml-1"
+        let inputValue= user
+    
+        fetch(store.getState().fetchBase + endpoint + inputValue )
+        .then( (resp)=>{ return resp.json();})
+        .then((data)=>{
+    
+            if(data.resp == ref){
+                history.push("/rFgTdSvSVFgVFrtvvVgVSFvGDVDFVfgBfhGBgdVdFDVV");   
             }
         })
-           
+        .catch() 
     }
 
-    keyPressed(event) {
-        if (event.key === "Enter") {
-            
-            rutSaverDispatcher(this.inputRut.current.value)
-            this.fetchingData();
-            
-        }
-      }
+        return( 
+           <>   
+            <div className="input-group mb-3 p-relative">
+                <div className="input-group-prepend">
+                    <button onClick={()=> fetchQuery(userValue, props.endpoint, ref.current.value)} className="btn btn-outline-secondary" type="button" style={{display: props.displayBtn,backgroundColor: "#20be2b", color: "white", fontWeight: "200px", borderStyle: "none"}}>{props.btnLabel}</button>
+                </div>
+                <input onChange={sendingToParentComponent} ref={ref} placeholder={props.placeholder} type={props.type} className="form-control" data-customtype={props.customtype}  aria-label="" aria-describedby="basic-addon1"/>
+                <small className="text-wrap font-weight-bold text-center pt-2" style={{margin: 'auto', color: "#569951", position: "absolute", top: "100%", visibility: "hidden"}}>{props.sorryMsg}</small>
+            </div> 
+           </> 
 
-    onChange(event){
+        );
 
-       
+}
 
-        let targetValue = event.target.value;
-        let falseCase;
+/*readMe
 
-        let split = targetValue.split("");
-
-        split.includes("-")? split.splice(split.indexOf("-"),1): falseCase= null;
-        split.includes(".")? split.splice(split.indexOf("."),1): falseCase= null;
-        split.includes(".")? split.splice(split.indexOf("."),1): falseCase= null;
-        
-        (split.length>=2)?split[split.length-1] = "-" + split[split.length-1]:falseCase= null;
-
-        split.length >5 ? split[split.length-4] = "." + split[split.length-4]: falseCase= null;
-        split.length >7 ? split[split.length-7] = "." + split[split.length-7]: falseCase= null;
-
-        event.target.value = split.join("")
-        this.setState({inputValue: `${event.target.value}` });
-
-    }
-
-    preventSamsungGalaxyNote10PlusKeyboardError(){
-        let userAgent = navigator.userAgent;
-        if(userAgent.indexOf("Android") != -1){
-            appContainerClassModifierToPreventSamsungGalaxyKeyboardErrorDispatcher([" ", " d-none "]);
-            this.inputRutContainer.current.style.visibility = "visible"    
-        }      
-    }
-    preventSamsungGalaxyNote10PlusKeyboardErrorReverse(){
-        let userAgent = navigator.userAgent;
-        if(userAgent.indexOf("Android") != -1){
-            appContainerClassModifierToPreventSamsungGalaxyKeyboardErrorDispatcher([" ifPhoneDeviceTurnGreen ", " turnVerticalAdvisor "]);
-            this.inputRutContainer.current.style.visibility = "hidden"
-        }       
-    }
-
-    componentDidMount(){
-
-        this.inputRutContainer.current.className += " inputRutContainerPopUp ";
-        inputDisplayedAdvisorDispatcher(true);
-
-        let userAgent = navigator.userAgent;
-
-        if(userAgent.indexOf("Android") == -1){
-        this.inputRut.current.focus()}
-    }
-
-    componentWillUnmount(){ 
-        inputDisplayedAdvisorDispatcher(false);        
-    }
-
-    render(){
-        
-        return(
-        <>
-        
-        <div ref={this.inputRutContainer} className="input-group mb-3 p-relative" style={{bottom: this.props.bottom, left: this.props.left}}>
-            <div className="input-group-prepend">
-                <button onClick={this.fetchingData} className="btn btn-outline-secondary" type="button" style={{backgroundColor: "#20be2b", color: "white", fontWeight: "200px", borderStyle: "none"}}>Buscar</button>
-            </div>
-            <input onBlur={this.preventSamsungGalaxyNote10PlusKeyboardErrorReverse} onClick={this.preventSamsungGalaxyNote10PlusKeyboardError} placeholder="00.000.000-0" onKeyPress={this.keyPressed} type="text" className="form-control"  onChange={this.onChange} ref={this.inputRut}  aria-label="" aria-describedby="basic-addon1"/>
-            <small ref={this.errorMsg}className="text-wrap font-weight-bold text-center pt-2" style={{margin: 'auto', color: "#569951",display: this.state.notFound}}>No se encontraron casos asociados a su rut, intenta nuevamente</small>
-        </div> 
-        {this.props.children}
-        </>
-
-    ) ;}
-
-   
-} 
-
-  
+#TO PASS A PROP OF THIS COMPONENT TO A PARENT COMPONENT YOU HAVE TO INSERT ON THE TAG THIS: parentCallback = {handleCallback}
+AND ADD ON PARENT COMPONENT THIS FUNCTION:
+ const handleCallback = (childData) =>{
+                console.log(childData)
+            }
+*/

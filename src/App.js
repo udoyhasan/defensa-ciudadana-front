@@ -4,10 +4,10 @@ import {Link} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {store} from './redux/store.js';
 import { connect } from 'react-redux';
-import LogoGuide from './components/logoGuide.js'
-import Container from './components/container';
-import Button from './components/button.js';
-import Input from './components/input.js';
+import LogoGuide from './clientView/logoGuide.js'
+import Container from './clientView/container';
+import Button from './clientView/button.js';
+import Input from './clientView/input.js';
 import {whatCaseWasClickedFunction} from './redux/dispatchers.js';
 import lottie from 'lottie-web';
 import introSound from './assets/IntroMusic.mp3'

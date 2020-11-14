@@ -41,3 +41,4 @@ export const loaderShowerDispatcher = (str) =>{store.dispatch(loaderShower(str))
 export const inputDisplayedAdvisorDispatcher = (boolean) =>{store.dispatch(inputDisplayedAdvisor(boolean));};
 
 export const appContainerClassModifierToPreventSamsungGalaxyKeyboardErrorDispatcher = (arr) =>{store.dispatch(appContainerClassModifierObjectToPreventSamsungGalaxyKeyboardError(arr));};
+
