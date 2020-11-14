@@ -17,7 +17,7 @@ import introSound from './assets/IntroMusic.mp3'
 const buttonSet= (<Container colOrRow="" >        
   <Button id="whyUs" cursor="not-allowed" btnLabel="¿Es Chile Justo?"/>
   <Button id="client" btnLabel="Clientes"/>
-  <Link to='/jobExchange' className='text-white text-decoration-none'><button id="advocate" type="button" className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%", cursor: "pointer"}}>Soy Defensor Ciudadano</button></Link>
+  <Link to='/login' className='text-white text-decoration-none'><button id="advocate" type="button" className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%", cursor: "pointer"}}>Soy Defensor Ciudadano</button></Link>
   
 </Container>);
 
