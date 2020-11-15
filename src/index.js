@@ -13,15 +13,15 @@ import Cpanel from './clientView/cpanel.js';
 import Login from './lawyerView/login.js';
 import {JobExchange} from './lawyerView/jobExchange.js';
 
-import Statistic from './components/statistic.js';
+import Counter from './components/counter.js';
 
 const routing = (
   <Router>
     <div>
       <Route exact path="/" component={App} />
       <Route path="/clientPanel" component={ClientPanel} />
-      <Route path="/statistics" component={Statistic} />
       <Route path="/login" component={Login} />
+      <Route path="/counter" component={Counter} />
       <Route path="/rFgTdSvSVFgVFrtvvVgVSFvGDVDFVfgBfhGBgdVdFDVV" component={Cpanel} />
       <Route path="/jobExchange" component={JobExchange} />
     </div>
