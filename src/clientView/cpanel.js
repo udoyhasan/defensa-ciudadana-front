@@ -4,6 +4,8 @@ import lottie from 'lottie-web';
 import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
 import { Alert } from 'bootstrap';
+import Counter from '../components/counter.js';
+import Statistic from '../components/statistic.js';
 
 
 
@@ -22,7 +24,9 @@ export default class Cpanel extends React.Component{
             errorOrSucces: "11014-accepted",
             pendingTasksCounter: 0,
             ticket: "",
-            searchingResult: 0
+            searchingResult: 0,
+            statisticsFetched: "",
+            statisticObj:""//[{label: "junio", color:"green", data: 20}, {label: "julio", color:"red", data: 30}]
         }
 
         //FUNCIONES ENLAZADAS CON CLASE DE COMPONENTE
@@ -113,11 +117,32 @@ export default class Cpanel extends React.Component{
     }
 
     componentWillUnmount(){
-        Alert("¿estas seguro quieres salir?")
+        //Alert("¿estas seguro quieres salir?")
 
     }
 
     componentDidMount(){ 
+
+        fetch('http://guillermopiedrabuena.pythonanywhere.com/statistics/1')
+        .then(resp => {return resp.json()})
+        .then((data)=>{
+            
+            this.setState({statisticsFetched: data});
+            let incomeCasesArr = []
+            let colors= ["DarkOrange","Aquamarine","orange","yellow","blue","pink","green","purple","gold","red","Cyan"]
+            let months= ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre", "diciembre"]
+            let incomeCases = data.incomeCases;
+            
+
+            incomeCases.forEach((item, index)=>{
+                let obj = {label: months[index], color: colors[parseInt(Math.random()*10)], data: parseInt(item)};
+                incomeCasesArr.push(obj);
+            })
+        this.setState({statisticObj: incomeCasesArr })
+
+        })
+        .catch(error=> console.log(error))
+
         document.addEventListener("touchstart", this.startGesture, false);
         document.addEventListener("touchmove", this.moveGesture, false);
         document.addEventListener("touchend", this.endGesture, false);
@@ -537,7 +562,6 @@ export default class Cpanel extends React.Component{
                 break;
             default:
                 let target = ref.target; 
-                console.log(target) 
                 target.select();
                 document.execCommand('copy');
 
@@ -714,7 +738,6 @@ NormaliceAccents (str) {
             .then(response => {return response.json();})
             .then(data => {
                 let ticket = data.ticket;
-                console.log(ticket)
                 this.setState({ticket: `http://guillermopiedrabuena.pythonanywhere.com/ticket/${ticket}`}, ()=>{ 
                     this.ticketBadge.current.className = "btn btn-primary ml-5 mb-3 mr-5 h6 "
                 })
@@ -733,34 +756,51 @@ render(){
             <div className="carousel-item active">
             <div  style={{backgroundColor: "#c7c7c7", borderRadius: "10px", padding: "2%"}}>
                         <div style={{color: "black",  textAlign: "center"}}>
-                           <h5 style={{ fontWeight: "bold", letterSpacing: "10px", fontFamily: "Courier New"}}> PLANILLA DE CASOS ({this.state.dataList.length})</h5>
+                           <h5 style={{ fontWeight: "bold", letterSpacing: "10px", fontFamily: "Courier New"}}> <button type="button" className="btn btn-primary mr-5" data-toggle="modal" data-target="#exampleModalCenter">
+                            ESTADÍSTICAS
+                            </button>PLANILLA DE CASOS
+                                ({this.state.dataList.length})</h5>
                             <div className="d-flex flex-row " style={{backgroundColor: "#32cb00"}}><button className="border-0 rounded text-white bg-primary justify-content-start m-2 font-weight-bold" data-toggle="modal" data-target="#exampleModal">CREAR TICKET</button><input onChange={this.caseSearcher} placeholder="Busca por cliente, materia o rol ... " className="p-absolute m-2 p-2 text-left w-75 rounded border border-success justify-content-center"></input><span ref={this.serachResult} className="text-white font-weight-bold m-3 h5 d-none">RESULTADO ({this.state.searchingResult})</span></div>
                                         {/*MODAL*/}
-                                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                            <div class="modal-header" style={{backgroundColor: "#32CB00"}}>
-                                                <h5 class="modal-title text-center text-light justify-content-center" id="exampleModalLabel">DATOS DEL CASO</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div className="modal-dialog" role="document">
+                                            <div className="modal-content">
+                                            <div className="modal-header" style={{backgroundColor: "#32CB00"}}>
+                                                <h5 className="modal-title text-center text-light justify-content-center" id="exampleModalLabel">DATOS DEL CASO</h5>
+                                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                               
                                                 </button>
                                             </div>
-                                            <div class="modal-body">
+                                            <div className="modal-body">
                                             <input ref={this.modalDescription} placeholder="Descripción " className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
                                             <input ref={this.modallegalIssue} placeholder="Materia" className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
                                             <input ref={this.modalProcedure} placeholder="Procedimiento" className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
                                             <input ref={this.modalObjetive} placeholder="Objetivo" className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>                                            </div>
-                                            <input ref={this.ticketBadge} onClick={this.copy} type="text" class="btn btn-primary ml-3 mb-3 mr-3 d-none" value={this.state.ticket}/>
-                                            <div class="modal-footer" style={{backgroundColor: "#32CB00"}}>
-                                                <button type="button" onClick={this.createTicket} class="btn btn-secondary">OBTENER TICKET</button>
+                                            <input ref={this.ticketBadge} onClick={this.copy} type="text" className="btn btn-primary ml-3 mb-3 mr-3 d-none" value={this.state.ticket}/>
+                                            <div className="modal-footer" style={{backgroundColor: "#32CB00"}}>
+                                                <button type="button" onClick={this.createTicket} className="btn btn-secondary">OBTENER TICKET</button>
                                             </div>
                                             </div>
                                         </div>
                                         </div>
+                                        {/*STATISTICS MODAL */}
+                                        <div className="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div className="modal-dialog modal-dialog-centered" role="document">
+                                                <div className="modal-content">
+                                                <div className="modal-body">
+                                                    <Counter object={{counter: this.state.statisticsFetched.activeCases, message: "Casos Activos"}} />
+                                                    <Counter object={{counter: this.state.statisticsFetched.totalOfCases, message: "Total de casos llevados"}} />
+                                                    <Statistic arr={this.state.statisticObj} />
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
 
                             <div className="table-wrapper-scroll-y my-custom-scrollbar tableFixHead" style={{height: '90vh',backgroundColor: "#32cb00"}}>
 
-                                <table className="table table-bordered table-striped mb-0" style={{backgroundColor: "#fafafa"}}>
+                                <table className="table table-bordered table-striped mb-5" style={{backgroundColor: "#fafafa"}}>
                                     <thead>
                                     <tr style={{backgroundColor: "#32cb00", color:"white"}}>  
                                         <th style={{width: "20%"}} scope="col">CLIENTE</th>

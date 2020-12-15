@@ -2,30 +2,26 @@ import { data } from 'jquery';
 import React ,{ useState, useEffect, useRef} from 'react';
 import { Col } from 'react-bootstrap';
 
-export default function Statistic(props){
-    const ref = useRef(null)
 
-    useEffect(()=>{
+export default function Statistic(props){
+    const ref = useRef(null);
+
+    useEffect(()=>{ console.log()
         
-        let dataArr; // EXAMPLE: [{label: "junio", color:"green", data: 20}, {label: "julio", color:"red", data: 30}]
-        let iterator;
-        if(!props.arr){
-           
-            dataArr = [{label: "example", color:"blue", data: 50}, {label: "example", color:"red", data: 100}];
-            iterator = dataArr.length;
-        }
+        let dataArr= (props.arr===undefined)?[{label: "junio", color:"green", data: 20}]:props.arr; // EXAMPLE: [{label: "junio", color:"green", data: 20}, {label: "julio", color:"red", data: 30}]
+        let iterator = (props.arr===undefined)? 1: props.arr.length ;
        
         let total = 0;
-        dataArr.forEach((item)=>{
+        const xx =()=>{dataArr.forEach((item)=>{
             total = total + item.data
-        })
+        })}
 
         let savedCardinalNumbersFromItemDataBeforePorcentageTransformation = [];
-        dataArr.forEach((item)=>{
+        const yy = () => {dataArr.forEach((item)=>{
             let itemDataInPorcentage = parseInt((item.data*100)/total)/100;
             savedCardinalNumbersFromItemDataBeforePorcentageTransformation.push(item.data)
             item.data = itemDataInPorcentage
-        })       
+        })}       
 
         console.log(JSON.stringify(savedCardinalNumbersFromItemDataBeforePorcentageTransformation))
 
@@ -53,17 +49,15 @@ export default function Statistic(props){
             
             col.appendChild(canvas);
             col.appendChild(label); 
-           
-            
-
+        
             ref.current.appendChild(col); 
         }
             
-        }, [])
+        },[props.arr])
 
         return( 
            <>   
-                <div  className="container p-2 border border-top-0 border-right-0  w-25">
+                <div  className="container p-2 border border-top-0 border-right-0">
                     <div ref={ref} className="row">
 
                     </div>

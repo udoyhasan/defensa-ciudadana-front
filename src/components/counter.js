@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function Counter(props){
-    let object = {counter: 123, message: "ingresos"}  // ATTRIBUTE EXAMPLE  props.object;
+    let object =  props.object; // ATTRIBUTE EXAMPLE   {counter: 123, message: "ingresos"}
 
         return( 
            <>   

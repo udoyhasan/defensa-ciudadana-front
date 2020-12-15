@@ -53,14 +53,14 @@ export class App extends React.Component {
   let month = today.getMonth() + 1;
   let day = today.getDate();
   let lottieFile;
-  switch (month){
-    case 9:
-      lottieFile = "september18";
-      break;
-    default:
-      lottieFile = "lawyerOnBike";
+  if(month==9){
+    lottieFile = "september18";
   }
- 
+  else if(month==12 && day>26 || month==1 && day<6){
+    lottieFile = "newYear";
+  }
+  else{lottieFile = "lawyerOnBike";}
+  console.log(lottieFile)
 
     //this.player.current.play()
     //setTimeout(()=>{this.player.current.pause()}, 7000)
