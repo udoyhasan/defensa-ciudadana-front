@@ -117,7 +117,7 @@ export default class Cpanel extends React.Component{
     }
 
     componentWillUnmount(){
-        //Alert("¿estas seguro quieres salir?")
+        Alert("¿estas seguro quieres salir?")
 
     }
 
@@ -254,7 +254,7 @@ export default class Cpanel extends React.Component{
                 this.state.dataList.forEach((item)=>{
                     let task = item.cases_pendingTask;
                     if(task){ 
-                        if(task.trim().length != 0){
+                        if(task.trim().length !== 0){
                             counter.push(1);
                         }
                     }
@@ -355,7 +355,7 @@ export default class Cpanel extends React.Component{
         //GETTING THE NAME OF INPUTDATA
         let str = this.dataListInput.current.value;
         let indx = str.indexOf("/");
-        let nombre= str.slice(0,indx-1);
+        //let nombre= str.slice(0,indx-1);
         //GETTING ROL OF INPUTDATA
         let nameStart = str.indexOf('%');
         let rol= str.slice(indx+2 ,nameStart);
@@ -369,7 +369,7 @@ export default class Cpanel extends React.Component{
             cases_pendingTask: this.ActualizacionTareaPendiente.current.value,
             cases_trial_entity: this.modificacion_juzgado_institucion.current.value,
             cases_description: this.modificacion_descripcion.current.value,
-            cases_activeCase: (this.causa_teminada_checkBox.current.checked == false)?1: 0
+            cases_activeCase: (this.causa_teminada_checkBox.current.checked === false)?1: 0
     
             };
 
@@ -396,7 +396,7 @@ export default class Cpanel extends React.Component{
                     this.modificacion_rol_rit_ruc.current.value = "";
                     this.ActualizacionAvanceCausa.current.value = "";
                     //WE RELOAD THE PENDING TASK COUNTER
-                    if((this.ActualizacionTareaPendiente.current.value).trim().length == 0){this.setState({pendingTasksCounter: this.state.pendingTasksCounter - 1})}
+                    if((this.ActualizacionTareaPendiente.current.value).trim().length === 0){this.setState({pendingTasksCounter: this.state.pendingTasksCounter - 1})}
                     this.ActualizacionTareaPendiente.current.value = "";
 
                     this.modificacion_juzgado_institucion.current.value = "";
@@ -442,7 +442,7 @@ export default class Cpanel extends React.Component{
                         let resp = data.resp;
                         let chosenItem
                         resp.forEach((item) => {
-                            (item.cases_rol_rit_ruc==rol)? chosenItem= item: console.log("")
+                            (item.cases_rol_rit_ruc===rol)? chosenItem = item: console.log("")
                             return chosenItem//SE OBITENE TODA LA INFORMACIÓN DE EL CASO SELECCIONADO, EN ESPECIAL EL ID DEL CASO
                         });
 
@@ -571,7 +571,6 @@ export default class Cpanel extends React.Component{
 NormaliceAccents (str) {
         var map = {
             '-' : ' ',
-            '-' : '_',
             'a' : 'á|à|ã|â|À|Á|Ã|Â',
             'e' : 'é|è|ê|É|È|Ê',
             'i' : 'í|ì|î|Í|Ì|Î',
@@ -600,10 +599,10 @@ NormaliceAccents (str) {
     
     endGesture(e){
         if(Math.abs(this.state.startxTouch-this.state.xTouch)>200){
-            if(e.target.tagName != "SELECT" && e.target.tagName != "A" && e.target.tagName != "INPUT" && e.target.tagName != "BUTTON" && e.target.tagName != "TEXTAREA" && e.target.type != "button")
+            if(e.target.tagName !== "SELECT" && e.target.tagName !== "A" && e.target.tagName !== "INPUT" && e.target.tagName !== "BUTTON" && e.target.tagName !== "TEXTAREA" && e.target.type !== "button")
             {
                 if(this.state.whereTo==="right"){
-                    this. rightArrow.current.click();
+                    this.rightArrow.current.click();
                 }
                 else if(this.state.whereTo==="left"){
                     this.leftArrow.current.click();
@@ -626,11 +625,11 @@ NormaliceAccents (str) {
         let childNodes = targetEle.parentNode.parentNode.childNodes;
         childNodes.forEach((item)=>{
             let falseCase;
-            (item.className == "cases_rol_rit_ruc")? selectedCase.push(item.innerHTML):falseCase = ""
+            (item.className === "cases_rol_rit_ruc")? selectedCase.push(item.innerHTML):falseCase = ""
             
         })
 
-        let date = new Date();
+        //let date = new Date();
 
         const clientData = {
             selected: selectedCase[0],
@@ -693,7 +692,7 @@ NormaliceAccents (str) {
 
          let rowconten = item.dataset.rowconten.toLowerCase(); //WE GET THE PERSONALIZED ATTRIBUTE DATA-ROWCONTENT, TROUGHT DATASET METHOD
         
-            if(searchedValue.length != 0){
+            if(searchedValue.length !== 0){
                     if(!rowconten.includes(searchedValue)){ //HIDDE
                         item.style.display = "none";
                     }
@@ -862,7 +861,7 @@ render(){
 
             </form>
             <div className="list-group">
-                <a href="#" className="list-group-item list-group-item-action active text-center">
+                <a className="list-group-item list-group-item-action active text-center">
                     RECEPTORES CONFIANZA 
                 </a>
                 <div className="scrollmenu">

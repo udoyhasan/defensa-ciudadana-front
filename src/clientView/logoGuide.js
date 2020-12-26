@@ -1,14 +1,8 @@
 import 'react-tippy/dist/tippy.css'; 
-import {Tooltip} from 'react-tippy';
 import React from 'react';
 import logo from '../assets/logo.png';
 import instagramLogo from '../assets/instagram.png';
 import facebookLogo from '../assets/facebook.png';
-import textBubble from '../assets/textBubble2.png';
-import textBubble2 from '../assets/textBubble3.png';
-import imagen1 from '../assets/dfPeople1.png';
-import imagen2 from '../assets/dfPeople2.png';
-import imagen3 from '../assets/dfPeople3.png';
 import {panelBtnChanger} from '../redux/dispatchers.js';
 import {backArrowAnimationDispatcher} from '../redux/dispatchers.js';
 import { connect } from 'react-redux';

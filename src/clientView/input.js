@@ -107,14 +107,14 @@ export default class Input extends React.Component{
 
     preventSamsungGalaxyNote10PlusKeyboardError(){
         let userAgent = navigator.userAgent;
-        if(userAgent.indexOf("Android") != -1){
+        if(userAgent.indexOf("Android") !== -1){
             appContainerClassModifierToPreventSamsungGalaxyKeyboardErrorDispatcher([" ", " d-none "]);
             this.inputRutContainer.current.style.visibility = "visible"    
         }      
     }
     preventSamsungGalaxyNote10PlusKeyboardErrorReverse(){
         let userAgent = navigator.userAgent;
-        if(userAgent.indexOf("Android") != -1){
+        if(userAgent.indexOf("Android") !== -1){
             appContainerClassModifierToPreventSamsungGalaxyKeyboardErrorDispatcher([" ifPhoneDeviceTurnGreen ", " turnVerticalAdvisor "]);
             this.inputRutContainer.current.style.visibility = "hidden"
         }       
@@ -127,7 +127,7 @@ export default class Input extends React.Component{
 
         let userAgent = navigator.userAgent;
 
-        if(userAgent.indexOf("Android") == -1){
+        if(userAgent.indexOf("Android") === -1){
         this.inputRut.current.focus()}
     }
 

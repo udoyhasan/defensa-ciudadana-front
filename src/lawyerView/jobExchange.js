@@ -23,12 +23,12 @@ export function JobExchange(){
 
       useEffect(()=>{
 
-        if(selectedJobState!=0){
+        if(selectedJobState!==0){
             
             jobsList.forEach((item)=>{
                 //console.log("item.cases_id: " + item.cases_id)
                 //console.log("selectedJobHook: " + selectedJobHook)
-                if(item.cases_id==selectedJobState){
+                if(item.cases_id===selectedJobState){
                     setDisplayedJob({...item})
                     
                 }

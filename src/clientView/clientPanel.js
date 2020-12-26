@@ -118,7 +118,7 @@ lottie.loadAnimation({
           dateArr.forEach((item, index)=>{
             if(item===' '){
               iterator++;
-              if(iterator==4){
+              if(iterator===4){
               thirdSpaceIndex= index;
               }
             }
@@ -127,7 +127,7 @@ lottie.loadAnimation({
           date = date.slice(0, thirdSpaceIndex)
         }
           //FILL THE PANEL WITH DE CASE DATA
-          if(ele.cases_rol_rit_ruc == store.getState().whatCaseWasClicked || store.getState().whatCaseWasClicked == ele.cases_id)
+          if(ele.cases_rol_rit_ruc === store.getState().whatCaseWasClicked || store.getState().whatCaseWasClicked === ele.cases_id)
           {
             if(date!=null){
             localStorage.setItem("date", date.toString())
@@ -189,7 +189,7 @@ lottie.loadAnimation({
 
     injectFetchedData({resp:[]})
     changeEndpoint("casos/")
-    //console.clear()
+    
 
     
   }
@@ -255,7 +255,7 @@ lottie.loadAnimation({
           </div>
           <div className="col-3 col-sm-3 col-md-3 col-lg-2 col-xl-2 pt-5 pl-0 ml-0">
             <div className="list-group w-100" ref={this.documentListContainer} >
-              <a href="#" ref={this.dfPass} className="d-inline password list-group-item list-group-item-action border-0 active" style={{maxHeight: "15%",backgroundColor: "rgb(31,191,42)"}}>
+              <a ref={this.dfPass} className="d-inline password list-group-item list-group-item-action border-0 active" style={{maxHeight: "15%",backgroundColor: "rgb(31,191,42)"}}>
                 <div className='text-center'>
                    <b>DOCUMENTOS</b>
                 </div>

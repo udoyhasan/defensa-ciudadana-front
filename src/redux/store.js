@@ -2,12 +2,6 @@ import { createStore } from 'redux'
 import {reducer} from './reducers'
 
 import logo from '../assets/logo.png';
-import textBubble from '../assets/textBubble2.png';
-import textBubble2 from '../assets/textBubble3.png';
-import imagen1 from '../assets/dfPeople1.png';
-import imagen2 from '../assets/dfPeople2.png';
-import imagen3 from '../assets/dfPeople3.png';
-
 
 export let initialState = {/*ESTADO INICIAL*/
   backArrowAnimation: "d-none",

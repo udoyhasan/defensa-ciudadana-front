@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import LottieContainer from '../components/lottieContainer.js'
 import Input from '../components/input.js'
 

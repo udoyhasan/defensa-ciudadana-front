@@ -10,7 +10,6 @@ import Button from './clientView/button.js';
 import Input from './clientView/input.js';
 import {whatCaseWasClickedFunction} from './redux/dispatchers.js';
 import lottie from 'lottie-web';
-import introSound from './assets/IntroMusic.mp3'
 
 
 //CONSTANTES QUE AFECTAN AL COMPONENTE
@@ -20,9 +19,6 @@ const buttonSet= (<Container colOrRow="" >
   <Link to='/login' className='text-white text-decoration-none'><button id="advocate" type="button" className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%", cursor: "pointer"}}>Soy Defensor Ciudadano</button></Link>
   
 </Container>);
-
-const panel=(            
-<div className="d-flex mt-5 pt-5 flex-column" style={{position: "absolute"}}>{store.getState().fetchedData[0]}</div>);
 
 //COMPONENTE
 export class App extends React.Component {
@@ -53,14 +49,15 @@ export class App extends React.Component {
   let month = today.getMonth() + 1;
   let day = today.getDate();
   let lottieFile;
+ 
   if(month==9){
     lottieFile = "september18";
   }
-  else if(month==12 && day>26 || month==1 && day<6){
+  else if(month == 12 && day >= 26 || month==1 && day<6){
     lottieFile = "newYear";
   }
   else{lottieFile = "lawyerOnBike";}
-  console.log(lottieFile)
+
 
     //this.player.current.play()
     //setTimeout(()=>{this.player.current.pause()}, 7000)
