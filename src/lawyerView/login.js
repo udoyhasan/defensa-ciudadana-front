@@ -13,18 +13,20 @@ export default function Login(props){
 
         useEffect(()=>{
                let lawyerUser = JSON.parse(localStorage.getItem("lawyerData"));
-               
-               if (JSON.stringify(lawyerUser) !== "null"){ console.log("pasó")
-                        fetch(store.getState().fetchBase + "lawyers/" + lawyerUser.lawyerUser)
+               let lawyerUserOBJ;
+
+               if (lawyerUser !== null){ 
+                        lawyerUserOBJ = JsonToJSObjectConversor(lawyerUser)
+                        fetch(store.getState().fetchBase + "lawyers/" + lawyerUserOBJ.user)
                         .then( (resp)=>{ return resp.json();})
-                        .then((data)=>{
-                
-                        if(data.resp === lawyerUser.password){
+                        .then((data)=>{ 
+                                
+                        if(data.resp === lawyerUserOBJ.password){
                                 history.push("/rFgTdSvSVFgVFrtvvVgVSFvGDVDFVfgBfhGBgdVdFDVV");   
                         }
                         })
                         .catch((error)=>{console.log(error)})
-                }   
+                }  
         },[])
 
         const handleCallbackUserInput = (childData) =>{
@@ -33,6 +35,19 @@ export default function Login(props){
         const handleCallbackPasswordInput = (childData) =>{
 
                 setPasswordInputValue(setPasswordInputValue)
+        }
+
+        const JsonToJSObjectConversor = (json) => {
+
+                let passwordStartIndex = json.indexOf('"password":"') + 12; 
+                let passwordEndIndex = json.indexOf('","lawyerUser":'); 
+                let password = json.substring(passwordStartIndex, passwordEndIndex);
+
+                let userStartIndex = passwordEndIndex + 16;
+                let userEndIndex = json.indexOf('"}');
+                let user = json.substring(userStartIndex, userEndIndex);
+
+                return {user: user, password: password};
         }
         
         return( 

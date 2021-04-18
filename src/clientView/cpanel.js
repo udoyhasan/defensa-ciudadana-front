@@ -6,10 +6,11 @@ import 'tippy.js/dist/tippy.css';
 import { Alert } from 'bootstrap';
 import Counter from '../components/counter.js';
 import Statistic from '../components/statistic.js';
+import {Link} from 'react-router-dom'
 
 
 
-export default class Cpanel extends React.Component{
+export class Cpanel extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -28,6 +29,7 @@ export default class Cpanel extends React.Component{
             statisticsFetched: "",
             statisticObj:""//[{label: "junio", color:"green", data: 20}, {label: "julio", color:"red", data: 30}]
         }
+        
 
         //FUNCIONES ENLAZADAS CON CLASE DE COMPONENTE
         this.postNewClient=this.postNewClient.bind(this);
@@ -117,13 +119,15 @@ export default class Cpanel extends React.Component{
     }
 
     componentWillUnmount(){
-        Alert("¿estas seguro quieres salir?")
+        //Alert("¿estas seguro quieres salir?")
 
     }
 
     componentDidMount(){ 
 
-        localStorage.setItem("lawyerData", store.getState().fetchedData);
+        if(localStorage.getItem('lawyerData') === null){
+            localStorage.setItem("lawyerData", JSON.stringify(store.getState().fetchedData));
+        }
 
         fetch('http://guillermopiedrabuena.pythonanywhere.com/statistics/1')
         .then(resp => {return resp.json()})
@@ -755,7 +759,12 @@ render(){
         <div id="carousel1" className="carousel slide" data-ride="" data-interval="false" style={{height: "90vh"}}>
             <div className="carousel-inner">
             <div className="carousel-item active">
-            <div  style={{backgroundColor: "#c7c7c7", borderRadius: "10px", padding: "2%"}}>
+            <div  style={{backgroundColor: "#c7c7c7", borderRadius: "10px", padding: "2%"}}> 
+                        <Link
+                        to="/login"
+                        onClick={()=> {
+                            localStorage.clear();
+                            }} style={{cursor: "pointer", textDecoration: "none"}}>cerrar sesión</Link>
                         <div style={{color: "black",  textAlign: "center"}}>
                            <h5 style={{ fontWeight: "bold", letterSpacing: "10px", fontFamily: "Courier New"}}> <button type="button" className="btn btn-primary mr-5" data-toggle="modal" data-target="#exampleModalCenter">
                             ESTADÍSTICAS
@@ -977,6 +986,5 @@ render(){
     );
 
 }
-
 }
 
