@@ -101,6 +101,10 @@ $top: 1cm;
   .social-media{
     width: 100%;
   }
+  .emptyInputAdvisor{
+
+    animation: emptyInputAdvisor 0.5s forwards;
+  }
 
   .inputRutContainerPopUp{
 
@@ -472,4 +476,11 @@ $top: 1cm;
   @keyframes opacityPopUpLottieAnimationIntro {
     0%{opacity: 0;}
     100%{opacity: 1;}
+   }
+   @keyframes emptyInputAdvisor {
+    0%{left: 0%;}
+    25%{left: 2%;}
+    50%{left: 0%;}
+    75%{left: 2%;}
+    100%{left: 0%;}
    }

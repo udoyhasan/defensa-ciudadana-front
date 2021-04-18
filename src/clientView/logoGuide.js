@@ -63,7 +63,7 @@ export class LogoGuide extends React.Component{
             else{
                 setTimeout(()=>{panelBtnChanger(" floatUp ", " logoDashReverse ")}, 100)
             } 
-            truePanel_falseButtonSet_handler(false);// este
+            truePanel_falseButtonSet_handler(false);
             
 
             

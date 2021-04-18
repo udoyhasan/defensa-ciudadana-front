@@ -123,6 +123,8 @@ export default class Cpanel extends React.Component{
 
     componentDidMount(){ 
 
+        localStorage.setItem("lawyerData", store.getState().fetchedData);
+
         fetch('http://guillermopiedrabuena.pythonanywhere.com/statistics/1')
         .then(resp => {return resp.json()})
         .then((data)=>{
@@ -761,7 +763,7 @@ render(){
                                 ({this.state.dataList.length})</h5>
                             <div className="d-flex flex-row " style={{backgroundColor: "#32cb00"}}><button className="border-0 rounded text-white bg-primary justify-content-start m-2 font-weight-bold" data-toggle="modal" data-target="#exampleModal">CREAR TICKET</button><input onChange={this.caseSearcher} placeholder="Busca por cliente, materia o rol ... " className="p-absolute m-2 p-2 text-left w-75 rounded border border-success justify-content-center"></input><span ref={this.serachResult} className="text-white font-weight-bold m-3 h5 d-none">RESULTADO ({this.state.searchingResult})</span></div>
                                         {/*MODAL*/}
-                                        <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div className="modal-dialog" role="document">
                                             <div className="modal-content">
                                             <div className="modal-header" style={{backgroundColor: "#32CB00"}}>
@@ -783,7 +785,7 @@ render(){
                                         </div>
                                         </div>
                                         {/*STATISTICS MODAL */}
-                                        <div className="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                             <div className="modal-dialog modal-dialog-centered" role="document">
                                                 <div className="modal-content">
                                                 <div className="modal-body">
