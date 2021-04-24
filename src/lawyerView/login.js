@@ -5,13 +5,15 @@ import {store} from '../redux/store.js';
 import { useHistory } from "react-router-dom";
 
 
+
 export default function Login(props){
 
         const [userInputValue, setUserInputValue] = useState("")
         const [passwordInputValue, setPasswordInputValue] = useState("")
         let history = useHistory();
 
-        useEffect(()=>{
+        useEffect(()=>{ 
+                
                let lawyerUser = JSON.parse(localStorage.getItem("lawyerData"));
                let lawyerUserOBJ;
 
@@ -20,7 +22,7 @@ export default function Login(props){
                         fetch(store.getState().fetchBase + "lawyers/" + lawyerUserOBJ.user)
                         .then( (resp)=>{ return resp.json();})
                         .then((data)=>{ 
-                                
+
                         if(data.resp === lawyerUserOBJ.password){
                                 history.push("/rFgTdSvSVFgVFrtvvVgVSFvGDVDFVfgBfhGBgdVdFDVV");   
                         }

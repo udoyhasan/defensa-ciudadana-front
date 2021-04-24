@@ -2,7 +2,8 @@ import React ,{useEffect, useRef, useState } from 'react';
 import {store} from '../redux/store.js';
 import { useHistory } from "react-router-dom";
 import LottieContainer from './lottieContainer.js';
-import {injectFetchedData} from '../redux/dispatchers.js'
+import {injectFetchedData} from '../redux/dispatchers.js';
+import CryptoJS  from 'crypto-js';
 
 
 export default function Input(props){
@@ -18,10 +19,6 @@ export default function Input(props){
     const [errorAnimation, setErrorAnimation] = useState('inputComponentErrorAnimation');
     const [emptyInputAdvisor, setEmptyInputAdvisor] = useState('');
     const [eyeIcon, setEyeIcon] = useState('fas fa-eye-slash ml-3 mt-3 p-0');
-
-    useEffect(()=>{
-        //localStorage.removeItem("lawyerUser");
-    },[])
 
     const sendingToParentComponent = (e) =>{
         let value = ref.current.value;
@@ -47,8 +44,7 @@ export default function Input(props){
         e.preventDefault();
     }
 
-    const fetchQuery = (user, endpoint, ref) => {
-    
+    const fetchQuery = (user, endpoint, ref) => { 
        
         let inputValue = user;
 
@@ -65,10 +61,13 @@ export default function Input(props){
         
             fetch(store.getState().fetchBase + endpoint + inputValue )
             .then( (resp)=>{ return resp.json();})
-            .then((data)=>{
-        
-                if(data.resp === ref){
-                    injectFetchedData(JSON.stringify({password: data.resp, lawyerUser: inputValue})) //WE STORE ON REDUX STATE THE LAWYER DATA, TO LATER STORE ON LOCALsTORAGE
+            .then((base64EncodedData)=>{ 
+                
+                let decodedStringAtoB = atob(base64EncodedData.resp);
+                
+
+                if(decodedStringAtoB === ref){
+                    injectFetchedData(JSON.stringify({password: decodedStringAtoB, lawyerUser: inputValue})) //WE STORE ON REDUX STATE THE LAWYER DATA, TO LATER STORE ON LOCALsTORAGE
                     history.push("/rFgTdSvSVFgVFrtvvVgVSFvGDVDFVfgBfhGBgdVdFDVV");   
                 }
                 else{
@@ -82,20 +81,20 @@ export default function Input(props){
 
                 for(let i = 0; i < 4; i++){
                     fetch(store.getState().fetchBase + endpoint + inputValue )//WE REPEATE THE FETCH, COS OUR BACKEND IS LIKE A PENNIS
-                    .then( (resp)=>{ return resp.json();})
-                    .then((data)=>{
-                
-                        if(data.resp === ref){
+                    .then( (resp)=>{ return resp.json()})
+                    .then((base64EncodedData)=>{
+
+                        let decodedStringAtoB = atob(base64EncodedData.resp);
+                            
+                        if(decodedStringAtoB === ref){
 
                             let lawyerUserData = JSON.stringify({user: inputValue, password: ref});
-                            
                             history.push("/rFgTdSvSVFgVFrtvvVgVSFvGDVDFVfgBfhGBgdVdFDVV");   
                         }
                         else{
                             setDisplayLoader('none');
                             setDisplayError('inline');
                             setPlayErrorForFailureFetch(true);
-
                         }
                     })
                     .catch(()=>{
@@ -125,7 +124,7 @@ export default function Input(props){
                         <input onChange={sendingToParentComponent} ref={ref} placeholder={props.placeholder} type={(eyeIcon==="fas fa-eye ml-3 mt-3 p-0")?"text":props.type} className={`form-control float-left ${emptyInputAdvisor}`} data-customtype={props.customtype}  aria-label="" aria-describedby="basic-addon1"/>
                     </div>
                     <div className={`col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 p-0 ${(props.type=="password")?"":"d-none"}`}>
-                        <i style={{cursor: "pointer"}} onClick={()=> {(eyeIcon==="fas fa-eye-slash ml-3 mt-3 p-0")?setEyeIcon("fas fa-eye ml-3 mt-3 p-0"):setEyeIcon("fas fa-eye-slash ml-3 mt-3 p-0")}} class={eyeIcon}></i>
+                        <i style={{cursor: "pointer"}} onClick={()=> {(eyeIcon==="fas fa-eye-slash ml-3 mt-3 p-0")?setEyeIcon("fas fa-eye ml-3 mt-3 p-0"):setEyeIcon("fas fa-eye-slash ml-3 mt-3 p-0")}} className={eyeIcon}></i>
                     </div>
                     <div className={`${(props.type=="password")?"col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 p-0":"col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 p-0 m-0"} ${(props.includeLoader)?"":"d-none"}`}>
                         <LottieContainer name="loader" play={true} loop={true} lottie={loaderAnimation} width="1%" display={displayLoader}/>
