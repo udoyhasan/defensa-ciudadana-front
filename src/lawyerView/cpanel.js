@@ -3,7 +3,7 @@ import {store} from '../redux/store.js';
 import lottie from 'lottie-web';
 import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
-import { Alert } from 'bootstrap';
+import ModalBtn from '../components/modalBtn.js'
 import Counter from '../components/counter.js';
 import Statistic from '../components/statistic.js';
 import {Link} from 'react-router-dom'
@@ -766,48 +766,28 @@ render(){
                             localStorage.clear();
                             }} style={{cursor: "pointer", textDecoration: "none"}}>cerrar sesión</Link>
                         <div style={{color: "black",  textAlign: "center"}}>
-                           <h5 style={{ fontWeight: "bold", letterSpacing: "10px", fontFamily: "Courier New"}}> <button type="button" className="btn btn-primary mr-5" data-toggle="modal" data-target="#exampleModalCenter">
-                            ESTADÍSTICAS
-                            </button>PLANILLA DE CASOS
-                                ({this.state.dataList.length})</h5>
-                            <div className="d-flex flex-row " style={{backgroundColor: "#32cb00"}}><button className="border-0 rounded text-white bg-primary justify-content-start m-2 font-weight-bold" data-toggle="modal" data-target="#exampleModal">CREAR TICKET</button><input onChange={this.caseSearcher} placeholder="Busca por cliente, materia o rol ... " className="p-absolute m-2 p-2 text-left w-75 rounded border border-success justify-content-center"></input><span ref={this.serachResult} className="text-white font-weight-bold m-3 h5 d-none">RESULTADO ({this.state.searchingResult})</span></div>
-                                        {/*MODAL*/}
-                                        <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div className="modal-dialog" role="document">
-                                            <div className="modal-content">
-                                            <div className="modal-header" style={{backgroundColor: "#32CB00"}}>
-                                                <h5 className="modal-title text-center text-light justify-content-center" id="exampleModalLabel">DATOS DEL CASO</h5>
-                                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                              
-                                                </button>
-                                            </div>
-                                            <div className="modal-body">
-                                            <input ref={this.modalDescription} placeholder="Descripción " className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
-                                            <input ref={this.modallegalIssue} placeholder="Materia" className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
-                                            <input ref={this.modalProcedure} placeholder="Procedimiento" className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
-                                            <input ref={this.modalObjetive} placeholder="Objetivo" className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>                                            </div>
-                                            <input ref={this.ticketBadge} onClick={this.copy} type="text" className="btn btn-primary ml-3 mb-3 mr-3 d-none" value={this.state.ticket}/>
-                                            <div className="modal-footer" style={{backgroundColor: "#32CB00"}}>
-                                                <button type="button" onClick={this.createTicket} className="btn btn-secondary">OBTENER TICKET</button>
-                                            </div>
-                                            </div>
-                                        </div>
-                                        </div>
-                                        {/*STATISTICS MODAL */}
-                                        <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                            <div className="modal-dialog modal-dialog-centered" role="document">
-                                                <div className="modal-content">
-                                                <div className="modal-body">
-                                                    <Counter object={{counter: this.state.statisticsFetched.activeCases, message: "Casos Activos"}} />
-                                                    <Counter object={{counter: this.state.statisticsFetched.totalOfCases, message: "Total de casos llevados"}} />
-                                                    <Statistic arr={this.state.statisticObj} />
-                                                </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                            
+                           <h5 style={{ fontWeight: "bold", letterSpacing: "10px", fontFamily: "Courier New"}}> 
+                           PLANILLA DE CASOS ({this.state.dataList.length})
+                           </h5>
+                                
+                            <div className="d-flex flex-row " style={{backgroundColor: "#32cb00"}}>
+                                <ModalBtn insertBtn={false} BtnTitle="estadisticas" target="estatisticsModal" modalTitle="Esadísticas de tu cartera de clientes" footerBtnTitle="Generar un Tiket" footerBtnOnClickFunction={this.createTicket}>
+                                    <Counter object={{counter: this.state.statisticsFetched.activeCases, message: "Casos Activos"}} />
+                                    <Counter object={{counter: this.state.statisticsFetched.totalOfCases, message: "Total de casos llevados"}} />
+                                    <Statistic chartTitle="ingreso de causas mensual" id="casesData" data={[{columnValue:[5, 10], columnLable:["nuevos","terminados"] , columnGroupLabel: "enero"}, {columnValue:[5,8], columnLable:["nuevos","terminados"], columnGroupLabel: "febrero"}]} />
+                                </ModalBtn>
+                                <ModalBtn insertBtn={true} BtnTitle="CREAR TIKET" target="tiketModal" modalTitle="Ingresa datos mínimos del caso" footerBtnTitle="Generar un Tiket" footerBtnOnClickFunction={this.createTicket}>
+                                    <input ref={this.modalDescription} placeholder="Descripción " className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
+                                    <input ref={this.modallegalIssue} placeholder="Materia" className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
+                                    <input ref={this.modalProcedure} placeholder="Procedimiento" className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
+                                    <input ref={this.modalObjetive} placeholder="Objetivo" className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>                                           
+                                    <input ref={this.ticketBadge} onClick={this.copy} type="text" className="btn btn-primary ml-3 mb-3 mr-3 d-none" value={this.state.ticket} onChange={()=>{}}/>
+                                </ModalBtn>
 
-
-
+                                <input onChange={this.caseSearcher} placeholder="Busca por cliente, materia o rol ... " className="p-absolute m-2 p-2 text-left w-75 rounded border border-success justify-content-center"></input>
+                                <span ref={this.serachResult} className="text-white font-weight-bold m-3 h5 d-none">({this.state.searchingResult})</span>
+                            </div>
                             <div className="table-wrapper-scroll-y my-custom-scrollbar tableFixHead" style={{height: '90vh',backgroundColor: "#32cb00"}}>
 
                                 <table className="table table-bordered table-striped mb-5" style={{backgroundColor: "#fafafa"}}>

@@ -9,7 +9,7 @@ import { Route, BrowserRouter as Router } from 'react-router-dom'
 
 import App from './App';
 import ClientPanel from './clientView/clientPanel.js';
-import {Cpanel} from './clientView/cpanel.js';
+import {Cpanel} from './lawyerView/cpanel.js';
 import Login from './lawyerView/login.js';
 import {JobExchange} from './lawyerView/jobExchange.js';
 
