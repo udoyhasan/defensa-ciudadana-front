@@ -6,6 +6,7 @@ import 'tippy.js/dist/tippy.css';
 import ModalBtn from '../components/modalBtn.js'
 import Counter from '../components/counter.js';
 import Statistic from '../components/statistic.js';
+import FiltrableList from '../components/filtrableList.js';
 import {Link} from 'react-router-dom'
 
 
@@ -26,8 +27,9 @@ export class Cpanel extends React.Component{
             pendingTasksCounter: 0,
             ticket: "",
             searchingResult: 0,
-            statisticsFetched: "",
-            statisticObj:""//[{label: "junio", color:"green", data: 20}, {label: "julio", color:"red", data: 30}]
+            statisticsTotalCases: 0,
+            statisticsActiveCases: 0,
+            statisticObj:[]
         }
         
 
@@ -133,19 +135,125 @@ export class Cpanel extends React.Component{
         .then(resp => {return resp.json()})
         .then((data)=>{
             
-            this.setState({statisticsFetched: data});
-            let incomeCasesArr = []
-            let colors= ["DarkOrange","Aquamarine","orange","yellow","blue","pink","green","purple","gold","red","Cyan"]
-            let months= ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre", "diciembre"]
-            let incomeCases = data.incomeCases;
+            this.setState({statisticsTotalCases: data.totalOfCases, statisticsActiveCases: data.activeCases,});
             
-
-            incomeCases.forEach((item, index)=>{
-                let obj = {label: months[index], color: colors[parseInt(Math.random()*10)], data: parseInt(item)};
-                incomeCasesArr.push(obj);
+            // HERE WE RECIBE THE INCOME CASES DATA AND TRANSFORM IT TO PASS ON STATISTIC COMPONENT
+            let incomeCasesmonthObj = {enero: 0, febrero: 0, marzo: 0, abril: 0, mayo: 0, junio: 0, julio:0,
+            agosto: 0, septiembre: 0, octubre: 0, noviembre: 0, diciembre:0}
+            
+            data.incomeCases.forEach((item)=>{   
+                
+                let index = item.cases_incomeDate.indexOf(",")
+                let monthSubstring = item.cases_incomeDate.substring(index + 5, index + 8).toLowerCase()
+                
+                switch(monthSubstring){
+                    case "jan":
+                        incomeCasesmonthObj.enero = incomeCasesmonthObj.enero + 1
+                        break;
+                    case "feb":
+                        incomeCasesmonthObj.febrero = incomeCasesmonthObj.febrero + 1
+                        break;
+                    case "mar":
+                        incomeCasesmonthObj.marzo = incomeCasesmonthObj.marzo + 1  
+                        break;  
+                    case "apr":
+                        incomeCasesmonthObj.abril = incomeCasesmonthObj.abril + 1
+                        break;
+                    case "may":
+                        incomeCasesmonthObj.mayo = incomeCasesmonthObj.mayo + 1
+                        break;
+                    case "jun":
+                        incomeCasesmonthObj.junio = incomeCasesmonthObj.junio + 1 
+                        break;
+                    case "jul":
+                        incomeCasesmonthObj.julio = incomeCasesmonthObj.julio + 1
+                        break;
+                    case "aug":
+                        incomeCasesmonthObj.agosto = incomeCasesmonthObj.agosto + 1
+                        break;
+                    case "sep":
+                        incomeCasesmonthObj.septiembre = incomeCasesmonthObj.septiembre + 1
+                        break;
+                    case "oct":
+                        incomeCasesmonthObj.octubre = incomeCasesmonthObj.octubre + 1
+                        break;
+                    case "nov":
+                        incomeCasesmonthObj.noviembre = incomeCasesmonthObj.noviembre + 1
+                        break;
+                    case "dec":
+                        incomeCasesmonthObj.diciembre = incomeCasesmonthObj.diciembre + 1
+                        break; 
+                }
             })
-        this.setState({statisticObj: incomeCasesArr })
 
+            //THE SAME BUT FOR THE CASES END DATE
+            let deadLineCasesmonthObj = {enero: 0, febrero: 0, marzo: 0, abril: 0, mayo: 0, junio: 0, julio:0,
+                agosto: 0, septiembre: 0, octubre: 0, noviembre: 0, diciembre:0}
+                
+                data.finishedCases.forEach((item)=>{   
+                    
+                    let index = item.cases_deadLine.indexOf(",")
+                    let monthSubstring = item.cases_deadLine.substring(index + 5, index + 8).toLowerCase()
+                    
+                    switch(monthSubstring){
+                        case "jan":
+                            deadLineCasesmonthObj.enero = deadLineCasesmonthObj.enero + 1
+                            break;
+                        case "feb":
+                            deadLineCasesmonthObj.febrero = deadLineCasesmonthObj.febrero + 1
+                            break;
+                        case "mar":
+                            deadLineCasesmonthObj.marzo = deadLineCasesmonthObj.marzo + 1  
+                            break;  
+                        case "apr":
+                            deadLineCasesmonthObj.abril = deadLineCasesmonthObj.abril + 1
+                            break;
+                        case "may":
+                            deadLineCasesmonthObj.mayo = deadLineCasesmonthObj.mayo + 1
+                            break;
+                        case "jun":
+                            deadLineCasesmonthObj.junio = deadLineCasesmonthObj.junio + 1 
+                            break;
+                        case "jul":
+                            deadLineCasesmonthObj.julio = deadLineCasesmonthObj.julio + 1
+                            break;
+                        case "aug":
+                            deadLineCasesmonthObj.agosto = deadLineCasesmonthObj.agosto + 1
+                            break;
+                        case "sep":
+                            deadLineCasesmonthObj.septiembre = deadLineCasesmonthObj.septiembre + 1
+                            break;
+                        case "oct":
+                            deadLineCasesmonthObj.octubre = deadLineCasesmonthObj.octubre + 1
+                            break;
+                        case "nov":
+                            deadLineCasesmonthObj.noviembre = deadLineCasesmonthObj.noviembre + 1
+                            break;
+                        case "dec":
+                            deadLineCasesmonthObj.diciembre = deadLineCasesmonthObj.diciembre + 1
+                            break; 
+                    }
+                })  
+
+            //WE PREPARE THE OBJ TO THE STATISTICS COMPONENT ATTRIBUTE
+
+            let statisticsComponentArray = [];
+            let monthsOfTheYear = [{short:"ene", long: "enero"}, {short:"feb", long: "febrero"}, {short:"mar", long: "marzo"}, 
+            {short:"abr", long: "abril"}, {short:"may", long: "mayo"}, {short:"jun", long: "junio"}, {short:"jul", long: "julio"},
+            {short:"ago", long: "agosto"}, {short:"sep", long: "septiembre"}, {short:"oct", long: "octubre"}, {short:"nov", long: "noviembre"},
+             {short:"dic", long: "diciembre"}]
+
+                monthsOfTheYear.forEach((item)=>{
+                    statisticsComponentArray.push({columnValue:[incomeCasesmonthObj[item.long], deadLineCasesmonthObj[item.long] ], columnLable:["in","out"] , columnGroupLabel: item.short})
+            })
+
+            //HERE WE STORE THE STATISTICS OF INCOME CASES
+            let dateStaticObj = new Date();
+            let currentMonth = dateStaticObj.getMonth();
+            statisticsComponentArray = [...statisticsComponentArray.slice(currentMonth + 1, statisticsComponentArray.length), ...statisticsComponentArray.slice(0, currentMonth + 1)]
+            console.log(statisticsComponentArray)
+            this.setState({statisticObj: statisticsComponentArray})
+            
         })
         .catch(error=> console.log(error))
 
@@ -773,9 +881,17 @@ render(){
                                 
                             <div className="d-flex flex-row " style={{backgroundColor: "#32cb00"}}>
                                 <ModalBtn insertBtn={false} BtnTitle="estadisticas" target="estatisticsModal" modalTitle="Esadísticas de tu cartera de clientes" footerBtnTitle="Generar un Tiket" footerBtnOnClickFunction={this.createTicket}>
-                                    <Counter object={{counter: this.state.statisticsFetched.activeCases, message: "Casos Activos"}} />
-                                    <Counter object={{counter: this.state.statisticsFetched.totalOfCases, message: "Total de casos llevados"}} />
-                                    <Statistic chartTitle="ingreso de causas mensual" id="casesData" data={[{columnValue:[5, 10], columnLable:["nuevos","terminados"] , columnGroupLabel: "enero"}, {columnValue:[5,8], columnLable:["nuevos","terminados"], columnGroupLabel: "febrero"}]} />
+                                    <div className="container-fluid">
+                                        <div className="row">
+                                            <div className="col-6">
+                                                <Counter object={{counter: this.state.statisticsActiveCases, message: "Casos Activos"}} aditionalClassName=""/>
+                                            </div>
+                                            <div className="col-6">
+                                                <Counter object={{counter: this.state.statisticsTotalCases, message: "Total de casos llevados"}} aditionalClassName="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <Statistic chartTitle="ingreso de causas mensual" id="casesData" data={this.state.statisticObj} />
                                 </ModalBtn>
                                 <ModalBtn insertBtn={true} BtnTitle="CREAR TIKET" target="tiketModal" modalTitle="Ingresa datos mínimos del caso" footerBtnTitle="Generar un Tiket" footerBtnOnClickFunction={this.createTicket}>
                                     <input ref={this.modalDescription} placeholder="Descripción " className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
