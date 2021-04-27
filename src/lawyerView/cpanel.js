@@ -881,7 +881,7 @@ render(){
                             <div className="d-flex flex-row " style={{backgroundColor: "#32cb00"}}>
                                 <ModalBtn insertBtn={false} BtnTitle="estadisticas" target="estatisticsModal" modalTitle="Esadísticas de tu cartera de clientes" footerBtnTitle="Generar un Tiket" footerBtnOnClickFunction={this.createTicket}>
                                     <div className="container-fluid">
-                                        <div className="row">
+                                        <div className="row h-100">
                                             <div className="col-3" />
                                             <div className="col-6">
                                                 <Counter reverseObject={{counter: this.state.statisticsTotalCases, message: "Total de casos llevados"}} object={{counter: this.state.statisticsActiveCases, message: "Casos Activos"}} aditionalClassName=""/>

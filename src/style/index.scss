@@ -97,13 +97,13 @@ body, #root {
 
   .invert{
 
-    display: inline-block;
+    display: block;
     transform: rotateY(0deg);
 
   }
 
   .reInvert{
-    display: inline-block;
+    display: block;
     transform: rotateY(-180deg);
 
   }

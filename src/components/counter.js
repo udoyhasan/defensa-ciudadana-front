@@ -9,9 +9,7 @@ export default function Counter(props){
 
     useEffect(()=>{
         let passedObject = props.object
-        
         setObject(passedObject)
-        console.log(props.object, animationClassBoolean )
 
     },[props])
 
@@ -33,7 +31,7 @@ export default function Counter(props){
                                 setAnimationClassBoolean(true)
                             }                          
                         },300);
-                        }} className={`jumbotron-fluid p-3 m-5 ${animationClass} ${props.aditionalClassName}`} style={{backgroundColor: "#32CB00", cursor: "pointer"}} >
+                        }} className={`jumbotron-fluid p-3 m-5 ${animationClass} ${props.aditionalClassName}`} style={{backgroundColor: "#32CB00", cursor: "pointer", minHeight: "200px"}} >
                             <h1 className={`display-4 text-center text-light ${invertClass}`}>
                                 {object.counter}
                             </h1>
