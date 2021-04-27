@@ -85,6 +85,29 @@ body, #root {
     animation: opacityPopUpLottieAnimationIntro 1s forwards;
   }
 
+  .counterPerspectiveAnimation{
+
+    animation: counterPerspectiveAnimation 1s forwards;
+  }
+
+  .reverseCounterPerspectiveAnimation{
+
+    animation: reverseCounterPerspectiveAnimation 1s forwards;
+  }
+
+  .invert{
+
+    display: inline-block;
+    transform: rotateY(0deg);
+
+  }
+
+  .reInvert{
+    display: inline-block;
+    transform: rotateY(-180deg);
+
+  }
+
 
 /*
 $posicion: absolute;
@@ -471,7 +494,6 @@ $top: 1cm;
   60%{transform: rotateY(900deg);}
   70%{transform: rotateY(1080deg);}
   100%{transform: rotateY(1080deg);}}
- 
   
   @keyframes opacityPopUpLottieAnimationIntro {
     0%{opacity: 0;}
@@ -484,3 +506,29 @@ $top: 1cm;
     75%{left: 2%;}
     100%{left: 0%;}
    }
+
+   @keyframes counterPerspectiveAnimation {
+    0%{
+      -webkit-transform: rotateY(0deg);
+              transform: rotateY(0deg);
+    }
+    100%{
+      -webkit-transform: rotateY(180deg);
+              transform: rotateY(180deg);
+
+    }
+   }
+
+   @keyframes reverseCounterPerspectiveAnimation {
+    0% {
+      -webkit-transform: rotateY(-180deg);
+              transform: rotateY(-180deg);
+    }
+    100%{
+      -webkit-transform: rotateY(0deg);
+      transform: rotateY(0deg);
+
+    }
+   }
+  
+   

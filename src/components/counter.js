@@ -1,18 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function Counter(props){
-    let object =  props.object; // ATTRIBUTE EXAMPLE   {counter: 123, message: "ingresos"}
+
+    const [animationClass, setAnimationClass] = useState("");
+    const [animationClassBoolean, setAnimationClassBoolean] = useState(false);
+    const [invertClass, setInvertClass] = useState("");
+    const [object, setObject] = useState({});
+
+    useEffect(()=>{
+        let passedObject = props.object
+        
+        setObject(passedObject)
+        console.log(props.object, animationClassBoolean )
+
+    },[props])
 
         return( 
            <>   
                 
-                    <div className={`jumbotron-fluid p-3 m-5 ${props.aditionalClassName}`} style={{backgroundColor: "#32CB00"}} >
-                            <h1 className="display-4 text-center text-light">
+                    <div onClick={()=>{ 
+                        (!animationClassBoolean)?setAnimationClass("counterPerspectiveAnimation"):setAnimationClass("reverseCounterPerspectiveAnimation")
+                        
+                        setTimeout(()=> { 
+                            if(animationClassBoolean){
+                                setAnimationClassBoolean(false)
+                                setInvertClass("invert")
+                                setObject(props.object)
+                            }else if(!animationClassBoolean){
+                                
+                                setInvertClass("reInvert")
+                                setObject(props.reverseObject)
+                                setAnimationClassBoolean(true)
+                            }                          
+                        },300);
+                        }} className={`jumbotron-fluid p-3 m-5 ${animationClass} ${props.aditionalClassName}`} style={{backgroundColor: "#32CB00", cursor: "pointer"}} >
+                            <h1 className={`display-4 text-center text-light ${invertClass}`}>
                                 {object.counter}
                             </h1>
-                            <p className="lead text-center text-light text-uppercase font-weight-bold p-3">
+                            <h5  className={`lead text-center text-light text-uppercase font-weight-bold p-3 ${invertClass}`}>
                                 {object.message}
-                            </p>
+                            </h5>
                     </div>
  
            </> 
@@ -33,5 +60,6 @@ readMe
     -messages
 
 Example: {counter: this.state.statisticsActiveCases, message: "Casos Activos"}
+*reverseObject:an object of data that will show when you click on counter and display other data. USe the same attributes than object propertie
 
 */

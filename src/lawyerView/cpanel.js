@@ -251,7 +251,6 @@ export class Cpanel extends React.Component{
             let dateStaticObj = new Date();
             let currentMonth = dateStaticObj.getMonth();
             statisticsComponentArray = [...statisticsComponentArray.slice(currentMonth + 1, statisticsComponentArray.length), ...statisticsComponentArray.slice(0, currentMonth + 1)]
-            console.log(statisticsComponentArray)
             this.setState({statisticObj: statisticsComponentArray})
             
         })
@@ -883,12 +882,11 @@ render(){
                                 <ModalBtn insertBtn={false} BtnTitle="estadisticas" target="estatisticsModal" modalTitle="Esadísticas de tu cartera de clientes" footerBtnTitle="Generar un Tiket" footerBtnOnClickFunction={this.createTicket}>
                                     <div className="container-fluid">
                                         <div className="row">
+                                            <div className="col-3" />
                                             <div className="col-6">
-                                                <Counter object={{counter: this.state.statisticsActiveCases, message: "Casos Activos"}} aditionalClassName=""/>
+                                                <Counter reverseObject={{counter: this.state.statisticsTotalCases, message: "Total de casos llevados"}} object={{counter: this.state.statisticsActiveCases, message: "Casos Activos"}} aditionalClassName=""/>
                                             </div>
-                                            <div className="col-6">
-                                                <Counter object={{counter: this.state.statisticsTotalCases, message: "Total de casos llevados"}} aditionalClassName="" />
-                                            </div>
+                                            <div className="col-3" />
                                         </div>
                                     </div>
                                     <Statistic chartTitle="ingreso de causas mensual" id="casesData" data={this.state.statisticObj} />
