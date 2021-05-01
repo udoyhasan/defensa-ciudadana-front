@@ -2,7 +2,7 @@ import React ,{ useState, useEffect, useRef} from 'react';
 
 export default function Statistic(props){
 
-        const [colors, setColors] = useState([{ bg:"border border-primary border-4", colorGroupLabel: "text-primary h-6", colorColumnLabel: "text-primary"} , { bg:"border border-info border-4", colorGroupLabel: "text-info h-6", colorColumnLabel: "text-info"}, { bg:"bg-success", colorGroupLabel: "text-success h-6", colorColumnLabel: "text-white"}, { bg:"bg-danger", colorGroupLabel: "text-danger h-6", colorColumnLabel: "text-white"}, { bg:"bg-warning", colorGroupLabel: "text-warning h-6", colorColumnLabel: "text-white"}, { bg:"bg-info", colorGroupLabel: "text-info h-6", colorColumnLabel: "text-white"}, { bg:"border border-success", colorGroupLabel: "text-success h-6", colorColumnLabel: "text-success"}, { bg:"border border-warning", colorGroupLabel: "text-warning h-6", colorColumnLabel: "text-warning"}])
+        const [colors, setColors] = useState([{ bg:"border border-primary border-4", colorGroupLabel: "text-primary h-6", colorColumnLabel: "text-primary"} , { bg:"bg-success", colorGroupLabel: "text-success h-6", colorColumnLabel: "text-white"}, { bg:"bg-danger", colorGroupLabel: "text-danger h-6", colorColumnLabel: "text-white"}, { bg:"bg-warning", colorGroupLabel: "text-warning h-6", colorColumnLabel: "text-white"}, { bg:"bg-info", colorGroupLabel: "text-info h-6", colorColumnLabel: "text-white"}])
         const [chartHeight, setChartHeight] = useState(0)
         const [x, setx] = useState(document.querySelector(".statistic-container"))
         let refs = []
@@ -16,27 +16,27 @@ export default function Statistic(props){
                         {
                             
                             props.data.map((item, index)=>{
-                                let random = Math.floor(Math.random()*8)
+                                let random = Math.floor(Math.random()*5)
                                 let JSXArray = []
                                 for (let i = 0; i < item.columnValue.length; i++) {
                                     JSXArray.push(
-                                    <div className="col m-0 p-0" key={"2-" + i.toString()}>       
-                                        <div className={`${colors[random].bg}`} style={{height: item.columnValue[i]*10}}>
-                                            <code className={colors[random].colorColumnLabel} style={{display: "inline-block", transform: 'rotateX(-180deg)'}}>
+                                    <div className="col m-0 p-0 shineLikeDiamond" key={"1-" + i.toString()}>       
+                                        <div className={`${colors[random].bg}`} key={"2-" + i.toString()} style={{height: item.columnValue[i]*10}}>
+                                            <code className={colors[random].colorColumnLabel} key={"3-" + i.toString()} style={{display: "inline-block", transform: 'rotateX(-180deg)'}}>
                                                 {item.columnLable[i]}
                                             </code>
                                         </div>
-                                        <code className="col text-dark font-weight-bold m-0 p-0" style={{display: "inline-block", transform: 'rotateX(-180deg)'}}>{(item.columnValue[i]>0)?item.columnValue[i]:" "}</code>
+                                        <code className="col text-dark font-weight-bold m-0 p-0" key={"4-" + i.toString()} style={{display: "inline-block", transform: 'rotateX(-180deg)'}}>{(item.columnValue[i]>0)?item.columnValue[i]:" "}</code>
                                     </div>
                                     )
                                   }
                                 return(
                                     <>
-                                    <div className="col m-0 p-0" key={index}>
-                                        <div className="m-1 p-0 row">
-                                          <code className={`w-100 col-12 ${colors[random].colorGroupLabel}`} style={{fontSize: "0.6em", display: "inline-block", transform: 'rotateX(-180deg)'}}>{item.columnGroupLabel.toUpperCase()}</code>
+                                    <div className="col m-0 p-0" key={"5-" + index.toString()}>
+                                        <div className="m-1 p-0 row" key={"6-" + index.toString()}>
+                                          <code className={`w-100 col-12 ${colors[random].colorGroupLabel}`} key={"7-" + index.toString()} style={{fontSize: "0.6em", display: "inline-block", transform: 'rotateX(-180deg)'}}>{item.columnGroupLabel.toUpperCase()}</code>
                                         </div>
-                                        <div className="m-2 row">
+                                        <div className="m-2 row" key={"8-" + index.toString()}>
                                             {JSXArray}
                                         </div>
                                     </div>

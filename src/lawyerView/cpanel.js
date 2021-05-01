@@ -9,6 +9,8 @@ import Statistic from '../components/statistic.js';
 import FiltrableList from '../components/filtrableList.js';
 import {Link} from 'react-router-dom'
 
+import {injectFetchedData} from '../redux/dispatchers.js'
+
 
 
 export class Cpanel extends React.Component{
@@ -26,7 +28,6 @@ export class Cpanel extends React.Component{
             errorOrSucces: "11014-accepted",
             pendingTasksCounter: 0,
             ticket: "",
-            searchingResult: 0,
             statisticsTotalCases: 0,
             statisticsActiveCases: 0,
             statisticObj:[]
@@ -45,10 +46,8 @@ export class Cpanel extends React.Component{
         this.SetContentTippy=this.SetContentTippy.bind(this);
         this.updateOnlyCaseDate=this.updateOnlyCaseDate.bind(this);
         this.setAllRowOnGreen=this.setAllRowOnGreen.bind(this);
-        this.caseSearcher=this.caseSearcher.bind(this);
         this.createTicket = this.createTicket.bind(this);
-
-        
+        this.fetchingStatistics = this.fetchingStatistics.bind(this);
 
         //REFERENCIAS DE FORMULARIO PARA CREAR NUEVO CLIENTE
         this.nombre = React.createRef();
@@ -82,13 +81,12 @@ export class Cpanel extends React.Component{
         
 
         //REFERENCE OF THE CASES TABLE
-        this.cPanelLoader = React.createRef();
-        this.cPanelError = React.createRef();
+        
         this.left = React.createRef();
         this.middle = React.createRef();
         this.right = React.createRef();
-        this.casesTable = React.createRef();
-        this.serachResult = React.createRef();
+        
+        
 
         //REFERENCES OF GESTURE INTERACTIVITY
         this.rightArrow = React.createRef();
@@ -131,6 +129,89 @@ export class Cpanel extends React.Component{
             localStorage.setItem("lawyerData", JSON.stringify(store.getState().fetchedData));
         }
 
+        this.fetchingStatistics();
+        document.addEventListener("touchstart", this.startGesture, false);
+        document.addEventListener("touchmove", this.moveGesture, false);
+        document.addEventListener("touchend", this.endGesture, false);
+    }
+
+     fetchingActiveCases(){
+
+        let incomingData = fetch(store.getState().fetchBase + 'casos/getAllActive')
+        .then(response => {return response.json()})
+        .then(data => {
+            incomingData = data.resp;
+            return incomingData      
+        });
+
+        /*let incomingDataReturned = incomingData.then((data)=>{
+
+            console.log(data)
+        })*/
+
+        /*fetch(store.getState().fetchBase + 'casos/getAllActive')//LOADING DATALIST DATA
+        .then(response => {
+            return response.json();})
+        .then(data => {
+            this.cPanelLoader.current.className += "invisible d-none"
+            
+            incomingData = data
+
+            this.setState({dataList: data.resp}, ()=>{
+
+                tippy('.UpdateCase', {// IT IS NECESARY THAT THE TIPPY JS COMES BEFOR THE DATA RENDERING
+                    arrow: true,
+                    content: "actualizar fecha",
+                    trigger: 'mouseenter',
+                    allowHTML: false,
+                    placement: "top-end"
+                  });
+
+                let counter = [];// WE COUNT THE PENDING TASKS ON THE TABLE
+                this.state.dataList.forEach((item)=>{
+                    let task = item.cases_pendingTask;
+                    if(task){ 
+                        if(task.trim().length !== 0){
+                            counter.push(1);
+                        }
+                    }
+
+                })
+                this.setState({pendingTasksCounter: counter.length });
+            })
+            
+            })  
+            .catch(()=> {
+                
+            //----------------- HERE ARE A LOOP TO ENSURE THAT THE REQUEST ARRIVE WELL, TRY 5 TIMES
+           let fecthFails;
+            for(let i=0; i<5; i++){
+             let fecthFails= true;
+             setTimeout( ()=>{
+                  
+                fetch(store.getState().fetchBase + 'casos/getAllActive')
+                .then(response => { 
+                    return response.json();})
+                .then(data => {
+                    this.cPanelLoader.current.className += "invisible d-none"
+                    this.setState({dataList: data.resp})
+                })
+                .catch((error) =>{})
+
+             },2000)
+             if (!fecthFails) { break; }
+            }
+            if(fecthFails)
+            {
+                this.cPanelLoader.current.className = "invisible d-none"
+                this.cPanelError.current.className = " border-0 d-inline "
+            }
+            })*/
+
+        return incomingData;
+    }
+
+    fetchingStatistics(){
         fetch('http://guillermopiedrabuena.pythonanywhere.com/statistics/1')
         .then(resp => {return resp.json()})
         .then((data)=>{
@@ -252,157 +333,13 @@ export class Cpanel extends React.Component{
             let currentMonth = dateStaticObj.getMonth();
             statisticsComponentArray = [...statisticsComponentArray.slice(currentMonth + 1, statisticsComponentArray.length), ...statisticsComponentArray.slice(0, currentMonth + 1)]
             this.setState({statisticObj: statisticsComponentArray})
+            //console.log(statisticsComponentArray)
             
         })
         .catch(error=> console.log(error))
 
-        document.addEventListener("touchstart", this.startGesture, false);
-        document.addEventListener("touchmove", this.moveGesture, false);
-        document.addEventListener("touchend", this.endGesture, false);
-    
-        let loaderlottieError =["11233-505-error", "3648-no-internet-connection"]
-        let errorRandomLottie = Math.floor(Math.random()*2);
 
-        tippy(this.ActualizacionAvanceCausa.current, {
-            arrow: false,
-            content: "<b id='tippyContent'>300</b>",
-            trigger: 'mouseenter focus',
-            allowHTML: true,
-          });
-          tippy(this.ActualizacionTareaPendiente.current, {
-            arrow: false,
-            content: "<b id='tippyContent2'>300</b>",
-            trigger: 'mouseenter focus',
-            allowHTML: true,
-          });
 
-        lottie.loadAnimation({
-            container: this.leftArrow.current,
-            render: 'svg',
-            loop: true,
-            autoplay: true,
-            animationData: require(`../assets/arrowAdvisor.json`)
-          })  
-          lottie.loadAnimation({
-            container:  this.queryLoader.current,
-            render: 'svg',
-            loop: true,
-            autoplay: true,
-            animationData: require(`../assets/query-loader.json`)
-          })   
-          lottie.loadAnimation({
-            container:  this.queryLoader2.current,
-            render: 'svg',
-            loop: true,
-            autoplay: true,
-            animationData: require(`../assets/query-loader.json`)
-          })   
-          lottie.loadAnimation({
-            container: this.queryLoaderSucces.current,
-            render: 'svg',
-            loop: false,
-            autoplay: true,
-            animationData: require(`../assets/11014-accepted.json`)
-          })      
-          lottie.loadAnimation({
-            container: this.queryLoaderSucces2.current,
-            render: 'svg',
-            loop: false,
-            autoplay: true,
-            animationData: require(`../assets/11014-accepted.json`)
-          }) 
-          lottie.loadAnimation({
-            container: this.queryLoaderError.current,
-            render: 'svg',
-            loop: false,
-            autoplay: true,
-            animationData: require(`../assets/11015-error.json`)
-          })   
-          lottie.loadAnimation({
-            container: this.queryLoaderError2.current,
-            render: 'svg',
-            loop: false,
-            autoplay: true,
-            animationData: require(`../assets/11015-error.json`)
-          }) 
-        lottie.loadAnimation({
-            container: this.rightArrow.current,
-            render: 'svg',
-            loop: true,
-            autoplay: true,
-            animationData: require(`../assets/arrowAdvisor.json`)
-          })
-
-        lottie.loadAnimation({
-            container: this.cPanelLoader.current,
-            render: 'svg',
-            loop: true,
-            autoplay: true,
-            animationData: require(`../assets/6615-loader-animation.json`)
-          })
-          lottie.loadAnimation({
-            container: this.cPanelError.current,
-            render: 'svg',
-            loop: true,
-            autoplay: true,
-            animationData: require(`../assets/${loaderlottieError[errorRandomLottie]}.json`)
-          })
-        fetch(store.getState().fetchBase + 'casos/getAllActive')//LOADING DATALIST DATA
-        .then(response => {
-            return response.json();})
-        .then(data => {
-            this.cPanelLoader.current.className += "invisible d-none"
-            
-            this.setState({dataList: data.resp}, ()=>{
-
-                tippy('.UpdateCase', {// IT IS NECESARY THAT THE TIPPY JS COMES BEFOR THE DATA RENDERING
-                    arrow: true,
-                    content: "actualizar fecha",
-                    trigger: 'mouseenter',
-                    allowHTML: false,
-                    placement: "top-end"
-                  });
-
-                let counter = [];// WE COUNT THE PENDING TASKS ON THE TABLE
-                this.state.dataList.forEach((item)=>{
-                    let task = item.cases_pendingTask;
-                    if(task){ 
-                        if(task.trim().length !== 0){
-                            counter.push(1);
-                        }
-                    }
-
-                })
-                this.setState({pendingTasksCounter: counter.length });
-            })
-            
-            })  
-            .catch(()=> {
-                
-            //----------------- HERE ARE A LOOP TO ENSURE THAT THE REQUEST ARRIVE WELL, TRY 5 TIMES
-            let fecthFails;
-            for(let i=0; i<5; i++){
-             let fecthFails= true;
-             setTimeout( ()=>{
-                  
-                fetch(store.getState().fetchBase + 'casos/getAllActive')
-                .then(response => { 
-                    return response.json();})
-                .then(data => {
-                    this.cPanelLoader.current.className += "invisible d-none"
-                    this.setState({dataList: data.resp})
-                })
-                .catch((error) =>{})
-
-             },2000)
-             if (!fecthFails) { break; }
-            }
-            if(fecthFails)
-            {
-                this.cPanelLoader.current.className = "invisible d-none"
-                this.cPanelError.current.className = " border-0 d-inline "
-            }
-            })
     }
 
     postNewClient()
@@ -793,36 +730,6 @@ NormaliceAccents (str) {
         document.getElementById(index.toString()).className = "selectionRow bg-selected text-dark";
     }
 
-    caseSearcher(e){
-        
-        let searchedValue = e.target.value.toLowerCase();
-        let childrens = this.casesTable.current.childNodes;
-        let noFilteredItem = [];
-        //BEFORE NEW SEARCH WE DISPLAY EVERY CHILDS
-        childrens.forEach((item)=>{item.style.display = "table-row";})
-
-        childrens.forEach((item)=>{
-
-         let rowconten = item.dataset.rowconten.toLowerCase(); //WE GET THE PERSONALIZED ATTRIBUTE DATA-ROWCONTENT, TROUGHT DATASET METHOD
-        
-            if(searchedValue.length !== 0){
-                    if(!rowconten.includes(searchedValue)){ //HIDDE
-                        item.style.display = "none";
-                    }
-                    else{
-                        noFilteredItem.push(1);
-                    }
-                }
-        
-        })
-        if(noFilteredItem.length>0){
-            this.setState({searchingResult: noFilteredItem.length }, ()=> {this.serachResult.current.className = "text-white font-weight-bold m-3 h5"})
-
-        } else {this.setState({searchingResult: noFilteredItem.length }, ()=> {this.serachResult.current.className = "text-white font-weight-bold m-3 h5 d-none"})
-    }
-
-
-    }
 
     createTicket(){
         let today = new Date();
@@ -857,8 +764,6 @@ NormaliceAccents (str) {
             })
     }
 
-
-
 render(){
     return (
         <>
@@ -866,20 +771,8 @@ render(){
         <div id="carousel1" className="carousel slide" data-ride="" data-interval="false" style={{height: "90vh"}}>
             <div className="carousel-inner">
             <div className="carousel-item active">
-            <div  style={{backgroundColor: "#c7c7c7", borderRadius: "10px", padding: "2%"}}> 
-                        <Link
-                        to="/login"
-                        onClick={()=> {
-                            localStorage.clear();
-                            }} style={{cursor: "pointer", textDecoration: "none"}}>cerrar sesión</Link>
-                        <div style={{color: "black",  textAlign: "center"}}>
-                            
-                           <h5 style={{ fontWeight: "bold", letterSpacing: "10px", fontFamily: "Courier New"}}> 
-                           PLANILLA DE CASOS ({this.state.dataList.length})
-                           </h5>
-                                
-                            <div className="d-flex flex-row " style={{backgroundColor: "#32cb00"}}>
-                                <ModalBtn insertBtn={false} BtnTitle="estadisticas" target="estatisticsModal" modalTitle="Esadísticas de tu cartera de clientes" footerBtnTitle="Generar un Tiket" footerBtnOnClickFunction={this.createTicket}>
+                <FiltrableList firstBtn={
+                                    <ModalBtn insertBtn={false} BtnTitle="estadisticas" target="estatisticsModal" modalTitle="Esadísticas de tu cartera de clientes" footerBtnTitle="Generar un Tiket" footerBtnOnClickFunction={this.createTicket}>
                                     <div className="container-fluid">
                                         <div className="row h-100">
                                             <div className="col-3" />
@@ -891,6 +784,8 @@ render(){
                                     </div>
                                     <Statistic chartTitle="ingreso de causas mensual" id="casesData" data={this.state.statisticObj} />
                                 </ModalBtn>
+                } 
+                secondBtn={
                                 <ModalBtn insertBtn={true} BtnTitle="CREAR TIKET" target="tiketModal" modalTitle="Ingresa datos mínimos del caso" footerBtnTitle="Generar un Tiket" footerBtnOnClickFunction={this.createTicket}>
                                     <input ref={this.modalDescription} placeholder="Descripción " className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
                                     <input ref={this.modallegalIssue} placeholder="Materia" className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
@@ -899,47 +794,8 @@ render(){
                                     <input ref={this.ticketBadge} onClick={this.copy} type="text" className="btn btn-primary ml-3 mb-3 mr-3 d-none" value={this.state.ticket} onChange={()=>{}}/>
                                 </ModalBtn>
 
-                                <input onChange={this.caseSearcher} placeholder="Busca por cliente, materia o rol ... " className="p-absolute m-2 p-2 text-left w-75 rounded border border-success justify-content-center"></input>
-                                <span ref={this.serachResult} className="text-white font-weight-bold m-3 h5 d-none">({this.state.searchingResult})</span>
-                            </div>
-                            <div className="table-wrapper-scroll-y my-custom-scrollbar tableFixHead" style={{height: '90vh',backgroundColor: "#32cb00"}}>
 
-                                <table className="table table-bordered table-striped mb-5" style={{backgroundColor: "#fafafa"}}>
-                                    <thead>
-                                    <tr style={{backgroundColor: "#32cb00", color:"white"}}>  
-                                        <th style={{width: "20%"}} scope="col">CLIENTE</th>
-                                        <th style={{width: "10%"}} scope="col">CASO</th>
-                                        <th style={{width: "10%"}} scope="col">ROL</th>
-                                        <th style={{width: "40%"}} scope="col">AVANCE</th> 
-                                        <th style={{width: "20%"}} scope="col">PENDIENTE ({this.state.pendingTasksCounter})</th> 
-                                    </tr>
-                                    </thead>
-                                    <tbody ref={this.casesTable}>
-                                    
-                                    {this.state.dataList.map((item, index) => {
-                                                                    return (
-                                    <tr data-rowconten={`${item.clients_name}/${item.cases_description}/${item.cases_rol_rit_ruc}`} key={index*1000} className="selectionRow bg-no-selected text-dark" id={index.toString()}>
-                                        
-                                        <td onClick={()=> this.setAllRowOnGreen(index)} style={{fontSize: "12px"}}>{item.clients_name}</td>
-                                        <td onClick={()=> this.setAllRowOnGreen(index)}  style={{fontSize: "12px"}}>{item.cases_description}</td>
-                                        <td onClick={()=> this.setAllRowOnGreen(index)} className="cases_rol_rit_ruc" style={{fontSize: "12px"}}>{item.cases_rol_rit_ruc}</td>
-                                        <td><button onDoubleClick={(e)=> {this.updateOnlyCaseDate(e);}} className="UpdateCase border-0 text-dark btn" style={{backgroundColor: "transparent", fontSize: "12px"}}>{item.cases_update}</button></td>
-                                        <td  style={{fontSize: "12px"}} className=" caseUpdate ">{item.cases_pendingTask}</td>
-                                                                         
-                                    </tr>)})}
-                                    
-                                    </tbody>
-                                    
-                                </table>
-
-                            <div ref={this.cPanelLoader} className="border-0 w-10" style={{position: "absolute", left: "40%", top: "20%"}}></div>
-                            <div ref={this.cPanelError} className="border-0 invisible d-none w-50 "></div>
-
-                            </div>
-                                  
-                        </div>
-                            
-                    </div>
+                } fetchingFunction={this.fetchingActiveCases} dataList={this.state.dataList} pendingTasksCounter={this.state.pendingTasksCounter} searchingResult={this.state.searchingResult} />
             </div>
             <div className="carousel-item">
             <div className={`m-0 col-12 cl-sm-12 col-md-12 col-lg-12 col-xl-12 `} ref={this.middle} style={{backgroundColor: "#32cb00", borderRadius: "10px"}}>

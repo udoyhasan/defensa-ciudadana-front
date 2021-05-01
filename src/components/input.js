@@ -57,6 +57,7 @@ export default function Input(props){
                 setDisplayLoader('inline');
                 setDisplayError('none');
                 setPlayErrorForFailureFetch(false);
+                console.log("line 60") //aca salio una vez por un error
             }
         
             fetch(store.getState().fetchBase + endpoint + inputValue )
@@ -74,6 +75,7 @@ export default function Input(props){
                     setDisplayLoader('none');
                     setDisplayError('inline');
                     setPlayErrorForFailureFetch(true);
+                    console.log("line 77")
 
                 }
             })
@@ -89,12 +91,14 @@ export default function Input(props){
                         if(decodedStringAtoB === ref){
 
                             let lawyerUserData = JSON.stringify({user: inputValue, password: ref});
-                            history.push("/rFgTdSvSVFgVFrtvvVgVSFvGDVDFVfgBfhGBgdVdFDVV");   
+                            history.push("/rFgTdSvSVFgVFrtvvVgVSFvGDVDFVfgBfhGBgdVdFDVV");  
+                            console.log("line 94") 
                         }
                         else{
                             setDisplayLoader('none');
                             setDisplayError('inline');
                             setPlayErrorForFailureFetch(true);
+                            console.log("line 100")
                         }
                     })
                     .catch(()=>{
@@ -103,6 +107,7 @@ export default function Input(props){
                             setDisplayLoader('none');
                             setDisplayError('inline');
                             setPlayErrorForFailureFetch(true);
+                            console.log("line 109")
                         }
             
                         console.log("%c the fetch of input component failed", "color: red");
