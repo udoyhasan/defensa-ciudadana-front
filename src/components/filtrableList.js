@@ -197,7 +197,7 @@ export default function FiltrableList(props){
         document.querySelectorAll(".selectionRow").forEach((item)=>{
              item.className = "selectionRow bg-no-selected"
          });
-         document.getElementById(index.toString()).className = "selectionRow bg-selected";
+         document.getElementById(index.toString()).className = "selectionRow bg-selected text-dark";
      }
     const lottieInit = () => {
 
@@ -354,21 +354,23 @@ export default function FiltrableList(props){
                                         let currentDate = Date.parse(new Date().toLocaleDateString());
                                         let itemDate = Date.parse(item.cases_updateDate);
                                         let aDayOnMiliseconds = 100000000;
-                                        let filterBackgroundColorFunction = (currentDate - aDayOnMiliseconds*3>itemDate && currentDate - aDayOnMiliseconds*4<itemDate)?"#F3CBCB":(currentDate - aDayOnMiliseconds*4>itemDate && currentDate - aDayOnMiliseconds*10<itemDate)?"#F76666":(currentDate - aDayOnMiliseconds*10>itemDate)?"#FF0000":"transparent"
+                                        let dataIndex = index + 1;
+                                        let defaultFontColor = (dataIndex%2 === 0)?"white":"#F2F2F2"
+                                        let filterBackgroundColorFunction = (currentDate - aDayOnMiliseconds*3>itemDate && currentDate - aDayOnMiliseconds*4<itemDate)?"#F3CBCB":(currentDate - aDayOnMiliseconds*4>itemDate && currentDate - aDayOnMiliseconds*10<itemDate)?"#F76666":(currentDate - aDayOnMiliseconds*10>itemDate)?"#FF0000":defaultFontColor
                                         let filterFontColorFunction = (currentDate - aDayOnMiliseconds*3>itemDate && currentDate - aDayOnMiliseconds*4<itemDate)?"black":(currentDate - aDayOnMiliseconds*4>itemDate && currentDate - aDayOnMiliseconds*10<itemDate)?"white":(currentDate - aDayOnMiliseconds*10>itemDate)?"white":"black"
+
+                                            
                                             return (
-                                                    <tr data-rowconten={`${item.clients_name}/${item.cases_description}/${item.cases_rol_rit_ruc}`} key={index*1000} className="selectionRow bg-no-selected" style={{color: filterFontColorFunction, backgroundColor: filterBackgroundColorFunction}} id={index.toString()}>
+                                                    <tr data-index={index + 1} data-rowconten={`${item.clients_name}/${item.cases_description}/${item.cases_rol_rit_ruc}`} key={index*1000} className="selectionRow bg-no-selected" style={{color: filterFontColorFunction, backgroundColor: filterBackgroundColorFunction}} id={index.toString()}>
                                                         
                                                         <td onClick={()=> setAllRowOnGreen(index)} style={{fontSize: "12px"  }}>{item.clients_name}</td>
                                                         <td onClick={()=> setAllRowOnGreen(index)}  style={{fontSize: "12px" }}>{item.cases_description}</td>
                                                         <td onClick={()=> setAllRowOnGreen(index)} className="cases_rol_rit_ruc" style={{fontSize: "12px"}}>{item.cases_rol_rit_ruc}<br/>{item.cases_trial_entity}</td>
-                                                        <td onClick={()=> setAllRowOnGreen(index)}/*onDoubleClick={(e)=> {this.updateOnlyCaseDate(e);}}*/ className="UpdateCase" style={{fontSize: "12px"}}>{item.cases_update}</td>
+                                                        <td onClick={()=> setAllRowOnGreen(index)} /*onDoubleClick={(e)=> {this.updateOnlyCaseDate(e);}}*/ className="UpdateCase" style={{fontSize: "12px"}}>{item.cases_update}</td>
                                                         <td onClick={()=> setAllRowOnGreen(index)} style={{fontSize: "12px" }} className=" caseUpdate ">{item.cases_pendingTask}</td>
                                                                                         
                                                     </tr>)})}
-                                    
                                     </tbody>
-                                    
                                 </table>
 
                             <div ref={cPanelLoader} className="border-0 w-10" style={{position: "absolute", left: "40%", top: "20%"}}></div>
