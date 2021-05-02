@@ -10,12 +10,18 @@ import {store} from '../redux/store.js';
 import {truePanel_falseButtonSet_handler} from '../redux/dispatchers.js';
 import {eventInhibitorDispatcher} from '../redux/dispatchers.js';
 import lottie from 'lottie-web';
+import tippy, {hideAll} from 'tippy.js';
+import 'tippy.js/animations/scale.css';
+import 'tippy.js/animations/scale-extreme.css';
+
+
 
 
 export class LogoGuide extends React.Component{
     constructor(props){
         super(props);
         this.logoContainer = React.createRef();
+        this.tippyContainerRef = React.createRef();
 
     this.state = {
         img: logo, 
@@ -32,6 +38,24 @@ export class LogoGuide extends React.Component{
 
     componentDidMount(){
 
+        const tippyInstance = tippy(this.logoContainer.current);
+        tippyInstance.setProps({
+            arrow: true,
+            content: "<h6>Click Aquí!</h6>",
+            trigger: 'manual',
+            animation: 'scale-extreme',
+            allowHTML: true,
+            placement: "bottom"
+          });
+
+        setInterval(()=>{
+
+            (this.logoContainer.current.className.includes("logoDash 1s forwards"))?tippyInstance.hide(): tippyInstance.show()
+                setTimeout(()=>{
+                    tippyInstance.hide();
+                },2000)
+        },7000)
+
         lottie.loadAnimation({
             container: this.logoContainer.current,
             render: 'svg',
@@ -41,18 +65,21 @@ export class LogoGuide extends React.Component{
         })
     }
 
-    panelBtnChanger(){
+    panelBtnChanger(){ 
+    let logoContainer = this.logoContainer.current._tippy
+    
+    
         if(store.getState().eventIhibitor==false)
         {
               panelBtnChanger("floatDown", "logoDash 1s forwards");
               backArrowAnimationDispatcher(" backArrow ");
-              eventInhibitorDispatcher(true);
-              
+              eventInhibitorDispatcher(true);         
         }
     }
 
 
-    onclickAnimationFunction(){
+    onclickAnimationFunction(){ 
+
         if(store.getState().eventIhibitor==true)
         {      
             backArrowAnimationDispatcher(" backArrowReverse ");
@@ -77,9 +104,9 @@ export class LogoGuide extends React.Component{
             <>
             <div style={{width: store.getState().whyUsImagesDisplayedOnAnimatiton.zise,position: store.getState().whyUsImagesDisplayedOnAnimatiton.position}} className={this.props.bootstrapClass + store.getState().logoAnimation} onClick={(window.screen.width<=800)?this.panelBtnChanger:console.log(" ")} onMouseOver={(window.screen.width>=800)?this.panelBtnChanger:console.log(" ")} ref={this.logoContainer}>
 
-                <div className="container-fluid">
+                <div className="container-fluid" ref={this.tippyContainerRef}>
                     <div className="row">
-                        <div className="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                        <div className="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2" >
                             <i onClick={this.onclickAnimationFunction} className={'pt-4 fas fa-angle-left text-left ' + store.getState().backArrowAnimation} style={{ zIndex: 5 , position: 'absolute', fontSize:'2vw'}}></i>
                         </div>
                         <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
