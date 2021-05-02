@@ -767,7 +767,7 @@ render(){
             <div className="carousel-inner">
             <div className="carousel-item active">
                 <FiltrableList firstBtn={
-                                    <ModalBtn insertBtn={false} BtnTitle="estadisticas" target="estatisticsModal" modalTitle="Esadísticas de tu cartera de clientes" footerBtnTitle="Generar un Tiket" footerBtnOnClickFunction={this.createTicket}>
+                                    <ModalBtn assignedkey={1} insertBtn={false} BtnTitle="estadisticas" target="estatisticsModal" modalTitle="Esadísticas de tu cartera de clientes" footerBtnTitle="Generar un Tiket" footerBtnOnClickFunction={this.createTicket}>
                                     <div className="container-fluid">
                                         <div className="row h-100">
                                             <div className="col-3" />
@@ -781,7 +781,7 @@ render(){
                                 </ModalBtn>
                 } 
                 secondBtn={
-                                <ModalBtn insertBtn={true} BtnTitle="NUEVO CLIENTE" target="tiketModal" modalTitle="Ingresa datos mínimos del caso" footerBtnTitle="Generar un Tiket" footerBtnOnClickFunction={this.createTicket}>
+                                <ModalBtn assignedkey={2} insertBtn={true} BtnTitle="NUEVO CLIENTE" target="tiketModal" modalTitle="Ingresa datos mínimos del caso" footerBtnTitle="Generar un Tiket" footerBtnOnClickFunction={this.createTicket}>
                                     <input ref={this.modalDescription} placeholder="Descripción " className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
                                     <input ref={this.modallegalIssue} placeholder="Materia" className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
                                     <input ref={this.modalProcedure} placeholder="Procedimiento" className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>

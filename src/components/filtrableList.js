@@ -2,10 +2,8 @@ import React, { useEffect, useState, useRef} from 'react';
 import {store} from '../redux/store.js';
 import lottie from 'lottie-web';
 import tippy, {followCursor} from 'tippy.js';
-import 'tippy.js/dist/backdrop.css';
-import 'tippy.js/dist/svg-arrow.css';
-import 'tippy.js/animations/shift-away.css';
-import {whatCaseWasClickedFunction} from '../redux/dispatchers.js'
+import 'tippy.js/animations/scale.css';
+import DropZone from './dropZone.js'
 
 export default function FiltrableList(props){
 
@@ -309,9 +307,12 @@ export default function FiltrableList(props){
             <i class="fas fa-folder fa-2x p-2" data-toggle="modal" data-target="#docsAndUpdateModal" onclick="document.getElementById('docs-update-modal-title').innerHTML = 'DOCUMENTOS'"></i>
             <i class="fas fa-pen fa-2x p-2" data-toggle="modal" data-target="#docsAndUpdateModal" onclick="document.getElementById('docs-update-modal-title').innerHTML = 'ACTUALIZAR'"></i> 
             `,
-            trigger: 'click',
+            trigger: 'mouseenter',
+            animation: 'scale',
+            duration: [200,0],
             placement: "top",
             interactive: true,
+            hideOnClick: false,
             plugins: [followCursor],
             followCursor: 'horizontal',
             allowHTML: true,
@@ -411,7 +412,7 @@ export default function FiltrableList(props){
                                                         <td onClick={()=> setAllRowOnGreen(index)} style={{fontSize: "12px"  }}>{item.clients_name}</td>
                                                         <td onClick={()=> setAllRowOnGreen(index)}  style={{fontSize: "12px" }}>{item.cases_description}</td>
                                                         <td onClick={()=> setAllRowOnGreen(index)} className="cases_rol_rit_ruc" style={{fontSize: "12px"}}>{item.cases_rol_rit_ruc}<br/>{item.cases_trial_entity}</td>
-                                                        <td onClick={()=> setAllRowOnGreen(index)} /*onDoubleClick={(e)=> {this.updateOnlyCaseDate(e);}}*/ className="UpdateCase" style={{fontSize: "12px"}}>{item.cases_update}</td>
+                                                        <td onClick={()=> setAllRowOnGreen(index)} className="UpdateCase" style={{fontSize: "12px"}}>{item.cases_update}</td>
                                                         <td onClick={()=> setAllRowOnGreen(index)} style={{fontSize: "12px" }} className=" caseUpdate ">{item.cases_pendingTask}</td>
                                                                                         
                                                     </tr>)})}
@@ -445,13 +446,13 @@ export default function FiltrableList(props){
                                                             return(
 
                                                                 <tr key={`trId${index}`}>
-                                                                    <td key={`tdId${index}`}>
+                                                                    <td key={`tdId1-${index}`}>
                                                                         <a href={store.getState().fetchBase + 'documentos/download/' + item.documents_id}>
                                                                             <i key={`fasPdfId${index}`} class="fas fa-file-pdf fa-3x"/>
                                                                         </a>
                                                                     </td>
-                                                                    <td key={`tdId${index}`}>{item.documents_type}</td>
-                                                                    <td key={`tdId${index}`}>
+                                                                    <td key={`tdId2-${index}`}>{item.documents_type}</td>
+                                                                    <td key={`tdId3-${index}`}>
                                                                         <i key={`fasTrashId${index}`} class="fas fa-trash fa-3x"/>
                                                                     </td>
                                                                 </tr>
@@ -461,12 +462,16 @@ export default function FiltrableList(props){
                                                         }
                                                         
                                                     </tbody>
+                                                    <div>
+                                                       <DropZone />
+                                                    </div>
+                                                    
                                                     </table>
                                                   :<code>UPDATE aca</code>
                                                   
 
                                                 }
-
+                                            
                                             </div>
                                             <div className="modal-footer" style={{backgroundColor: "#32CB00"}}>
                                                 <button type="button"  className={`btn btn-secondary`}>LISTO</button>

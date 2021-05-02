@@ -20,23 +20,23 @@ export default function Statistic(props){
                                 let JSXArray = []
                                 for (let i = 0; i < item.columnValue.length; i++) {
                                     JSXArray.push(
-                                    <div className="col m-0 p-0 shineLikeDiamond" key={"1-" + i.toString()}>       
-                                        <div className={`${colors[random].bg}`} key={"2-" + i.toString()} style={{height: item.columnValue[i]*10}}>
-                                            <code className={colors[random].colorColumnLabel} key={"3-" + i.toString()} style={{display: "inline-block", transform: 'rotateX(-180deg)'}}>
+                                    <div className="col m-0 p-0 shineLikeDiamond" key={"id1-" + i.toString()}>       
+                                        <div className={`${colors[random].bg}`} key={"id2-" + i.toString()} style={{height: item.columnValue[i]*10}}>
+                                            <code className={colors[random].colorColumnLabel} key={"id3-" + i.toString()} style={{display: "inline-block", transform: 'rotateX(-180deg)'}}>
                                                 {item.columnLable[i]}
                                             </code>
                                         </div>
-                                        <code className="col text-dark font-weight-bold m-0 p-0" key={"4-" + i.toString()} style={{display: "inline-block", transform: 'rotateX(-180deg)'}}>{(item.columnValue[i]>0)?item.columnValue[i]:" "}</code>
+                                        <code className="col text-dark font-weight-bold m-0 p-0" key={"id4-" + i.toString()} style={{display: "inline-block", transform: 'rotateX(-180deg)'}}>{(item.columnValue[i]>0)?item.columnValue[i]:" "}</code>
                                     </div>
                                     )
                                   }
                                 return(
                                     <>
-                                    <div className="col m-0 p-0" key={"5-" + index.toString()}>
-                                        <div className="m-1 p-0 row" key={"6-" + index.toString()}>
-                                          <code className={`w-100 col-12 ${colors[random].colorGroupLabel}`} key={"7-" + index.toString()} style={{fontSize: "0.6em", display: "inline-block", transform: 'rotateX(-180deg)'}}>{item.columnGroupLabel.toUpperCase()}</code>
+                                    <div className="col m-0 p-0" key={"id5-" + index.toString()}>
+                                        <div className="m-1 p-0 row" key={"id6-" + index.toString()}>
+                                          <code className={`w-100 col-12 ${colors[random].colorGroupLabel}`} key={"id7-" + index.toString()} style={{fontSize: "0.6em", display: "inline-block", transform: 'rotateX(-180deg)'}}>{item.columnGroupLabel.toUpperCase()}</code>
                                         </div>
-                                        <div className="m-2 row" key={"8-" + index.toString()}>
+                                        <div className="m-2 row" key={"id8-" + index.toString()}>
                                             {JSXArray}
                                         </div>
                                     </div>
