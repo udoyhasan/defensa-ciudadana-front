@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef} from 'react';
+import {store} from '../redux/store.js';
 import lottie from 'lottie-web';
-import tippy, {animateFill, roundArrow} from 'tippy.js';
+import tippy, {followCursor} from 'tippy.js';
 import 'tippy.js/dist/backdrop.css';
 import 'tippy.js/dist/svg-arrow.css';
 import 'tippy.js/animations/shift-away.css';
-import ReactDOM from 'react-dom'
+import {whatCaseWasClickedFunction} from '../redux/dispatchers.js'
 
 export default function FiltrableList(props){
 
@@ -14,6 +15,8 @@ export default function FiltrableList(props){
     const cPanelLoader = React.createRef();
     const cPanelError = React.createRef();
     const filter = React.createRef();
+    const MapedRowsRefs = useRef([]);
+    const docsAndUpdateModalBody = useRef(null);
 
     //STATE
     const [searchingResult, setSearchingResult] = useState(0);
@@ -22,20 +25,34 @@ export default function FiltrableList(props){
     const [a, b] = useState([]);
     const [filterArrangementType, setFilterArrangementType] = useState(["SIN FILTRO", "FILTRO POR URGENCIA", "FILTRO POR MATERIA", "FILTRO POR TRIBUNAL"]);
     const [selectedFilterArrangementType, setSelectedFilterArrangementType] = useState(0)
+    const [whatIconWasClickedOnTippyModal, setWhatIconWasClickedOnTippyModal] = useState("")
+    const [documentsOfClickedCase, setDocumentsOfClickedCase] = useState([])
 
+
+    useEffect(()=>{ // A CONTINOUS USEEFFECT TO DETECT IF THE HTML OF DOCUMENTS AND UPDATE MODAL WAS CHANGED 
+        let modalTitleInnerHTML;
+
+        setInterval(()=>{
+            modalTitleInnerHTML = document.getElementById('docs-update-modal-title').innerHTML;
+            (modalTitleInnerHTML=== "DOCUMENTOS")?setWhatIconWasClickedOnTippyModal("DOCUMENTOS"):setWhatIconWasClickedOnTippyModal("ACTUALIZACION")
+        },1000)
+
+
+    })
+    
     useEffect(()=>{ 
         
         //HERE IS EXECUTED THE PARENT FETCH FUNCTION
-        let executeFetchingFunctionReciber = fetchingFunctionReciber() 
+        fetchingFunctionReciber() 
         tippyInit();
     },[])
 
-    useEffect(()=>{   b([1,2,3]) //UNEXPLICABLY THIS SETsTATE TRIGGER FILTER
+    useEffect(()=>{   b([1,2,3]) //UNEXPLICABLY THIS SETSTATE TRIGGER FILTER
         // THIS USEEFFECT THROW US TO THE ANOTHER USEEFFECT ON LINE 90
         // WE MODIFY THE TIPPY LABEL CONTENT
 
         const instance = filter.current._tippy;
-        instance.setContent(`<b id='tippyContent'>${filterArrangementType[selectedFilterArrangementType]}</b>`);
+        instance.setContent(`<b id='tippyContent'>${filterArrangementType[selectedFilterArrangementType + 1]}</b>`);
 
         let listToSort = incomingData;
         let result;
@@ -155,16 +172,13 @@ export default function FiltrableList(props){
         }
     },[searchingResult])
 
-    const tippyInit = () => {
+    const tippyInit = () => { 
 
         tippy(filter.current, {
             content: `<b id='tippyContent'>${filterArrangementType[selectedFilterArrangementType]}</b>`,
             trigger: 'mouseenter focus',
             placement: "right",
-            allowHTML: true,
-            animateFill: true,
-            plugins: [animateFill],
-            arrow: roundArrow,
+            allowHTML: true
           });
         
         /*tippy(this.ActualizacionAvanceCausa.current, {
@@ -192,12 +206,13 @@ export default function FiltrableList(props){
         })
     }
 
-    const setAllRowOnGreen = (index) =>{
+    const setAllRowOnGreen = (index) =>{ 
 
         document.querySelectorAll(".selectionRow").forEach((item)=>{
              item.className = "selectionRow bg-no-selected"
          });
          document.getElementById(index.toString()).className = "selectionRow bg-selected text-dark";
+
      }
     const lottieInit = () => {
 
@@ -287,6 +302,36 @@ export default function FiltrableList(props){
         }
     }
 
+    const rowOnHoverShowTippy = (index) =>{
+
+        tippy(MapedRowsRefs.current[index], {
+            content: `  
+            <i class="fas fa-folder fa-2x p-2" data-toggle="modal" data-target="#docsAndUpdateModal" onclick="document.getElementById('docs-update-modal-title').innerHTML = 'DOCUMENTOS'"></i>
+            <i class="fas fa-pen fa-2x p-2" data-toggle="modal" data-target="#docsAndUpdateModal" onclick="document.getElementById('docs-update-modal-title').innerHTML = 'ACTUALIZAR'"></i> 
+            `,
+            trigger: 'click',
+            placement: "top",
+            interactive: true,
+            plugins: [followCursor],
+            followCursor: 'horizontal',
+            allowHTML: true,
+          });
+
+        //WE GET THE CASE CODE FOR FETCH TO BACKEND
+        let rowContent = MapedRowsRefs.current[index].dataset.rowcontent;
+        let firstSlach = rowContent.indexOf('/');
+        let secondSlash = rowContent.indexOf('/', firstSlach + 1);
+        let caseCode = rowContent.substring(secondSlash + 1, rowContent.length)  
+
+        //ALSO WE FETCH THE DOCS DATA, FOR A BETTER UI, AND STORE IN A USESTATE
+        fetch(store.getState().fetchBase + 'documentos/' + caseCode) 
+        .then( resp =>{ return resp.json()})
+        .then( data =>{
+            setDocumentsOfClickedCase(data.resp)
+        })
+        .catch(error => console.log(error))
+
+    }
 
     const caseSearcher = (e) =>{
         
@@ -300,13 +345,13 @@ export default function FiltrableList(props){
 
         childrens.forEach((item)=>{
 
-            let rowconten = item.dataset.rowconten.toLowerCase(); //WE GET THE PERSONALIZED ATTRIBUTE DATA-ROWCONTENT, TROUGHT DATASET METHOD
+            let rowcontent = item.dataset.rowcontent.toLowerCase(); //WE GET THE PERSONALIZED ATTRIBUTE DATA-ROWCONTENT, TROUGHT DATASET METHOD
         
             if(searchedValue.length !== 0){
-                if(!rowconten.includes(searchedValue)){ //HIDDE IF THE CONTENT OF THE ROW ISN'T EQUAL TO THE VALUE SEARCHED
+                if(!rowcontent.includes(searchedValue)){ //HIDDE IF THE CONTENT OF THE ROW ISN'T EQUAL TO THE VALUE SEARCHED
                     item.style.display = "none";
                 }
-                else if(rowconten.includes(searchedValue)){
+                else if(rowcontent.includes(searchedValue)){
                     
                     resultArray.push(1)
                 }
@@ -335,7 +380,7 @@ export default function FiltrableList(props){
                                 </div>
                                 <span ref={searchResult} className={`col-1 text-white font-weight-bold ml-0 p-0 text-center align-middle  ${(noFilteredItem==0)?"d-none":" "}`}>FILTRO({noFilteredItem})</span>
                             </div>
-                            <div className="table-wrapper-scroll-y my-custom-scrollbar tableFixHead" id="tableContainer" style={{height: '90vh',backgroundColor: "#32cb00"}}>
+                            <div className="my-custom-scrollbar tableFixHead" id="tableContainer" style={{height: '90vh',backgroundColor: "#32cb00"}}>
 
                                 <table className="table table-bordered table-striped mb-5" style={{backgroundColor: "#fafafa"}}>
                                     <thead>
@@ -358,10 +403,10 @@ export default function FiltrableList(props){
                                         let defaultFontColor = (dataIndex%2 === 0)?"white":"#F2F2F2"
                                         let filterBackgroundColorFunction = (currentDate - aDayOnMiliseconds*3>itemDate && currentDate - aDayOnMiliseconds*4<itemDate)?"#F3CBCB":(currentDate - aDayOnMiliseconds*4>itemDate && currentDate - aDayOnMiliseconds*10<itemDate)?"#F76666":(currentDate - aDayOnMiliseconds*10>itemDate)?"#FF0000":defaultFontColor
                                         let filterFontColorFunction = (currentDate - aDayOnMiliseconds*3>itemDate && currentDate - aDayOnMiliseconds*4<itemDate)?"black":(currentDate - aDayOnMiliseconds*4>itemDate && currentDate - aDayOnMiliseconds*10<itemDate)?"white":(currentDate - aDayOnMiliseconds*10>itemDate)?"white":"black"
-
-                                            
+                                        
+                                        // SEE IN THIS MAP FUNCTION A WISE METHOD TO CREATE DINAMIC REFS CALBACK, SEE ALSO THE LINE 17     
                                             return (
-                                                    <tr data-index={index + 1} data-rowconten={`${item.clients_name}/${item.cases_description}/${item.cases_rol_rit_ruc}`} key={index*1000} className="selectionRow bg-no-selected" style={{color: filterFontColorFunction, backgroundColor: filterBackgroundColorFunction}} id={index.toString()}>
+                                                    <tr onMouseEnter={(e) => rowOnHoverShowTippy(index)} ref={(ref) => (MapedRowsRefs.current[index] = ref)} data-index={index + 1} data-rowcontent={`${item.clients_name}/${item.cases_description}/${item.cases_rol_rit_ruc}`} key={index*1000} className="selectionRow bg-no-selected" style={{color: filterFontColorFunction, backgroundColor: filterBackgroundColorFunction}} id={index.toString()}>
                                                         
                                                         <td onClick={()=> setAllRowOnGreen(index)} style={{fontSize: "12px"  }}>{item.clients_name}</td>
                                                         <td onClick={()=> setAllRowOnGreen(index)}  style={{fontSize: "12px" }}>{item.cases_description}</td>
@@ -372,6 +417,63 @@ export default function FiltrableList(props){
                                                     </tr>)})}
                                     </tbody>
                                 </table>
+                            
+                                <div className="modal fade" id="docsAndUpdateModal" tabIndex="-1" role="dialog" aria-labelledby="#docsAndUpdateModal" aria-hidden="true">
+                                    <div className="modal-dialog modal-dialog-centered" style={{maxWidth: '60%'}} role="document">
+                                        <div className="modal-content">
+                                            <div  style={{backgroundColor: "#32CB00"}}>
+                                                <h5 ref={docsAndUpdateModalBody} id="docs-update-modal-title" className="modal-title text-center text-light justify-content-center p-3 font-weight-bold">ho</h5>
+                                            </div>
+                                            <div className="modal-body w-100">
+                                                {
+                                                
+                                                  (whatIconWasClickedOnTippyModal === "DOCUMENTOS")?
+                                                  <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">DOC</th>
+                                                            <th scope="col">TIPO</th>
+                                                            <th scope="col">ELIMINAR</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {
+                                                            
+
+                                                          documentsOfClickedCase.map((item, index)=>{
+
+                                                            return(
+
+                                                                <tr key={`trId${index}`}>
+                                                                    <td key={`tdId${index}`}>
+                                                                        <a href={store.getState().fetchBase + 'documentos/download/' + item.documents_id}>
+                                                                            <i key={`fasPdfId${index}`} class="fas fa-file-pdf fa-3x"/>
+                                                                        </a>
+                                                                    </td>
+                                                                    <td key={`tdId${index}`}>{item.documents_type}</td>
+                                                                    <td key={`tdId${index}`}>
+                                                                        <i key={`fasTrashId${index}`} class="fas fa-trash fa-3x"/>
+                                                                    </td>
+                                                                </tr>
+                                                            )
+
+                                                          }) 
+                                                        }
+                                                        
+                                                    </tbody>
+                                                    </table>
+                                                  :<code>UPDATE aca</code>
+                                                  
+
+                                                }
+
+                                            </div>
+                                            <div className="modal-footer" style={{backgroundColor: "#32CB00"}}>
+                                                <button type="button"  className={`btn btn-secondary`}>LISTO</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
                             <div ref={cPanelLoader} className="border-0 w-10" style={{position: "absolute", left: "40%", top: "20%"}}></div>
                             <div ref={cPanelError} className="border-0 invisible d-none w-50 "></div>
@@ -397,5 +499,6 @@ readMe
 *fetchingFunction: the function passed from parent component, that will fetch the dataList
 *firstBtn: a JSX element that you can insert on the left side of filtrableTable, commonly a btn
 *secondBtn
+*filerFunction
 
 */

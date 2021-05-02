@@ -7,11 +7,6 @@ import ModalBtn from '../components/modalBtn.js'
 import Counter from '../components/counter.js';
 import Statistic from '../components/statistic.js';
 import FiltrableList from '../components/filtrableList.js';
-import {Link} from 'react-router-dom'
-
-import {injectFetchedData} from '../redux/dispatchers.js'
-
-
 
 export class Cpanel extends React.Component{
     constructor(props){
@@ -786,7 +781,7 @@ render(){
                                 </ModalBtn>
                 } 
                 secondBtn={
-                                <ModalBtn insertBtn={true} BtnTitle="CREAR TIKET" target="tiketModal" modalTitle="Ingresa datos mínimos del caso" footerBtnTitle="Generar un Tiket" footerBtnOnClickFunction={this.createTicket}>
+                                <ModalBtn insertBtn={true} BtnTitle="NUEVO CLIENTE" target="tiketModal" modalTitle="Ingresa datos mínimos del caso" footerBtnTitle="Generar un Tiket" footerBtnOnClickFunction={this.createTicket}>
                                     <input ref={this.modalDescription} placeholder="Descripción " className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
                                     <input ref={this.modallegalIssue} placeholder="Materia" className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
                                     <input ref={this.modalProcedure} placeholder="Procedimiento" className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
@@ -795,7 +790,7 @@ render(){
                                 </ModalBtn>
 
 
-                } fetchingFunction={this.fetchingActiveCases} dataList={this.state.dataList} pendingTasksCounter={this.state.pendingTasksCounter} searchingResult={this.state.searchingResult} />
+                } fetchingFunction={this.fetchingActiveCases} pendingTasksCounter={this.state.pendingTasksCounter} searchingResult={this.state.searchingResult} />
             </div>
             <div className="carousel-item">
             <div className={`m-0 col-12 cl-sm-12 col-md-12 col-lg-12 col-xl-12 `} ref={this.middle} style={{backgroundColor: "#32cb00", borderRadius: "10px"}}>
