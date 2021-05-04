@@ -24,6 +24,8 @@ export default function FiltrableList(props){
     const [filterArrangementType, setFilterArrangementType] = useState(["SIN FILTRO", "FILTRO POR URGENCIA", "FILTRO POR MATERIA", "FILTRO POR TRIBUNAL"]);
     const [selectedFilterArrangementType, setSelectedFilterArrangementType] = useState(0)
     const [whatIconWasClickedOnTippyModal, setWhatIconWasClickedOnTippyModal] = useState("")
+    const [clickedCase, setClickedCase] = useState({})
+
     const [documentsOfClickedCase, setDocumentsOfClickedCase] = useState([])
 
 
@@ -322,7 +324,11 @@ export default function FiltrableList(props){
         let rowContent = MapedRowsRefs.current[index].dataset.rowcontent;
         let firstSlach = rowContent.indexOf('/');
         let secondSlash = rowContent.indexOf('/', firstSlach + 1);
-        let caseCode = rowContent.substring(secondSlash + 1, rowContent.length)  
+        let ThirdSlash = rowContent.indexOf('/', secondSlash + 1);
+        let caseCode = rowContent.substring(secondSlash + 1, ThirdSlash); 
+        let caseId = rowContent.substring(ThirdSlash + 1, rowContent.length);
+        setClickedCase({caseCode: caseCode, caseId: caseId})
+        
 
         //ALSO WE FETCH THE DOCS DATA, FOR A BETTER UI, AND STORE IN A USESTATE
         fetch(store.getState().fetchBase + 'documentos/' + caseCode) 
@@ -407,7 +413,7 @@ export default function FiltrableList(props){
                                         
                                         // SEE IN THIS MAP FUNCTION A WISE METHOD TO CREATE DINAMIC REFS CALBACK, SEE ALSO THE LINE 17     
                                             return (
-                                                    <tr onMouseEnter={(e) => rowOnHoverShowTippy(index)} ref={(ref) => (MapedRowsRefs.current[index] = ref)} data-index={index + 1} data-rowcontent={`${item.clients_name}/${item.cases_description}/${item.cases_rol_rit_ruc}`} key={index*1000} className="selectionRow bg-no-selected" style={{color: filterFontColorFunction, backgroundColor: filterBackgroundColorFunction}} id={index.toString()}>
+                                                    <tr onMouseEnter={(e) => rowOnHoverShowTippy(index)} ref={(ref) => (MapedRowsRefs.current[index] = ref)} data-index={index + 1} data-rowcontent={`${item.clients_name}/${item.cases_description}/${item.cases_rol_rit_ruc}/${item.cases_id}`} key={index*1000} className="selectionRow bg-no-selected" style={{color: filterFontColorFunction, backgroundColor: filterBackgroundColorFunction}} id={index.toString()}>
                                                         
                                                         <td onClick={()=> setAllRowOnGreen(index)} style={{fontSize: "12px"  }}>{item.clients_name}</td>
                                                         <td onClick={()=> setAllRowOnGreen(index)}  style={{fontSize: "12px" }}>{item.cases_description}</td>
@@ -429,7 +435,7 @@ export default function FiltrableList(props){
                                                 {
                                                 
                                                   (whatIconWasClickedOnTippyModal === "DOCUMENTOS")?
-                                                  <table class="table">
+                                                  <table className="table">
                                                     <thead>
                                                         <tr>
                                                             <th scope="col">DOC</th>
@@ -448,12 +454,12 @@ export default function FiltrableList(props){
                                                                 <tr key={`trId${index}`}>
                                                                     <td key={`tdId1-${index}`}>
                                                                         <a href={store.getState().fetchBase + 'documentos/download/' + item.documents_id}>
-                                                                            <i key={`fasPdfId${index}`} class="fas fa-file-pdf fa-3x"/>
+                                                                            <i key={`fasPdfId${index}`} className="fas fa-file-pdf fa-3x"/>
                                                                         </a>
                                                                     </td>
                                                                     <td key={`tdId2-${index}`}>{item.documents_type}</td>
                                                                     <td key={`tdId3-${index}`}>
-                                                                        <i key={`fasTrashId${index}`} class="fas fa-trash fa-3x"/>
+                                                                        <i key={`fasTrashId${index}`} className="fas fa-trash fa-3x"/>
                                                                     </td>
                                                                 </tr>
                                                             )
@@ -462,10 +468,9 @@ export default function FiltrableList(props){
                                                         }
                                                         
                                                     </tbody>
-                                                    <div>
-                                                       <DropZone />
+                                                    <div className="mt-5 pl-5 pr-5">
+                                                       <DropZone data={clickedCase}/>
                                                     </div>
-                                                    
                                                     </table>
                                                   :<code>UPDATE aca</code>
                                                   
@@ -491,7 +496,6 @@ export default function FiltrableList(props){
            </> 
 
         );
-
 }
 
 /*

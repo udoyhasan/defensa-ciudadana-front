@@ -10,15 +10,10 @@ import Button from './clientView/button.js';
 import Input from './clientView/input.js';
 import {whatCaseWasClickedFunction} from './redux/dispatchers.js';
 import lottie from 'lottie-web';
+import {panelBtnChanger} from './redux/dispatchers.js';
+import {truePanel_falseButtonSet_handler} from './redux/dispatchers.js';
+import {changeEndpoint} from './redux/dispatchers.js';
 
-
-//CONSTANTES QUE AFECTAN AL COMPONENTE
-const buttonSet= (<Container colOrRow="" >        
-  <Button id="whyUs" cursor="not-allowed" btnLabel="¿Es Chile Justo?"/>
-  <Button id="client" btnLabel="Clientes"/>
-  <Link to='/login' className='text-white text-decoration-none'><button id="advocate" type="button" className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%", cursor: "pointer"}}>Soy Defensor Ciudadano</button></Link>
-  
-</Container>);
 
 //COMPONENTE
 export class App extends React.Component {
@@ -31,7 +26,7 @@ export class App extends React.Component {
   this.player = React.createRef();
 
   this.handleClick = this.handleClick.bind(this);
-  
+  this.onclickAnimation = this.onclickAnimation.bind(this);
   
   }
   
@@ -40,6 +35,23 @@ export class App extends React.Component {
     let data = event.target.value;
     whatCaseWasClickedFunction(data);
   }
+
+  onclickAnimation(event){
+    switch(event.target.id){//AUN NO SE HACE FETCH PERO SI SE VA CONSTRUYENDO LA URL PARA EL ENDPOINT
+            case 'client':
+                changeEndpoint("casos/")
+                panelBtnChanger("floatUp ", "logoDash 1s forwards")
+                setTimeout(()=>{truePanel_falseButtonSet_handler(true)}, 900);
+                break;
+
+            case 'advocate':
+                changeEndpoint("casos")
+                panelBtnChanger(" floatUp ", "logoDash 1s forwards")
+                setTimeout(()=>{truePanel_falseButtonSet_handler(true)}, 900);
+                break;
+    }
+}
+
   componentDidMount(){ 
 
   //WE CLEAR THE LOCALSTORAGE IN CASE THE USER TURN BACK FROM THE CLIENT PANEL
@@ -100,6 +112,14 @@ export class App extends React.Component {
 }
 
   render(){
+
+      //CONSTANTES QUE AFECTAN AL COMPONENTE
+      const buttonSet= (<Container colOrRow="" >        
+      <Button onClickFunction={this.onclickAnimation} id="whyUs" cursor="not-allowed" btnLabel="¿Es Chile Justo?"/>
+      <Button onClickFunction={this.onclickAnimation} id="client" btnLabel="Clientes"/>
+      <Link to='/login' className='text-white text-decoration-none'><button id="advocate" type="button" className="btn btn-secondary d-block mb-3 w-100" style={{width: "60%", cursor: "pointer"}}>Soy Defensor Ciudadano</button></Link>
+
+      </Container>);
     return (
       <> 
       
