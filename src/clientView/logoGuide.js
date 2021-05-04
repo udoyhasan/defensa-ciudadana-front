@@ -10,7 +10,7 @@ import {store} from '../redux/store.js';
 import {truePanel_falseButtonSet_handler} from '../redux/dispatchers.js';
 import {eventInhibitorDispatcher} from '../redux/dispatchers.js';
 import lottie from 'lottie-web';
-import tippy, {hideAll} from 'tippy.js';
+import tippy from 'tippy.js';
 import 'tippy.js/animations/scale.css';
 import 'tippy.js/animations/scale-extreme.css';
 
@@ -29,7 +29,8 @@ export class LogoGuide extends React.Component{
         left:"50%", 
         rotate: "rotateY(0)", 
         onclickAnimationBoolean: false, 
-        eventInhibitor: false
+        eventInhibitor: false,
+        endTippyInterval: false
     }
     this.panelBtnChanger= this.panelBtnChanger.bind(this);
     this.onclickAnimationFunction= this.onclickAnimationFunction.bind(this);
@@ -47,13 +48,21 @@ export class LogoGuide extends React.Component{
             allowHTML: true,
             placement: "bottom"
           });
+        
+        const tippyInterval = setInterval(()=>{ console.log("interval")
+            if(!this.state.endTippyInterval){
+                
+                tippyInstance.show()
 
-        setInterval(()=>{
-
-            (this.logoContainer.current.className.includes("logoDash 1s forwards"))?tippyInstance.hide(): tippyInstance.show()
                 setTimeout(()=>{
                     tippyInstance.hide();
                 },2000)
+
+            }else{
+                tippyInstance.hide();
+                clearInterval(tippyInterval);
+            }
+           
         },7000)
 
         lottie.loadAnimation({
@@ -66,8 +75,8 @@ export class LogoGuide extends React.Component{
     }
 
     panelBtnChanger(){ 
-    let logoContainer = this.logoContainer.current._tippy
-    
+
+        this.setState({endTippyInterval: true})
     
         if(store.getState().eventIhibitor==false)
         {
