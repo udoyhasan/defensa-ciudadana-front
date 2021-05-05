@@ -15,6 +15,9 @@ html, body {
     outline: none!important;
     box-shadow: none!important;
 }
+.fa-trash:hover{
+  color: red;
+}
 // ths section it's refer to drop zone file input
 .drop-zone {
   max-width: 200px;

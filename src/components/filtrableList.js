@@ -13,7 +13,8 @@ export default function FiltrableList(props){
     const cPanelLoader = React.createRef();
     const cPanelError = React.createRef();
     const filter = React.createRef();
-    const MapedRowsRefs = useRef([]);
+    const MapedCasesRowsRefs = useRef([]);
+    const MapedDocumentsRowsRefs = useRef([]);
     const docsAndUpdateModalBody = useRef(null);
 
     //STATE
@@ -304,7 +305,7 @@ export default function FiltrableList(props){
 
     const rowOnHoverShowTippy = (index) =>{
 
-        tippy(MapedRowsRefs.current[index], {
+        tippy(MapedCasesRowsRefs.current[index], {
             content: `  
             <i class="fas fa-folder fa-2x p-2" data-toggle="modal" data-target="#docsAndUpdateModal" onclick="document.getElementById('docs-update-modal-title').innerHTML = 'DOCUMENTOS'"></i>
             <i class="fas fa-pen fa-2x p-2" data-toggle="modal" data-target="#docsAndUpdateModal" onclick="document.getElementById('docs-update-modal-title').innerHTML = 'ACTUALIZAR'"></i> 
@@ -321,7 +322,7 @@ export default function FiltrableList(props){
           });
 
         //WE GET THE CASE CODE FOR FETCH TO BACKEND
-        let rowContent = MapedRowsRefs.current[index].dataset.rowcontent;
+        let rowContent = MapedCasesRowsRefs.current[index].dataset.rowcontent;
         let firstSlach = rowContent.indexOf('/');
         let secondSlash = rowContent.indexOf('/', firstSlach + 1);
         let ThirdSlash = rowContent.indexOf('/', secondSlash + 1);
@@ -338,6 +339,41 @@ export default function FiltrableList(props){
         })
         .catch(error => console.log(error))
 
+    }
+
+    const deleteDocument = (mappedItemObject, index) => {
+
+        let currentRow = MapedDocumentsRowsRefs.current[index]
+        
+        let documentType = mappedItemObject.documents_type;
+        let documentId = mappedItemObject.documents_id;
+        let docsEndpoint = "/documentos/no_rol"
+        
+
+        const docData = {
+            documents_type: documentType,
+            documents_id: documentId
+        };
+                        
+        // request options
+        const docOptions = {
+          method: 'DELETE',
+          body: JSON.stringify(docData),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+        
+        fetch(store.getState().fetchBase + docsEndpoint, docOptions)
+        .then(resp => {return resp.text()})
+        .then(data => { 
+            console.log(data)
+            //WE DELETE THE ROW OF THE DELETED DOCUMENT
+            currentRow.parentNode.removeChild(currentRow);
+        })
+        .catch(error=>{ 
+            console.log(error)
+        })
     }
 
     const caseSearcher = (e) =>{
@@ -413,7 +449,7 @@ export default function FiltrableList(props){
                                         
                                         // SEE IN THIS MAP FUNCTION A WISE METHOD TO CREATE DINAMIC REFS CALBACK, SEE ALSO THE LINE 17     
                                             return (
-                                                    <tr onMouseEnter={(e) => rowOnHoverShowTippy(index)} ref={(ref) => (MapedRowsRefs.current[index] = ref)} data-index={index + 1} data-rowcontent={`${item.clients_name}/${item.cases_description}/${item.cases_rol_rit_ruc}/${item.cases_id}`} key={index*1000} className="selectionRow bg-no-selected" style={{color: filterFontColorFunction, backgroundColor: filterBackgroundColorFunction}} id={index.toString()}>
+                                                    <tr onMouseEnter={(e) => rowOnHoverShowTippy(index)} ref={(ref) => (MapedCasesRowsRefs.current[index] = ref)} data-index={index + 1} data-rowcontent={`${item.clients_name}/${item.cases_description}/${item.cases_rol_rit_ruc}/${item.cases_id}`} key={index*1000} className="selectionRow bg-no-selected" style={{color: filterFontColorFunction, backgroundColor: filterBackgroundColorFunction}} id={index.toString()}>
                                                         
                                                         <td onClick={()=> setAllRowOnGreen(index)} style={{fontSize: "12px"  }}>{item.clients_name}</td>
                                                         <td onClick={()=> setAllRowOnGreen(index)}  style={{fontSize: "12px" }}>{item.cases_description}</td>
@@ -451,7 +487,7 @@ export default function FiltrableList(props){
 
                                                             return(
 
-                                                                <tr key={`trId${index}`}>
+                                                                <tr key={`trId${index}`} ref={(ref) => (MapedDocumentsRowsRefs.current[index] = ref)}>
                                                                     <td key={`tdId1-${index}`}>
                                                                         <a href={store.getState().fetchBase + 'documentos/download/' + item.documents_id}>
                                                                             <i key={`fasPdfId${index}`} className="fas fa-file-pdf fa-3x"/>
@@ -459,7 +495,7 @@ export default function FiltrableList(props){
                                                                     </td>
                                                                     <td key={`tdId2-${index}`}>{item.documents_type}</td>
                                                                     <td key={`tdId3-${index}`}>
-                                                                        <i key={`fasTrashId${index}`} className="fas fa-trash fa-3x"/>
+                                                                        <i key={`fasTrashId${index}`} onClick={()=> {deleteDocument(item, index)}} className="fas fa-trash fa-3x"/>
                                                                     </td>
                                                                 </tr>
                                                             )

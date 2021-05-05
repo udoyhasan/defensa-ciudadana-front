@@ -1,10 +1,8 @@
-import React ,{useEffect, useRef, useState } from 'react';
+import React ,{ useRef, useState } from 'react';
 import {store} from '../redux/store.js';
 import { useHistory } from "react-router-dom";
 import LottieContainer from './lottieContainer.js';
 import {injectFetchedData} from '../redux/dispatchers.js';
-import CryptoJS  from 'crypto-js';
-
 
 export default function Input(props){
     const ref = useRef(null);
@@ -48,7 +46,7 @@ export default function Input(props){
        
         let inputValue = user;
 
-        if(user.length==0){
+        if(user.length===0){
             setEmptyInputAdvisor(" position-absolute emptyInputAdvisor")
             setTimeout(()=>setEmptyInputAdvisor(""), 600)
         } 
@@ -128,10 +126,10 @@ export default function Input(props){
                     <div className="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8 p-0">
                         <input onChange={sendingToParentComponent} ref={ref} placeholder={props.placeholder} type={(eyeIcon==="fas fa-eye ml-3 mt-3 p-0")?"text":props.type} className={`form-control float-left ${emptyInputAdvisor}`} data-customtype={props.customtype}  aria-label="" aria-describedby="basic-addon1"/>
                     </div>
-                    <div className={`col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 p-0 ${(props.type=="password")?"":"d-none"}`}>
+                    <div className={`col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 p-0 ${(props.type==="password")?"":"d-none"}`}>
                         <i style={{cursor: "pointer"}} onClick={()=> {(eyeIcon==="fas fa-eye-slash ml-3 mt-3 p-0")?setEyeIcon("fas fa-eye ml-3 mt-3 p-0"):setEyeIcon("fas fa-eye-slash ml-3 mt-3 p-0")}} className={eyeIcon}></i>
                     </div>
-                    <div className={`${(props.type=="password")?"col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 p-0":"col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 p-0 m-0"} ${(props.includeLoader)?"":"d-none"}`}>
+                    <div className={`${(props.type==="password")?"col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 p-0":"col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 p-0 m-0"} ${(props.includeLoader)?"":"d-none"}`}>
                         <LottieContainer name="loader" play={true} loop={true} lottie={loaderAnimation} width="1%" display={displayLoader}/>
                         <LottieContainer name="error" play={playErrorForFailureFetch} loop={false} lottie={errorAnimation} width="1%" display={displayError}/>
                         <small className="text-wrap font-weight-bold text-center pt-2" style={{margin: 'auto', color: "#569951", position: "absolute", top: "100%", visibility: "hidden"}}>{props.sorryMsg}</small>

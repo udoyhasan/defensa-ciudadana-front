@@ -1,11 +1,8 @@
-import React ,{ useState, useEffect, useRef} from 'react';
+import React ,{ useState, useRef} from 'react';
 
 export default function Statistic(props){
 
         const [colors, setColors] = useState([{ bg:"border border-primary border-4", colorGroupLabel: "text-primary h-6", colorColumnLabel: "text-primary"} , { bg:"bg-success", colorGroupLabel: "text-success h-6", colorColumnLabel: "text-white"}, { bg:"bg-danger", colorGroupLabel: "text-danger h-6", colorColumnLabel: "text-white"}, { bg:"bg-warning", colorGroupLabel: "text-warning h-6", colorColumnLabel: "text-white"}, { bg:"bg-info", colorGroupLabel: "text-info h-6", colorColumnLabel: "text-white"}])
-        const [chartHeight, setChartHeight] = useState(0)
-        const [x, setx] = useState(document.querySelector(".statistic-container"))
-        let refs = []
         const containerRef = useRef(null);
 
         return( 

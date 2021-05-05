@@ -188,7 +188,6 @@ export default function DropZone(props){
           setPreventOnFirstRender(false)
 
           let fileInput = dragAndDrop.current
-
           fileInput.addEventListener('dragenter', fileSelected);
           
     },[])
@@ -247,8 +246,8 @@ export default function DropZone(props){
              <div className="container">
                 <div className="row">
                   <div className="col-8">
-                      <div class="drop-zone" style={{minWidth: '50px'}} ref={dragAndDrop}>
-                          <input onChange={fileSelected} input={fileSelected} ref={pdfFile} type="file" name="myFile" class="drop-zone__input"/>
+                      <div className="drop-zone" style={{minWidth: '50px'}} ref={dragAndDrop}>
+                          <input onChange={fileSelected} ref={pdfFile} type="file" name="myFile" className="drop-zone__input"/>
                       </div>
                   </div>
                   <div className="col-4">
