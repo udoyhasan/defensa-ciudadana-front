@@ -27,7 +27,7 @@ export default function FiltrableList(props){
     const [noFilteredItem, setNoFilteredItem] = useState(0);
     const [incomingData, setIncomingData] = useState([]);
     const [a, b] = useState([]);
-    const [filterArrangementType, setFilterArrangementType] = useState(["SIN FILTRO", "FILTRO POR URGENCIA", "FILTRO POR MATERIA", "FILTRO POR TRIBUNAL"]);
+    const [filterArrangementType, setFilterArrangementType] = useState(["FILTRO POR URGENCIA", "FILTRO POR MATERIA", "FILTRO POR TRIBUNAL"]);
     const [selectedFilterArrangementType, setSelectedFilterArrangementType] = useState(0)
     const [whatIconWasClickedOnTippyModal, setWhatIconWasClickedOnTippyModal] = useState("")
     const [clickedCase, setClickedCase] = useState({})
@@ -40,7 +40,6 @@ export default function FiltrableList(props){
     const [errorAnimation, setErrorAnimation] = useState('inputComponentErrorAnimation');
     const [inputsPlaceholderArr, setInputsPlaceholderArr]= useState(["Actualizar avance de la causa","actualizar anotaciones","Actualizar el rol de la causa","Actualizar institución o Tribunal","Modifica la Materia del caso"]);
     const [widthScreen, setWidthScreen ] = useState(window.innerWidth/1000);
-    const [initTimeCalculator, setInitTimeCalculator ] = useState(false);
 
 
 
@@ -53,18 +52,17 @@ export default function FiltrableList(props){
         },1000)
     })
 
-    useEffect(()=>{ 
-        console.log("funciona")
-    },[initTimeCalculator])
+    useEffect(()=>{
+        /*
+        ATTENTION: THE COMPONENT IS FETCHING EACH SECOND, IS NOT A SETINTERVAL EVEN THOUGHT A CHAIN OF USEFFECTS, 
+         IS TRIGERED THE fetchingFunctionReciber ON THIS USEEFFECT, BUT HOW THE INCOMINGdDATA IS RENDERED ON FIRST
+         RENDER, IT TURN A INFINITE LOOP. 
+        */
+        fetchingFunctionReciber(filterArrangementType[selectedFilterArrangementType])
+        
+    },[incomingData])
     
     useEffect(()=>{ 
-        
-        //HERE IS EXECUTED THE PARENT FETCH FUNCTION
-        
-        setInterval(()=>{
-            fetchingFunctionReciber() 
-        },1000)
-        
         tippyInit();
     },[])
 
@@ -75,16 +73,45 @@ export default function FiltrableList(props){
         const instance = filter.current._tippy;
         instance.setContent(`<b id='tippyContent'>${filterArrangementType[selectedFilterArrangementType]}</b>`);
 
-        let listToSort = incomingData;
-        let result;
-        let prueba = 666;
-        
-        if(filterArrangementType[selectedFilterArrangementType] === "FILTRO POR URGENCIA"){
-            result = listToSort.sort((a,b)=>{
-               return Date.parse(a.cases_updateDate) - Date.parse(b.cases_updateDate)
-           })
+    },[selectedFilterArrangementType])
+
+    useEffect(()=>{ 
+        setSearchingResult(props.searchingResult)
+    },[props])
+
+    useEffect(()=>{
+        if(noFilteredItem.length>0){
+            searchResult.current.className = "text-white font-weight-bold m-3 h5"
+
         }
-        else if(filterArrangementType[selectedFilterArrangementType] === "FILTRO POR MATERIA"){ 
+        else{
+            searchResult.current.className = "text-white font-weight-bold m-3 h5 d-none"
+        }
+    },[searchingResult])
+
+    const tippyInit = () => { 
+
+        tippy(filter.current, {
+            content: `<b id='tippyContent'>${filterArrangementType[selectedFilterArrangementType]}</b>`,
+            trigger: 'mouseenter focus',
+            placement: "right",
+            allowHTML: true
+          });
+    }
+
+    const fetchingFunctionReciber = async(currentFilter)=>{
+        props.fetchingFunction()
+        .then((data)=>{
+            let sorted = sorterFunction(data, currentFilter)
+            setIncomingData(sorted)  
+        })
+    }
+
+    const sorterFunction = (dataToFilter, currentFilter) => { 
+        let listToSort = dataToFilter;
+        let result;
+        
+         if(currentFilter === "FILTRO POR MATERIA"){ 
             let subjectArrObj = {civilLaw: [], criminalLaw:[], Administrative:[], laborLaw: [], 
                 familyLaw: [], IntelectualProperty: [], corporativeLaw: [], others: []}
 
@@ -120,7 +147,7 @@ export default function FiltrableList(props){
                         ...subjectArrObj.Administrative, ...subjectArrObj.others, ...subjectArrObj.corporativeLaw]
                 });
         }
-        else if(filterArrangementType[selectedFilterArrangementType] === "FILTRO POR TRIBUNAL"){
+        else if(currentFilter === "FILTRO POR TRIBUNAL"){
             
             let subjectArrObj = {civilLaw: [], criminalLaw:[], Administrative:[], laborLaw: [], 
                 familyLaw: [], IntelectualProperty: [], corporativeLaw: [], others: []}
@@ -167,51 +194,13 @@ export default function FiltrableList(props){
             }
             result = propSorted
         }
-        else{
+        else if(currentFilter === "FILTRO POR URGENCIA"){
             result = listToSort.sort((a,b)=>{
                 return Date.parse(a.cases_updateDate) - Date.parse(b.cases_updateDate)
             
             })
         }
-       
-       //WE STORE THE ARRANGED ARRAY RESULT
-       setIncomingData(result);
-
-    },[selectedFilterArrangementType])
-
-    useEffect(()=>{ 
-        setSearchingResult(props.searchingResult)
-    },[props])
-
-    useEffect(()=>{
-        if(noFilteredItem.length>0){
-            searchResult.current.className = "text-white font-weight-bold m-3 h5"
-
-        }
-        else{
-            searchResult.current.className = "text-white font-weight-bold m-3 h5 d-none"
-        }
-    },[searchingResult])
-
-    const tippyInit = () => { 
-
-        tippy(filter.current, {
-            content: `<b id='tippyContent'>${filterArrangementType[selectedFilterArrangementType]}</b>`,
-            trigger: 'mouseenter focus',
-            placement: "right",
-            allowHTML: true
-          });
-    }
-
-    const fetchingFunctionReciber = async()=>{
-        props.fetchingFunction()
-        .then((data)=>{
-            let emptyArray=[]
-            data.map((item)=>{
-                emptyArray.push(item)
-            })      
-            setIncomingData(emptyArray)  
-        })
+        return result
     }
 
     const setAllRowOnGreen = (index) =>{ 
@@ -301,25 +290,13 @@ export default function FiltrableList(props){
     }
 
     const sortList = ()=> { 
-        
-        if(selectedFilterArrangementType === 3){
-            setSelectedFilterArrangementType(1)
-        }
-        else{
-        setSelectedFilterArrangementType(selectedFilterArrangementType + 1)
-        }
-    }
 
-    const hoverTimeCalculator = () => {
-        
-       /* const timer = setInterval(()=>{
-            setTimeCalculator(timeCalculator + 1)
-            console.log(timeCalculator)
-        }, 1000)*/
-    }
-
-    const killerHoverTimeCalculator = () => {
-        //clearInterval(timer)
+        if(selectedFilterArrangementType === 2){
+            setSelectedFilterArrangementType(selectedFilterArrangementType - 2)
+        }
+        else if(selectedFilterArrangementType < 2){
+            setSelectedFilterArrangementType(selectedFilterArrangementType + 1)
+        }
     }
 
     const rowOnHoverShowTippy = (index) =>{ // debes poner una funcion que mida el tiempo de hover
