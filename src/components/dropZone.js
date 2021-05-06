@@ -252,7 +252,12 @@ export default function DropZone(props){
                   </div>
                   <div className="col-4">
                     <Button id="uploadFileBtn" cursor="pointer" onClickFunction={docSubmit}>GUARDAR</Button>
-                    <MultiSelection id="uploadFileTypeSelection"/>
+                    <MultiSelection options={["Sentencia","Avenimiento","Conciliación","Contestación",
+                    "Medio de prueba","Escritura Pública","Escritura Privada","Inscripción",
+                    "Comprobante Ingreso Administrativo","Certificado","Comprobante Ingreso Judicial",
+                    "Boleta Gasto","Notificación Receptor","Demanda","Recurso","Informe",
+                    "Publicación","Resolución (fija Audiencia)","Resolución Relevante",
+                    "Documento Otros"]} id="uploadFileTypeSelection"/>
                   </div>
                 </div>
              </div>

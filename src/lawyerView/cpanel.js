@@ -7,6 +7,7 @@ import ModalBtn from '../components/modalBtn.js'
 import Counter from '../components/counter.js';
 import Statistic from '../components/statistic.js';
 import FiltrableList from '../components/filtrableList.js';
+import Multiselection from '../components/multiSelection';
 
 export class Cpanel extends React.Component{
     constructor(props){
@@ -131,77 +132,13 @@ export class Cpanel extends React.Component{
     }
 
      fetchingActiveCases(){
-
+         
         let incomingData = fetch(store.getState().fetchBase + 'casos/getAllActive')
         .then(response => {return response.json()})
         .then(data => {
             incomingData = data.resp;
             return incomingData      
         });
-
-        /*let incomingDataReturned = incomingData.then((data)=>{
-
-            console.log(data)
-        })*/
-
-        /*fetch(store.getState().fetchBase + 'casos/getAllActive')//LOADING DATALIST DATA
-        .then(response => {
-            return response.json();})
-        .then(data => {
-            this.cPanelLoader.current.className += "invisible d-none"
-            
-            incomingData = data
-
-            this.setState({dataList: data.resp}, ()=>{
-
-                tippy('.UpdateCase', {// IT IS NECESARY THAT THE TIPPY JS COMES BEFOR THE DATA RENDERING
-                    arrow: true,
-                    content: "actualizar fecha",
-                    trigger: 'mouseenter',
-                    allowHTML: false,
-                    placement: "top-end"
-                  });
-
-                let counter = [];// WE COUNT THE PENDING TASKS ON THE TABLE
-                this.state.dataList.forEach((item)=>{
-                    let task = item.cases_pendingTask;
-                    if(task){ 
-                        if(task.trim().length !== 0){
-                            counter.push(1);
-                        }
-                    }
-
-                })
-                this.setState({pendingTasksCounter: counter.length });
-            })
-            
-            })  
-            .catch(()=> {
-                
-            //----------------- HERE ARE A LOOP TO ENSURE THAT THE REQUEST ARRIVE WELL, TRY 5 TIMES
-           let fecthFails;
-            for(let i=0; i<5; i++){
-             let fecthFails= true;
-             setTimeout( ()=>{
-                  
-                fetch(store.getState().fetchBase + 'casos/getAllActive')
-                .then(response => { 
-                    return response.json();})
-                .then(data => {
-                    this.cPanelLoader.current.className += "invisible d-none"
-                    this.setState({dataList: data.resp})
-                })
-                .catch((error) =>{})
-
-             },2000)
-             if (!fecthFails) { break; }
-            }
-            if(fecthFails)
-            {
-                this.cPanelLoader.current.className = "invisible d-none"
-                this.cPanelError.current.className = " border-0 d-inline "
-            }
-            })*/
 
         return incomingData;
     }
@@ -784,6 +721,8 @@ render(){
                                 <ModalBtn assignedkey={2} insertBtn={true} BtnTitle="NUEVO CLIENTE" target="tiketModal" modalTitle="Ingresa datos mínimos del caso" footerBtnTitle="Generar un Tiket" footerBtnOnClickFunction={this.createTicket}>
                                     <input ref={this.modalDescription} placeholder="Descripción " className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
                                     <input ref={this.modallegalIssue} placeholder="Materia" className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
+                                    <Multiselection reference={this.modallegalIssue} options={["Civil","Familia", "Laboral", "Penal", "Administrativo", "Corporativo", "Propiedad Intelectual e Industrial" ]}  />
+                                    {/*<input ref={this.modalProcedure} placeholder="Procedimiento" className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input> */}
                                     <input ref={this.modalProcedure} placeholder="Procedimiento" className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>
                                     <input ref={this.modalObjetive} placeholder="Objetivo" className="p-absolute m-2 p-2 text-left w-75 rounded border border-success"></input>                                           
                                     <input ref={this.ticketBadge} onClick={this.copy} type="text" className="btn btn-primary ml-3 mb-3 mr-3 d-none" value={this.state.ticket} onChange={()=>{}}/>

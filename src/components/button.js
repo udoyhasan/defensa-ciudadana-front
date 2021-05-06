@@ -1,7 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import {store} from '../redux/store.js';
-
 
 export default function Button(props){
 
@@ -14,3 +11,13 @@ export default function Button(props){
         );
 
 }
+
+/*readMe
+
+#Props brief:
+
+*id
+*onClickFunction
+*aditionalClassName
+*To add a btn label, you have only pass the text as a child element
+*/

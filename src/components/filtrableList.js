@@ -2,8 +2,11 @@ import React, { useEffect, useState, useRef} from 'react';
 import {store} from '../redux/store.js';
 import lottie from 'lottie-web';
 import tippy, {followCursor} from 'tippy.js';
+import LottieContainer from './lottieContainer.js';
 import 'tippy.js/animations/scale.css';
 import DropZone from './dropZone.js'
+import Input from './input.js'
+import Button from './button.js'
 
 export default function FiltrableList(props){
 
@@ -16,6 +19,8 @@ export default function FiltrableList(props){
     const MapedCasesRowsRefs = useRef([]);
     const MapedDocumentsRowsRefs = useRef([]);
     const docsAndUpdateModalBody = useRef(null);
+    const docsAndUpdatesModalContainerRef = useRef(null);
+    const updateCaseModalInputsRefs = useRef([]);
 
     //STATE
     const [searchingResult, setSearchingResult] = useState(0);
@@ -26,8 +31,17 @@ export default function FiltrableList(props){
     const [selectedFilterArrangementType, setSelectedFilterArrangementType] = useState(0)
     const [whatIconWasClickedOnTippyModal, setWhatIconWasClickedOnTippyModal] = useState("")
     const [clickedCase, setClickedCase] = useState({})
-
+    const [userInputValue, setUserInputValue] = useState("")
     const [documentsOfClickedCase, setDocumentsOfClickedCase] = useState([])
+    const [displayLoader, setDisplayLoader] = useState('none');
+    const [displayError, setDisplayError] = useState('none');
+    const [playErrorForFailureFetch, setPlayErrorForFailureFetch] = useState(false);
+    const [loaderAnimation, setLoaderAnimation] = useState('inputComponentLoader');
+    const [errorAnimation, setErrorAnimation] = useState('inputComponentErrorAnimation');
+    const [inputsPlaceholderArr, setInputsPlaceholderArr]= useState(["Actualizar avance de la causa","actualizar anotaciones","Actualizar el rol de la causa","Actualizar institución o Tribunal","Modifica la Materia del caso"]);
+    const [widthScreen, setWidthScreen ] = useState(window.innerWidth/1000);
+    const [initTimeCalculator, setInitTimeCalculator ] = useState(false);
+
 
 
     useEffect(()=>{ // A CONTINOUS USEEFFECT TO DETECT IF THE HTML OF DOCUMENTS AND UPDATE MODAL WAS CHANGED 
@@ -37,14 +51,20 @@ export default function FiltrableList(props){
             modalTitleInnerHTML = document.getElementById('docs-update-modal-title').innerHTML;
             (modalTitleInnerHTML=== "DOCUMENTOS")?setWhatIconWasClickedOnTippyModal("DOCUMENTOS"):setWhatIconWasClickedOnTippyModal("ACTUALIZACION")
         },1000)
-
-
     })
+
+    useEffect(()=>{ 
+        console.log("funciona")
+    },[initTimeCalculator])
     
     useEffect(()=>{ 
         
         //HERE IS EXECUTED THE PARENT FETCH FUNCTION
-        fetchingFunctionReciber() 
+        
+        setInterval(()=>{
+            fetchingFunctionReciber() 
+        },1000)
+        
         tippyInit();
     },[])
 
@@ -53,7 +73,7 @@ export default function FiltrableList(props){
         // WE MODIFY THE TIPPY LABEL CONTENT
 
         const instance = filter.current._tippy;
-        instance.setContent(`<b id='tippyContent'>${filterArrangementType[selectedFilterArrangementType + 1]}</b>`);
+        instance.setContent(`<b id='tippyContent'>${filterArrangementType[selectedFilterArrangementType]}</b>`);
 
         let listToSort = incomingData;
         let result;
@@ -181,19 +201,6 @@ export default function FiltrableList(props){
             placement: "right",
             allowHTML: true
           });
-        
-        /*tippy(this.ActualizacionAvanceCausa.current, {
-            arrow: false,
-            content: "<b id='tippyContent'>300</b>",
-            trigger: 'mouseenter focus',
-            allowHTML: true,
-          });
-          tippy(this.ActualizacionTareaPendiente.current, {
-            arrow: false,
-            content: "<b id='tippyContent2'>300</b>",
-            trigger: 'mouseenter focus',
-            allowHTML: true,
-          });*/
     }
 
     const fetchingFunctionReciber = async()=>{
@@ -303,7 +310,19 @@ export default function FiltrableList(props){
         }
     }
 
-    const rowOnHoverShowTippy = (index) =>{
+    const hoverTimeCalculator = () => {
+        
+       /* const timer = setInterval(()=>{
+            setTimeCalculator(timeCalculator + 1)
+            console.log(timeCalculator)
+        }, 1000)*/
+    }
+
+    const killerHoverTimeCalculator = () => {
+        //clearInterval(timer)
+    }
+
+    const rowOnHoverShowTippy = (index) =>{ // debes poner una funcion que mida el tiempo de hover
 
         tippy(MapedCasesRowsRefs.current[index], {
             content: `  
@@ -318,17 +337,18 @@ export default function FiltrableList(props){
             hideOnClick: false,
             plugins: [followCursor],
             followCursor: 'horizontal',
-            allowHTML: true,
-          });
+            allowHTML: true
+            });
 
         //WE GET THE CASE CODE FOR FETCH TO BACKEND
         let rowContent = MapedCasesRowsRefs.current[index].dataset.rowcontent;
         let firstSlach = rowContent.indexOf('/');
         let secondSlash = rowContent.indexOf('/', firstSlach + 1);
         let ThirdSlash = rowContent.indexOf('/', secondSlash + 1);
+        let client = rowContent.substring(0, firstSlach)
         let caseCode = rowContent.substring(secondSlash + 1, ThirdSlash); 
         let caseId = rowContent.substring(ThirdSlash + 1, rowContent.length);
-        setClickedCase({caseCode: caseCode, caseId: caseId})
+        setClickedCase({caseCode: caseCode, caseId: caseId, client: client })
         
 
         //ALSO WE FETCH THE DOCS DATA, FOR A BETTER UI, AND STORE IN A USESTATE
@@ -402,7 +422,53 @@ export default function FiltrableList(props){
         })
         setNoFilteredItem(resultArray.length)
     }
+
+    const handleCallbackUserInput = (childData) =>{
+        setUserInputValue(childData)
+    }
         
+    const updateCase = () => {
+        setDisplayLoader('')
+        let inputsValues =[];
+        let inputs = updateCaseModalInputsRefs.current
+
+        inputs.forEach((item)=>{
+            
+            let wantedInputValue = item.childNodes[0].value
+            inputsValues.push(wantedInputValue)
+        })
+
+        const clientData = {
+            selected: clickedCase.caseCode,
+            cases_update: inputsValues[0] ,
+            cases_pendingTask: inputsValues[1],
+            cases_rol_rit_ruc: inputsValues[2],
+            cases_trial_entity: inputsValues[3],
+            cases_description: inputsValues[4]    
+            };
+
+        // request options
+        const options = {
+            method: 'PUT',
+            body: JSON.stringify(clientData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+
+        fetch(store.getState().fetchBase + 'casos/no_rut' , options) 
+            .then(resp => {
+                return resp.json()
+            })
+            .then(data => {
+                console.log(data)
+            })
+            .catch((error)=>{  
+
+        })
+   
+    }
         return( 
            <>   
                  <div  style={{backgroundColor: "#c7c7c7", borderRadius: "10px", padding: "2%"}}> 
@@ -449,19 +515,25 @@ export default function FiltrableList(props){
                                         
                                         // SEE IN THIS MAP FUNCTION A WISE METHOD TO CREATE DINAMIC REFS CALBACK, SEE ALSO THE LINE 17     
                                             return (
-                                                    <tr onMouseEnter={(e) => rowOnHoverShowTippy(index)} ref={(ref) => (MapedCasesRowsRefs.current[index] = ref)} data-index={index + 1} data-rowcontent={`${item.clients_name}/${item.cases_description}/${item.cases_rol_rit_ruc}/${item.cases_id}`} key={index*1000} className="selectionRow bg-no-selected" style={{color: filterFontColorFunction, backgroundColor: filterBackgroundColorFunction}} id={index.toString()}>
+                                                    <tr ref={(ref) => (MapedCasesRowsRefs.current[index] = ref)} data-index={index + 1} data-rowcontent={`${item.clients_name}/${item.cases_description}/${item.cases_rol_rit_ruc}/${item.cases_id}`} key={index*1000} className="selectionRow bg-no-selected" style={{color: filterFontColorFunction, backgroundColor: filterBackgroundColorFunction}} id={index.toString()}>
                                                         
-                                                        <td onClick={()=> setAllRowOnGreen(index)} style={{fontSize: "12px"  }}>{item.clients_name}</td>
+                                                        <td onClick={()=> setAllRowOnGreen(index)} style={{fontSize: "12px"  }}>
+                                                        <div onMouseEnter={(e) => rowOnHoverShowTippy(index)} className="position-absolute w-100" style={{color: 'transparent', height: '8%', backgroundColor: 'transparent'}} >-</div>
+                                                            {item.clients_name}
+                                                        </td>
                                                         <td onClick={()=> setAllRowOnGreen(index)}  style={{fontSize: "12px" }}>{item.cases_description}</td>
                                                         <td onClick={()=> setAllRowOnGreen(index)} className="cases_rol_rit_ruc" style={{fontSize: "12px"}}>{item.cases_rol_rit_ruc}<br/>{item.cases_trial_entity}</td>
                                                         <td onClick={()=> setAllRowOnGreen(index)} className="UpdateCase" style={{fontSize: "12px"}}>{item.cases_update}</td>
                                                         <td onClick={()=> setAllRowOnGreen(index)} style={{fontSize: "12px" }} className=" caseUpdate ">{item.cases_pendingTask}</td>
                                                                                         
-                                                    </tr>)})}
+                                                    </tr>
+                                                    )
+                                            })
+                                        }
                                     </tbody>
                                 </table>
                             
-                                <div className="modal fade" id="docsAndUpdateModal" tabIndex="-1" role="dialog" aria-labelledby="#docsAndUpdateModal" aria-hidden="true">
+                                <div ref={docsAndUpdatesModalContainerRef} className="modal fade" id="docsAndUpdateModal" tabIndex="-1" role="dialog" aria-labelledby="#docsAndUpdateModal" aria-hidden="true">
                                     <div className="modal-dialog modal-dialog-centered" style={{maxWidth: '60%'}} role="document">
                                         <div className="modal-content">
                                             <div  style={{backgroundColor: "#32CB00"}}>
@@ -508,15 +580,45 @@ export default function FiltrableList(props){
                                                        <DropZone data={clickedCase}/>
                                                     </div>
                                                     </table>
-                                                  :<code>UPDATE aca</code>
-                                                  
+                                                  :<>
+                                                    <div className="container">
+                                                        <div className="row">
+                                                        <div className="col-2"/>
+                                                            <div className="col-6">
+                                                                <h6>
+                                                                    <code className="badge-success p-2 badge-pill font-weight-bold" style={{fontSize: widthScreen*10}}>
+                                                                        {clickedCase.client} {clickedCase.caseCode}
+                                                                    </code>
+                                                                </h6>
+                                                            </div>
+                                                            <div className="col-2">
+                                                                <div style={{height: '30px'}} >
+                                                                    <LottieContainer name="loader" play={true} loop={true} lottie={loaderAnimation} width="100%" display={displayLoader}/>
+                                                                    <LottieContainer name="error" play={playErrorForFailureFetch} loop={false} lottie={errorAnimation} width="10%" display={displayError}/>
+                                                                </div>
+                                                            </div>
+                                                            <div className="col-2"/>
+                                                        </div>
+                                                        <div className="row">
+                                                            <div className="col-2"></div>
+                                                            <div className="col-8">
+                                                                {
+                                                                        inputsPlaceholderArr.map((item, index)=>{
 
+                                                                            return <Input reference={(ref) => (updateCaseModalInputsRefs.current[index] = ref)} parentCallback={handleCallbackUserInput} placeholder={item} type="text" displayBtn="none" includeLoader={false} />
+                                                                        })
+                                                                }
+                                                                <Button onClickFunction={updateCase} id="fetchingUpdateBtn" >ACTUALIZAR</Button>
+                                                            </div>
+                                                            <div className="col-2"></div>
+                                                        </div>
+                                                    </div>
+                                                    </>
                                                 }
                                             
                                             </div>
                                             <div className="modal-footer" style={{backgroundColor: "#32CB00"}}>
-                                                <button type="button"  className={`btn btn-secondary`}>LISTO</button>
-                                            </div>
+                                            <button type="button" className="btn btn-secondary" data-dismiss="modal">VOVLER</button>                                            </div>
                                         </div>
                                     </div>
                                 </div>
