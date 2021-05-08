@@ -10,6 +10,14 @@ body {
 html, body {
   overflow: hidden;
 }
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 .btn:focus,.btn:active:focus,.btn.active:focus,
 .btn.focus,.btn:active.focus,.btn.active.focus {
     outline: none!important;
@@ -166,6 +174,10 @@ body, #root {
 
   }
 
+  .shoveRowOnFiltrableList{
+
+    animation: shoveRow 1s forwards;
+  }
 
 /*
 $posicion: absolute;
@@ -574,6 +586,28 @@ $top: 1cm;
       -webkit-transform: rotateY(180deg);
               transform: rotateY(180deg);
 
+    }
+   }
+
+   @keyframes shoveRow {
+    0%{
+      background-color: #76ff03;
+      background-image: none;
+      color: black;
+    }
+    25%{
+      background-color: #3f48cc;
+      color: rgba(0, 0, 0, 0);
+    }
+    40%{
+      background-image: url('../assets/close-case.png');
+      background-repeat: no-repeat;
+    }
+    100%{
+      color: rgba(0, 0, 0, 0);
+      background-color: #3f48cc;
+      background-image: url('../assets/close-case.png');
+      background-repeat: no-repeat;
     }
    }
 

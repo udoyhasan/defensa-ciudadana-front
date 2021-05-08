@@ -257,7 +257,7 @@ export default function DropZone(props){
                     "Comprobante Ingreso Administrativo","Certificado","Comprobante Ingreso Judicial",
                     "Boleta Gasto","Notificación Receptor","Demanda","Recurso","Informe",
                     "Publicación","Resolución (fija Audiencia)","Resolución Relevante",
-                    "Documento Otros"]} id="uploadFileTypeSelection"/>
+                    "Documento Otros"]} id="uploadFileTypeSelection" boundary="multiSelectionOnDropZone"/>
                   </div>
                 </div>
              </div>

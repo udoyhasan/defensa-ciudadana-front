@@ -40,7 +40,8 @@ export default function FiltrableList(props){
     const [errorAnimation, setErrorAnimation] = useState('inputComponentErrorAnimation');
     const [inputsPlaceholderArr, setInputsPlaceholderArr]= useState(["Actualizar avance de la causa","actualizar anotaciones","Actualizar el rol de la causa","Actualizar institución o Tribunal","Modifica la Materia del caso"]);
     const [widthScreen, setWidthScreen ] = useState(window.innerWidth/1000);
-
+    const [shoveAnimationClass, setShoveAnimationClass ] = useState("selectionRow bg-no-selected shoveRowOnFiltrableList");
+    const [closeCaseAlertBoolean, setCloseCaseAlertBoolean ] = useState(false);
 
 
     useEffect(()=>{ // A CONTINOUS USEEFFECT TO DETECT IF THE HTML OF DOCUMENTS AND UPDATE MODAL WAS CHANGED 
@@ -51,6 +52,40 @@ export default function FiltrableList(props){
             (modalTitleInnerHTML=== "DOCUMENTOS")?setWhatIconWasClickedOnTippyModal("DOCUMENTOS"):setWhatIconWasClickedOnTippyModal("ACTUALIZACION")
         },1000)
     })
+
+    useEffect(()=>{
+        if(closeCaseAlertBoolean){
+            let confirmResult = window.confirm("¿Quieres cerrar esta causa? Al confirmar, los datos seguirán almacenados en Defensa Ciudadana, pero no podrás ve más esta causa en tu panel de control. Además se guardarán sólo los documentos de inscripciones y Escrituras Públicas")
+            setCloseCaseAlertBoolean(false);
+            let docsEndpoint = "casos/no_rol";
+            let rol = "";
+
+            if(confirmResult){
+                //FETCH TO CLOSE THE CASE
+                
+                const caseData = {
+                    selected: clickedCase.caseCode,
+                    cases_activeCase: 0
+                    };
+        
+                // request options
+                const options = {
+                    method: 'PUT',
+                    body: JSON.stringify(caseData),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                } 
+                console.log(options)
+        
+                fetch(store.getState().fetchBase + docsEndpoint, options) 
+                    .then(res => {return res.json()})
+                    .then(data => {console.log(JSON.stringify(data))})
+                    .catch((error)=> console.log(error))
+            }
+        }
+
+    },[closeCaseAlertBoolean])
 
     useEffect(()=>{
         /*
@@ -364,7 +399,6 @@ export default function FiltrableList(props){
         fetch(store.getState().fetchBase + docsEndpoint, docOptions)
         .then(resp => {return resp.text()})
         .then(data => { 
-            console.log(data)
             //WE DELETE THE ROW OF THE DELETED DOCUMENT
             currentRow.parentNode.removeChild(currentRow);
         })
@@ -446,6 +480,46 @@ export default function FiltrableList(props){
         })
    
     }
+
+    const dragStart = (event) => { 
+            //WE DETECT THE START OF DRAGG EVENT
+            let element = event.target;
+            
+            element.style.cursor = "grabbing";
+            let x = event.clientX;     // Get the horizontal coordinate
+
+            function mouseUpEventListenerFunction(){
+                setCloseCaseAlertBoolean(true)
+            }
+
+            function mouseMoveEventListenerFunction(event){
+
+                if(x + 30 < event.clientX && event.target.tagName === "DIV"){ 
+
+                    element.addEventListener("mouseup", mouseUpEventListenerFunction);
+                    let wantedParentRowElement = element.parentNode.parentNode;
+
+                    let wantedParentRowElementDAtaSetContent = wantedParentRowElement.dataset.rowcontent;
+                    let firstSlach = wantedParentRowElementDAtaSetContent.indexOf('/');
+                    let secondSlash = wantedParentRowElementDAtaSetContent.indexOf('/', firstSlach + 1);
+                    let ThirdSlash = wantedParentRowElementDAtaSetContent.indexOf('/', secondSlash + 1);
+                    let caseCode = wantedParentRowElementDAtaSetContent.substring(secondSlash + 1, ThirdSlash); 
+                    setClickedCase({caseCode: caseCode })
+
+                    wantedParentRowElement.className = `${shoveAnimationClass}`;                   
+
+                    setTimeout(()=> element.removeEventListener("mousemove", mouseMoveEventListenerFunction), 200)
+                }
+            }
+            //RESTORING THE ORIGINAL CURSOR
+            setTimeout(()=> {element.style.cursor = "grab"}, 2000);
+            //WE ASSIGN THE FUNCTION EVENT HANDLER
+            element.addEventListener("mousemove", mouseMoveEventListenerFunction)
+            //WE TERMINATE THE EVENT, BECAUSE IS PROBABLY THE SLIDE EFFECT WERE DETECTED ALREADY
+            setTimeout(()=> element.removeEventListener("mousemove", mouseMoveEventListenerFunction), 200)
+    }
+
+
         return( 
            <>   
                  <div  style={{backgroundColor: "#c7c7c7", borderRadius: "10px", padding: "2%"}}> 
@@ -492,16 +566,18 @@ export default function FiltrableList(props){
                                         
                                         // SEE IN THIS MAP FUNCTION A WISE METHOD TO CREATE DINAMIC REFS CALBACK, SEE ALSO THE LINE 17     
                                             return (
-                                                    <tr ref={(ref) => (MapedCasesRowsRefs.current[index] = ref)} data-index={index + 1} data-rowcontent={`${item.clients_name}/${item.cases_description}/${item.cases_rol_rit_ruc}/${item.cases_id}`} key={index*1000} className="selectionRow bg-no-selected" style={{color: filterFontColorFunction, backgroundColor: filterBackgroundColorFunction}} id={index.toString()}>
+                                                    <tr ref={(ref) => (MapedCasesRowsRefs.current[index] = ref)} data-index={index + 1} data-rowcontent={`${item.clients_name}/${item.cases_description}/${item.cases_rol_rit_ruc}/${item.cases_id}`} key={index*1000} className="selectionRow bg-no-selected" style={{color: filterFontColorFunction, backgroundColor: filterBackgroundColorFunction, cursor: 'grab'}} id={index.toString()}>
                                                         
-                                                        <td onClick={()=> setAllRowOnGreen(index)} style={{fontSize: "12px"  }}>
-                                                        <div onMouseEnter={(e) => rowOnHoverShowTippy(index)} className="position-absolute w-100" style={{color: 'transparent', height: '8%', backgroundColor: 'transparent'}} >-</div>
-                                                            {item.clients_name}
+                                                        <td className="m-0 p-0 unselectable" onMouseDown={(event)=>dragStart(event)} onClick={()=> setAllRowOnGreen(index)} style={{fontSize: "12px", height: "inherit"  }}>
+                                                            <div onMouseDown={(event)=>dragStart(event)} onMouseEnter={(e) => rowOnHoverShowTippy(index)} className="position-absolute w-100 unselectable" style={{color: 'transparent', height: '10%', backgroundColor: 'transparent'}} >
+                                                                .
+                                                            </div>
+                                                            <span className="unselectable" style={{minWidth: "100%"}}>{item.clients_name.toUpperCase()}</span>
                                                         </td>
-                                                        <td onClick={()=> setAllRowOnGreen(index)}  style={{fontSize: "12px" }}>{item.cases_description}</td>
-                                                        <td onClick={()=> setAllRowOnGreen(index)} className="cases_rol_rit_ruc" style={{fontSize: "12px"}}>{item.cases_rol_rit_ruc}<br/>{item.cases_trial_entity}</td>
-                                                        <td onClick={()=> setAllRowOnGreen(index)} className="UpdateCase" style={{fontSize: "12px"}}>{item.cases_update}</td>
-                                                        <td onClick={()=> setAllRowOnGreen(index)} style={{fontSize: "12px" }} className=" caseUpdate ">{item.cases_pendingTask}</td>
+                                                        <td onMouseDown={(event)=>dragStart(event)} onClick={()=> setAllRowOnGreen(index)}  style={{fontSize: "12px" }}>{item.cases_description}</td>
+                                                        <td onMouseDown={(event)=>dragStart(event)} onClick={()=> setAllRowOnGreen(index)} className="cases_rol_rit_ruc unselectable" style={{fontSize: "12px"}}>{item.cases_rol_rit_ruc}<br/>{item.cases_trial_entity}</td>
+                                                        <td onMouseDown={(event)=>dragStart(event)} onClick={()=> setAllRowOnGreen(index)} className="UpdateCase" style={{fontSize: "12px"}}>{item.cases_update}</td>
+                                                        <td onMouseDown={(event)=>dragStart(event)} onClick={()=> setAllRowOnGreen(index)} style={{fontSize: "12px", height: widthScreen*50 }} className=" caseUpdate">{item.cases_pendingTask}</td>
                                                                                         
                                                     </tr>
                                                     )
@@ -555,7 +631,7 @@ export default function FiltrableList(props){
                                                     </tbody>
                                                     <div className="mt-5 pl-5 pr-5">
                                                        <DropZone data={clickedCase}/>
-                                                    </div>
+                                                    </div>{clickedCase.client}
                                                     </table>
                                                   :<>
                                                     <div className="container">

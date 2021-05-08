@@ -49,7 +49,7 @@ export class LogoGuide extends React.Component{
             placement: "bottom"
           });
         
-        const tippyInterval = setInterval(()=>{ console.log("interval")
+        const tippyInterval = setInterval(()=>{ 
             if(!this.state.endTippyInterval){
                 
                 tippyInstance.show()
