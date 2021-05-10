@@ -5,12 +5,12 @@ export default function MultiSelection(props){
         return( 
            <>   
 
-                <input list={props.boundary} name="browser" id={props.id} ref={props.reference}/>
+                <input placeholder={props.placeholder} list={props.boundary} className={`border border-success rounded ${props.additionalClassName}`} name="browser" id={props.id} ref={props.reference}/>
                 <datalist  id={props.boundary}  style={{width: "100%", borderColor: "#4DF79F"}} placeholder='tipo documento'>
                     {
-                       props.options.map((item)=>{ 
+                       props.options.map((item, index)=>{ 
 
-                            return <option value={item}>{item}</option>
+                            return <option key={`option-key-${index}`} value={item}>{item}</option>
 
                        }) 
                     }

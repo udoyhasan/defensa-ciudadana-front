@@ -27,20 +27,20 @@ export default function FiltrableList(props){
     const [noFilteredItem, setNoFilteredItem] = useState(0);
     const [incomingData, setIncomingData] = useState([]);
     const [a, b] = useState([]);
-    const [filterArrangementType, setFilterArrangementType] = useState(["FILTRO POR URGENCIA", "FILTRO POR MATERIA", "FILTRO POR TRIBUNAL"]);
+    const [filterArrangementType] = useState(["FILTRO POR URGENCIA", "FILTRO POR MATERIA", "FILTRO POR TRIBUNAL"]);
     const [selectedFilterArrangementType, setSelectedFilterArrangementType] = useState(0)
     const [whatIconWasClickedOnTippyModal, setWhatIconWasClickedOnTippyModal] = useState("")
     const [clickedCase, setClickedCase] = useState({})
     const [userInputValue, setUserInputValue] = useState("")
     const [documentsOfClickedCase, setDocumentsOfClickedCase] = useState([])
     const [displayLoader, setDisplayLoader] = useState('none');
-    const [displayError, setDisplayError] = useState('none');
-    const [playErrorForFailureFetch, setPlayErrorForFailureFetch] = useState(false);
-    const [loaderAnimation, setLoaderAnimation] = useState('inputComponentLoader');
-    const [errorAnimation, setErrorAnimation] = useState('inputComponentErrorAnimation');
-    const [inputsPlaceholderArr, setInputsPlaceholderArr]= useState(["Actualizar avance de la causa","actualizar anotaciones","Actualizar el rol de la causa","Actualizar institución o Tribunal","Modifica la Materia del caso"]);
-    const [widthScreen, setWidthScreen ] = useState(window.innerWidth/1000);
-    const [shoveAnimationClass, setShoveAnimationClass ] = useState("selectionRow bg-no-selected shoveRowOnFiltrableList");
+    const [displayError] = useState('none');
+    const [playErrorForFailureFetch] = useState(false);
+    const [loaderAnimation] = useState('inputComponentLoader');
+    const [errorAnimation] = useState('inputComponentErrorAnimation');
+    const [inputsPlaceholderArr]= useState(["Actualizar avance de la causa","actualizar anotaciones","Actualizar el rol de la causa","Actualizar institución o Tribunal","Modifica la Materia del caso"]);
+    const [widthScreen] = useState(window.innerWidth/1000);
+    const [shoveAnimationClass] = useState("selectionRow bg-no-selected shoveRowOnFiltrableList");
     const [closeCaseAlertBoolean, setCloseCaseAlertBoolean ] = useState(false);
 
 
@@ -58,7 +58,6 @@ export default function FiltrableList(props){
             let confirmResult = window.confirm("¿Quieres cerrar esta causa? Al confirmar, los datos seguirán almacenados en Defensa Ciudadana, pero no podrás ve más esta causa en tu panel de control. Además se guardarán sólo los documentos de inscripciones y Escrituras Públicas")
             setCloseCaseAlertBoolean(false);
             let docsEndpoint = "casos/no_rol";
-            let rol = "";
 
             if(confirmResult){
                 //FETCH TO CLOSE THE CASE
@@ -334,14 +333,14 @@ export default function FiltrableList(props){
         }
     }
 
-    const rowOnHoverShowTippy = (index) =>{ // debes poner una funcion que mida el tiempo de hover
+    const rowOnHoverShowTippy = (index) =>{ 
 
         tippy(MapedCasesRowsRefs.current[index], {
             content: `  
             <i class="fas fa-folder fa-2x p-2" data-toggle="modal" data-target="#docsAndUpdateModal" onclick="document.getElementById('docs-update-modal-title').innerHTML = 'DOCUMENTOS'"></i>
             <i class="fas fa-pen fa-2x p-2" data-toggle="modal" data-target="#docsAndUpdateModal" onclick="document.getElementById('docs-update-modal-title').innerHTML = 'ACTUALIZAR'"></i> 
             `,
-            trigger: 'mouseenter',
+            trigger: (window.screen.width<800)?'click':'mouseenter focus',
             animation: 'scale',
             duration: [200,0],
             placement: "top",
@@ -488,7 +487,7 @@ export default function FiltrableList(props){
             element.style.cursor = "grabbing";
             let x = event.clientX;     // Get the horizontal coordinate
 
-            function mouseUpEventListenerFunction(){
+            function mouseUpEventListenerFunction(){ 
                 setCloseCaseAlertBoolean(true)
             }
 
@@ -508,7 +507,10 @@ export default function FiltrableList(props){
 
                     wantedParentRowElement.className = `${shoveAnimationClass}`;                   
 
-                    setTimeout(()=> element.removeEventListener("mousemove", mouseMoveEventListenerFunction), 200)
+                    setTimeout(()=> {
+                        element.removeEventListener("mousemove", mouseMoveEventListenerFunction);
+                        element.removeEventListener("mouseup", mouseUpEventListenerFunction);
+                    }, 1000)
                 }
             }
             //RESTORING THE ORIGINAL CURSOR
@@ -530,26 +532,26 @@ export default function FiltrableList(props){
                            </h5>
                            
                             <div className="d-flex flex-row" style={{backgroundColor: "#32cb00"}}>
-                                <div className="col-3">
+                                <div className="col-7 col-sm-7 col-md-7 col-xl-3">
                                     {props.firstBtn}
                                     {props.secondBtn}
                                 </div>
-                                <input onChange={caseSearcher} placeholder="Busca por cliente, materia o rol ... " className="col-7 p-absolute m-2 p-2 text-left w-75 rounded border border-success justify-content-center"></input>
-                                <div className="col-1 pl-0 pt-3 pr-3 pb-3">
+                                <input onChange={caseSearcher} placeholder="Busca por cliente, materia o rol ... " className="col-4 col-sm-4 col-md-4 col-xl-6 p-absolute m-2 p-2 text-left w-75 rounded border border-success justify-content-center"></input>
+                                <div className="col-1 col-sm-1 col-md-1 col-xl-1 pl-0 pt-3 pr-3 pb-3">
                                     <i onClick={sortList} ref={filter} className=" fas fa-sort-amount-up fa-lg" style={{cursor: "pointer", float: "left"}}></i>
                                 </div>
-                                <span ref={searchResult} className={`col-1 text-white font-weight-bold ml-0 p-0 text-center align-middle  ${(noFilteredItem==0)?"d-none":" "}`}>FILTRO({noFilteredItem})</span>
+                                <h5 ref={searchResult} className={`col-2 text-white font-weight-bold ml-0 pb-3 pt-3 pl-0 text-left align-middle  ${(noFilteredItem===0)?"d-none":" "}`}>FILTRO({noFilteredItem})</h5>
                             </div>
                             <div className="my-custom-scrollbar tableFixHead" id="tableContainer" style={{height: '90vh',backgroundColor: "#32cb00"}}>
 
                                 <table className="table table-bordered table-striped mb-5" style={{backgroundColor: "#fafafa"}}>
                                     <thead>
                                     <tr style={{backgroundColor: "#32cb00", color:"white"}}>  
-                                        <th style={{width: "20%"}} scope="col">CLIENTE</th>
-                                        <th style={{width: "10%"}} scope="col">MATERIA</th>
-                                        <th style={{width: "10%"}} scope="col">ROL</th>
-                                        <th style={{width: "40%"}} scope="col">AVANCE</th> 
-                                        <th style={{width: "20%"}} scope="col">ANOTACIONES ({props.pendingTasksCounter})</th> 
+                                        <th style={{width: "20%", fontSize:(window.screen.width<900)? widthScreen*16:widthScreen*12}} scope="col">CLIENTE</th>
+                                        <th style={{width: "10%", fontSize:(window.screen.width<900)? widthScreen*16:widthScreen*12 }} scope="col">MATERIA</th>
+                                        <th style={{width: "10%", fontSize:(window.screen.width<900)? widthScreen*16:widthScreen*12}} scope="col">ROL</th>
+                                        <th style={{width: "40%", fontSize:(window.screen.width<900)? widthScreen*16:widthScreen*12}} scope="col">AVANCE</th> 
+                                        <th style={{width: "20%", fontSize:(window.screen.width<900)? widthScreen*16:widthScreen*12}} scope="col">ANOTACIONES ({props.pendingTasksCounter})</th> 
                                     </tr>
                                     </thead>
                                     <tbody ref={casesTable}>
@@ -593,6 +595,11 @@ export default function FiltrableList(props){
                                                 <h5 ref={docsAndUpdateModalBody} id="docs-update-modal-title" className="modal-title text-center text-light justify-content-center p-3 font-weight-bold">ho</h5>
                                             </div>
                                             <div className="modal-body w-100">
+                                            <div className="col-6 m-2">
+                                                    <code className="badge-success p-2 badge-pill font-weight-bold" style={{fontSize: widthScreen*8}}>
+                                                        {clickedCase.client} {clickedCase.caseCode}
+                                                    </code>
+                                            </div>
                                                 {
                                                 
                                                   (whatIconWasClickedOnTippyModal === "DOCUMENTOS")?
@@ -631,26 +638,20 @@ export default function FiltrableList(props){
                                                     </tbody>
                                                     <div className="mt-5 pl-5 pr-5">
                                                        <DropZone data={clickedCase}/>
-                                                    </div>{clickedCase.client}
+                                                    </div>
                                                     </table>
                                                   :<>
                                                     <div className="container">
                                                         <div className="row">
-                                                        <div className="col-2"/>
-                                                            <div className="col-6">
-                                                                <h6>
-                                                                    <code className="badge-success p-2 badge-pill font-weight-bold" style={{fontSize: widthScreen*10}}>
-                                                                        {clickedCase.client} {clickedCase.caseCode}
-                                                                    </code>
-                                                                </h6>
-                                                            </div>
+
+                                                            
                                                             <div className="col-2">
                                                                 <div style={{height: '30px'}} >
                                                                     <LottieContainer name="loader" play={true} loop={true} lottie={loaderAnimation} width="100%" display={displayLoader}/>
                                                                     <LottieContainer name="error" play={playErrorForFailureFetch} loop={false} lottie={errorAnimation} width="10%" display={displayError}/>
                                                                 </div>
                                                             </div>
-                                                            <div className="col-2"/>
+
                                                         </div>
                                                         <div className="row">
                                                             <div className="col-2"></div>
@@ -658,7 +659,7 @@ export default function FiltrableList(props){
                                                                 {
                                                                         inputsPlaceholderArr.map((item, index)=>{
 
-                                                                            return <Input reference={(ref) => (updateCaseModalInputsRefs.current[index] = ref)} parentCallback={handleCallbackUserInput} placeholder={item} type="text" displayBtn="none" includeLoader={false} />
+                                                                            return <Input key={`external-input-key-${index}`} keyId="123" reference={(ref) => (updateCaseModalInputsRefs.current[index] = ref)} parentCallback={handleCallbackUserInput} placeholder={item} type="text" displayBtn="none" includeLoader={false} />
                                                                         })
                                                                 }
                                                                 <Button onClickFunction={updateCase} id="fetchingUpdateBtn" >ACTUALIZAR</Button>
@@ -671,7 +672,8 @@ export default function FiltrableList(props){
                                             
                                             </div>
                                             <div className="modal-footer" style={{backgroundColor: "#32CB00"}}>
-                                            <button type="button" className="btn btn-secondary" data-dismiss="modal">VOVLER</button>                                            </div>
+                                                <button type="button" className="btn btn-secondary" data-dismiss="modal">VOLVER</button>    
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

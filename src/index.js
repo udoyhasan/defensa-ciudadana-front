@@ -11,7 +11,6 @@ import App from './App';
 import ClientPanel from './clientView/clientPanel.js';
 import {Cpanel} from './lawyerView/cpanel.js';
 import Login from './lawyerView/login.js';
-import {JobExchange} from './lawyerView/jobExchange.js';
 
 import Counter from './components/counter.js';
 
@@ -23,7 +22,6 @@ const routing = (
       <Route path="/login" component={Login} />
       <Route path="/counter" component={Counter} />
       <Route path="/rFgTdSvSVFgVFrtvvVgVSFvGDVDFVfgBfhGBgdVdFDVV" component={Cpanel} />
-      <Route path="/jobExchange" component={JobExchange} />
     </div>
   </Router>
 )

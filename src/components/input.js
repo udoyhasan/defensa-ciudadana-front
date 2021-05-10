@@ -88,16 +88,15 @@ export default function Input(props){
                             
                         if(decodedStringAtoB === ref){
 
-                            let lawyerUserData = JSON.stringify({user: inputValue, password: ref});
                             history.push("/rFgTdSvSVFgVFrtvvVgVSFvGDVDFVfgBfhGBgdVdFDVV");  
-                            console.log("line 94") 
+                            
                         }
-                        else{
+                       /* else{
                             setDisplayLoader('none');
                             setDisplayError('inline');
                             setPlayErrorForFailureFetch(true);
                             console.log("line 100")
-                        }
+                        }*/
                     })
                     .catch(()=>{
 
@@ -118,21 +117,21 @@ export default function Input(props){
         }
 
         return( 
-           <div className="container m-3">   
-                <div className="row">
-                    <div className="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 p-0 ">
-                        <button onClick={()=> fetchQuery(userValue, props.endpoint, ref.current.value)} className="btn btn-outline-secondary float-right" type="button" style={{display: props.displayBtn, backgroundColor: "#20be2b", color: "white", fontWeight: "10em", borderStyle: "none", borderTopRightRadius: '0%', borderBottomRightRadius: '0%'}}>{props.btnLabel}</button>
+           <div key={`InputKey1-${props.keyId}`} className="container m-3">   
+                <div key={`InputKey2-${props.keyId}`} className="row">
+                    <div key={`InputKey3-${props.keyId}`} className="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 p-0 ">
+                        <button key={`InputKey4-${props.keyId}`} onClick={()=> fetchQuery(userValue, props.endpoint, ref.current.value)} className="btn btn-outline-secondary float-right" type="button" style={{display: props.displayBtn, backgroundColor: "#20be2b", color: "white", fontWeight: "10em", borderStyle: "none", borderTopRightRadius: '0%', borderBottomRightRadius: '0%'}}>{props.btnLabel}</button>
                     </div>
-                    <div className="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8 p-0" ref={props.reference} >
-                        <input onChange={sendingToParentComponent} ref={ref} placeholder={props.placeholder} type={(eyeIcon==="fas fa-eye ml-3 mt-3 p-0")?"text":props.type} className={`form-control float-left ${emptyInputAdvisor}`} data-customtype={props.customtype}  aria-label="" aria-describedby="basic-addon1"/>
+                    <div key={`InputKey5-${props.keyId}`} className="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8 p-0" ref={props.reference} >
+                        <input key={`InputKey6-${props.keyId}`} onChange={sendingToParentComponent} ref={ref} placeholder={props.placeholder} type={(eyeIcon==="fas fa-eye ml-3 mt-3 p-0")?"text":props.type} className={`form-control float-left ${emptyInputAdvisor}`} data-customtype={props.customtype}  aria-label="" aria-describedby="basic-addon1"/>
                     </div>
-                    <div className={`col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 p-0 ${(props.type==="password")?"":"d-none"}`}>
-                        <i style={{cursor: "pointer"}} onClick={()=> {(eyeIcon==="fas fa-eye-slash ml-3 mt-3 p-0")?setEyeIcon("fas fa-eye ml-3 mt-3 p-0"):setEyeIcon("fas fa-eye-slash ml-3 mt-3 p-0")}} className={eyeIcon}></i>
+                    <div key={`InputKey7-${props.keyId}`} className={`col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 p-0 ${(props.type==="password")?"":"d-none"}`}>
+                        <i key={`InputKey8-${props.keyId}`} style={{cursor: "pointer"}} onClick={()=> {(eyeIcon==="fas fa-eye-slash ml-3 mt-3 p-0")?setEyeIcon("fas fa-eye ml-3 mt-3 p-0"):setEyeIcon("fas fa-eye-slash ml-3 mt-3 p-0")}} className={eyeIcon}></i>
                     </div>
-                    <div className={`${(props.type==="password")?"col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 p-0":"col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 p-0 m-0"} ${(props.includeLoader)?"":"d-none"}`}>
+                    <div key={`InputKey9-${props.keyId}`} className={`${(props.type==="password")?"col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 p-0":"col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 p-0 m-0"} ${(props.includeLoader)?"":"d-none"}`}>
                         <LottieContainer name="loader" play={true} loop={true} lottie={loaderAnimation} width="1%" display={displayLoader}/>
                         <LottieContainer name="error" play={playErrorForFailureFetch} loop={false} lottie={errorAnimation} width="1%" display={displayError}/>
-                        <small className="text-wrap font-weight-bold text-center pt-2" style={{margin: 'auto', color: "#569951", position: "absolute", top: "100%", visibility: "hidden"}}>{props.sorryMsg}</small>
+                        <small key={`InputKey10-${props.keyId}`} className="text-wrap font-weight-bold text-center pt-2" style={{margin: 'auto', color: "#569951", position: "absolute", top: "100%", visibility: "hidden"}}>{props.sorryMsg}</small>
                     </div>
                 </div>
            </div> 

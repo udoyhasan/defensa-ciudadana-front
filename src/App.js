@@ -129,7 +129,7 @@ export class App extends React.Component {
           <div className="col-2 col-sm-2 col-md-2 col-lg-4 col-xl-4 " ><audio /*src={introSound}*/  ref={this.player} autoPlay/></div>
           <div className="col-8 col-sm-8 col-md-8 col-lg-4 col-xl-4">  
           <div  ref={this.turnVerticalAdvisor} className={this.props.appContainerClassModifierToPreventSamsungGalaxyKeyboardError[1]} style={{paddingBottom: "30%", transform: "rotate(90deg)", height: "70vh", width: "40vw" ,zIndex: '9', position: 'absolute', backgroundColor: "#1FBF2A"}}></div>
-          <LogoGuide bootstrapClass="pt-5 text-center align-items-end center-block "/>{/*dejar espacio al final del class*/}
+          <LogoGuide bootstrapClass="pt-5 text-center align-items-end center-block "/>
           {(this.props.boolean)? <div>
                                   <Input > 
                                     <div ref={this.myRef} className="d-flex  mt-2 flex-column " style={{width: "100%", height: "260px", overflow: "auto", zIndex: "2" }}>

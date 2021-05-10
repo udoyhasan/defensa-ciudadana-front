@@ -10,7 +10,7 @@ export default function ModalBtn(props){
                 </button>
 
                 <div key={`id2-${props.assignedkey}`} className="modal fade" id={props.target} tabIndex="-1" role="dialog" aria-labelledby={props.target} aria-hidden="true">
-                    <div key={`id3-${props.assignedkey}`} className="modal-dialog modal-dialog-centered" style={{maxWidth: '60%'}} role="document">
+                    <div key={`id3-${props.assignedkey}`} className="modal-dialog modal-dialog-centered" style={{maxWidth: (window.screen.width < 800)? '90%':'60%'}} role="document">
                         <div key={`id4-${props.assignedkey}`} className="modal-content">
                             <div key={`id5-${props.assignedkey}`}  style={{backgroundColor: "#32CB00"}}>
                                 <h5 key={`id6-${props.assignedkey}`} className="modal-title text-center text-light justify-content-center p-3 font-weight-bold">{props.modalTitle.toUpperCase()}</h5>
@@ -19,7 +19,7 @@ export default function ModalBtn(props){
                                 {props.children}
                             </div>
                             <div key={`id8-${props.assignedkey}`} className="modal-footer" style={{backgroundColor: "#32CB00"}}>
-                                <button key={`id9-${props.assignedkey}`} type="button" onClick={props.footerBtnOnClickFunction} className={`btn btn-secondary ${(props.insertBtn)?"":"d-none"}`}>{props.footerBtnTitle.toUpperCase()}</button>
+                                <button key={`id9-${props.assignedkey}`} type="button" onClick={props.footerBtnOnClickFunction} data-dismiss="modal" className={`btn btn-secondary ${(props.insertBtn)?"":"d-none"}`}>{props.footerBtnTitle.toUpperCase()}</button>
                             </div>
                         </div>
                     </div>
@@ -44,6 +44,7 @@ readMe
 *footerBtnOnClickFunction: the function triggered of the btn
 *insertBtn: a boolean that determine if you want or not a footer btn
 *assignedkey: a key for React warning don't be showed
+
 
 
 */

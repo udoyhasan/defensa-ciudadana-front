@@ -31,7 +31,7 @@ export default function Counter(props){
                                 setAnimationClassBoolean(true)
                             }                          
                         },300);
-                        }} className={`jumbotron-fluid p-3 m-5 ${animationClass} ${props.aditionalClassName}`} style={{backgroundColor: "#32CB00", cursor: "pointer", minHeight: "200px"}} >
+                        }} className={`jumbotron-fluid pb-3 mb-5 pt-3 mt-5 ${animationClass} ${props.aditionalClassName}`} style={{backgroundColor: "#32CB00", cursor: "pointer", minHeight: "200px"}} >
                             <h1 className={`display-4 text-center text-light ${invertClass}`}>
                                 {object.counter}
                             </h1>

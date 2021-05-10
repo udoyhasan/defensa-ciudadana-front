@@ -26,7 +26,7 @@ export default function LottieContainer(props){
 
         return( 
            <>   
-                <div ref={ref} style={{width: props.width, display: props.display}} className="container"></div>
+                <div ref={ref} style={{width: props.width, display: props.display, backgroundColor: props.backgroundColor}} className={`container ${props.additionalClassName}`}></div>
            </> 
 
         );
@@ -39,8 +39,10 @@ ReadME
 props Brief:
 *lottie: pass the lottie file name, the component make the path to it
 *width
-*loop: if the animation will repeate, or will be only once
+*loop: if the animation will repeate, or will be only once, assign a boolean
 *delay: if you want to delay the lottie file animation, pass an integer like this  3000, dilay of 3 seconds, if not only set 0.
 *play: when the animation have to play
 *name: the identifiatior string of the animation
+*backgroundColor
+*additionalClassName
 */

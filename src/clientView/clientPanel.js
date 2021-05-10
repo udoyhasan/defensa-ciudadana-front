@@ -78,9 +78,7 @@ lottie.loadAnimation({
 
     refreshDocumentsLocalStored = JSON.parse(refreshDocumentsLocalStored)
 
-    this.setState({documentsLocalStored: refreshDocumentsLocalStored}, ()=>{
-      console.log("actual state: " + JSON.stringify(this.state))
-   
+    this.setState({documentsLocalStored: refreshDocumentsLocalStored}, ()=>{ 
       this.state.documentsLocalStored.forEach((item)=>{ 
       var node = document.createElement("A");    
       node.className = 'password list-group-item list-group-item-action border-5 border-gray text-center'
@@ -255,11 +253,11 @@ lottie.loadAnimation({
           </div>
           <div className="col-3 col-sm-3 col-md-3 col-lg-2 col-xl-2 pt-5 pl-0 ml-0">
             <div className="list-group w-100" ref={this.documentListContainer} >
-              <a ref={this.dfPass} className="d-inline password list-group-item list-group-item-action border-0 active" style={{maxHeight: "15%",backgroundColor: "rgb(31,191,42)"}}>
+              <h3 ref={this.dfPass} className="d-inline password list-group-item list-group-item-action border-0 active" style={{maxHeight: "15%",backgroundColor: "rgb(31,191,42)"}}>
                 <div className='text-center'>
                    <b>DOCUMENTOS</b>
                 </div>
-              </a>
+              </h3>
             </div>
 
           </div>
